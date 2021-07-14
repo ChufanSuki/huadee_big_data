@@ -67,16 +67,16 @@ select:-webkit-autofill {
 	left: 24px;
 }
 .boardLogin .inpGroup span.loginIco1{
-	background: url(../images/s_ico6.png);
+	background: url(../images/user.png);
 }
 .boardLogin .inpGroup span.loginIco2{
-	background: url(../images/s_ico7.png);
+	background: url(../images/lock.png);
 }
 .boardLogin .inpGroup span.loginIco3{
-	background: url(../images/yanz.png);
+	background: url(../images/ver.png);
 }
 .boardLogin .inpGroup span.loginIco4{
-	background: url(../images/email3.png);
+	background: url(../images/email4.png);
 }
 .boardLogin .inpGroup input{
 	display: block;

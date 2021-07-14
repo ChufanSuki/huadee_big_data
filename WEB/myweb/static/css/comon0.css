@@ -41,6 +41,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 .weather{ position:absolute; right:30px; top:0; line-height: 70px;}
 .weather span{color:rgba(255,255,255,.9)!important; font-size: 24px; }
 
+
 .mainbox{ padding:10px 20px 0 20px;}
 .mainbox>ul{ margin-left:-.4rem; margin-right:-.4rem;}
 .mainbox>ul>li{ float: left; padding: 0 .4rem}
