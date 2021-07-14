@@ -72,6 +72,12 @@ select:-webkit-autofill {
 .boardLogin .inpGroup span.loginIco2{
 	background: url(../images/s_ico7.png);
 }
+.boardLogin .inpGroup span.loginIco3{
+	background: url(../images/yanz.png);
+}
+.boardLogin .inpGroup span.loginIco4{
+	background: url(../images/email3.png);
+}
 .boardLogin .inpGroup input{
 	display: block;
 	width: 100%;
@@ -96,6 +102,11 @@ select:-webkit-autofill {
 }
 .boardLogin .prompt{
 	min-height: 20px;
+	padding: 5px 24px 10px 24px;
+}
+
+.boardLogin .prompt2{
+	min-height: 5px;
 	padding: 5px 24px 10px 24px;
 }
 .boardLogin p{

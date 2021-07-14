@@ -1,7 +1,8 @@
 from os import name
 from flask import Flask,render_template,redirect,request,url_for
 import pymysql
-
+import mysql
+# from flask_login import LoginManager
 
 app = Flask(__name__)
 app.debug = True
@@ -36,6 +37,26 @@ def index():
     for item in data:
         print(item)
     return render_template("index.html")
+    # return render_template("register.html")
+
+@app.route('/login1',methods=['GET', 'POST'])
+def login():
+    if request.method =='GET':
+        return render_template('index.html')
+    user = request.form.get('username')
+    pwd = request.form.get('pwd')
+    if user == 'admin' and pwd == '123':
+        # session['user_info'] = user
+        return redirect('/show')
+    else:
+        return render_template('index.html')
+
+
+@app.route('/register',methods = ['GET','POST'])
+def register():
+    if request.method == 'POST':
+        return redirect(url_for('/login1'))
+    return render_template("register.html")
 
 @app.route('/show',methods = ['GET','POST'])
 def show():
