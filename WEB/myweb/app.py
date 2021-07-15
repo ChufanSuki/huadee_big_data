@@ -142,7 +142,6 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
-<<<<<<< HEAD
 # 忘记密码
 @app.route('/forget',methods = ['GET','POST'])
 def forget():
@@ -173,36 +172,6 @@ def forget():
                 return redirect(url_for('login'))
         else:
             return render_template('register.html')
-=======
-# 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
-@app.route('/echart1', methods=['POST','GET'])        
-def select_symbol():
-    if request.method =="GET":
-        return render_template('data.html')
-    if request.method =="POST":  
-        
-        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
-        cur = conn.cursor()
-        sql = "SELECT Symbol from coin" 
-        cur.execute(sql)
-        u = cur.fetchall()
-        symbol_set = set()
-        # 为了转化为json
-        keys = []
-        i = 0
-        for data in u:
-            symbol_set.add(data[-1])
-            i = i + 1
-            keys.append(str(i))
-        # print(s)
-        # set 转化为 list
-        symbol_list = list(symbol_set)
-        # print(keys)
-        json_data = dict(zip(keys,symbol_list))
-        # print(json_data)
-        print("haha")
-        return json_data
->>>>>>> 63bfd32c9bb29f9a71eda58043005a0de1d9454c
 
 @app.route('/rank', methods=['POST','GET'])
 def rank():
