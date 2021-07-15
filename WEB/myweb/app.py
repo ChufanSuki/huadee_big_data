@@ -7,9 +7,6 @@ from urllib.parse import urlparse, urljoin
 import mysql
 import random
 from flask_mail import Mail,Message
-# import xcache
-# from flask_cache import Cache
-
 
 app = Flask(__name__)
 app.secret_key = '1xasada'
@@ -142,16 +139,36 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
-# 验证码检验
-@app.route('/checkCode',methods = ['GET','POST'])
-def checkCode():
-    res = {'data':''}
+# 忘记密码
+@app.route('/forget',methods = ['GET','POST'])
+def forget():
     if request.method == 'GET':
-        return render_template('register.html')
-    email = request.form.get('email')
-    res['data'] = session['code']
-    return jsonify(res)
-    
+        return render_template('forget.html')
+    else:
+        code = request.form.get('valid')
+        if session['code'] == code:
+            username = request.form.get('username')
+            pwd1 = request.form.get('pwd1')
+            pwd2 = request.form.get('pwd2')
+            email = request.form.get('email')
+            sql = "select name from user where name=\'"+username+"\';"
+            user1 = mysql.query(sql)
+            if username == "":
+                flash("用户名不能为空！")
+                return render_template('register.html')
+            elif len(user1) != 0:
+                flash("用户名已存在！")
+                return render_template('register.html')
+            elif pwd1 != pwd2:
+                flash('两次密码不一致！')
+                print("mima")
+                return render_template('register.html')
+            else:
+                sql = "insert into user value(\'" + username +"\',\'" + pwd1 + "\',\'" + email + "\');"
+                flag = mysql.insert(sql)
+                return redirect(url_for('login'))
+        else:
+            return render_template('register.html')
 
 if __name__ == '__main__':
     app.run()

@@ -2,13 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>企业营收大数据统计html页面图表</title>
+    <title>数字货币大数据分析平台</title>
     <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
     <script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>
     <script type="text/javascript" src="static/js/js.js"></script>
     <script type="text/javascript" src="static/js/jquery.liMarquee.js"></script>
     <script type="text/javascript" src="static/js/jquery.cxselect.min.js"></script>
-
     <link rel="stylesheet" href="static/css/comon0.css">
 </head>
 <body>
@@ -90,13 +89,423 @@
                             </div>
                         </div>
                     </div>
-                    <div class="boxall" style="height:350px">
-                        <div class="alltitle">标题样式</div>
-                        <div class="navboxall" id="echart4"></div>
-
+                    <div class="boxall" style="height: 400px;">
+                        <div class="alltitle">K-Line
+                            <select id='update_symbol_select' onclick="paint_k_line()" style="background: url(../static/images/car.jpg); float: right;">
+                                <!-- 异步更新选择option的Symbol -->
+                                <!-- <option value="请选择">请选择</option> -->
+                                <option value = "CRV">CRV</option>
+                                <option value = "AMP">AMP</option>
+                                <option value = "MDX">MDX</option>
+                                <option value = "ZEN">ZEN</option>
+                                <option value = "XMR">XMR</option>
+                                <option value = "CEL">CEL</option>
+                                <option value = "USDC">USDC</option>
+                                <option value = "XRP">XRP</option>
+                                <option value = "BTC">BTC</option>
+                                <option value = "FTM">FTM</option>
+                                <option value = "HOT">HOT</option>
+                                <option value = "SHIB">SHIB</option>
+                                <option value = "RUNE">RUNE</option>
+                                <option value = "AVAX">AVAX</option>
+                                <option value = "EGLD">EGLD</option>
+                                <option value = "VET">VET</option>
+                                <option value = "KCS">KCS</option>
+                                <option value = "XTZ">XTZ</option>
+                                <option value = "BTG">BTG</option>
+                                <option value = "DGB">DGB</option>
+                                <option value = "BNT">BNT</option>
+                                <option value = "KLAY">KLAY</option>
+                                <option value = "XDC">XDC</option>
+                                <option value = "STX">STX</option>
+                                <option value = "AR">AR</option>
+                                <option value = "PAX">PAX</option>
+                                <option value = "COMP">COMP</option>
+                                <option value = "USDT">USDT</option>
+                                <option value = "XEM">XEM</option>
+                                <option value = "DOGE">DOGE</option>
+                                <option value = "NANO">NANO</option>
+                                <option value = "MANA">MANA</option>
+                                <option value = "TFUEL">TFUEL</option>
+                                <option value = "AAVE">AAVE</option>
+                                <option value = "ATOM">ATOM</option>
+                                <option value = "BSV">BSV</option>
+                                <option value = "CAKE">CAKE</option>
+                                <option value = "SNX">SNX</option>
+                                <option value = "SC">SC</option>
+                                <option value = "ALGO">ALGO</option>
+                                <option value = "TEL">TEL</option>
+                                <option value = "FIL">FIL</option>
+                                <option value = "NEXO">NEXO</option>
+                                <option value = "UST">UST</option>
+                                <option value = "FTT">FTT</option>
+                                <option value = "LUNA">LUNA</option>
+                                <option value = "ZRX">ZRX</option>
+                                <option value = "DAI">DAI</option>
+                                <option value = "TRX">TRX</option>
+                                <option value = "OKB">OKB</option>
+                                <option value = "BTCB">BTCB</option>
+                                <option value = "ADA">ADA</option>
+                                <option value = "ZIL">ZIL</option>
+                                <option value = "YFI">YFI</option>
+                                <option value = "LINK">LINK</option>
+                                <option value = "CHZ">CHZ</option>
+                                <option value = "BAT">BAT</option>
+                                <option value = "THETA">THETA</option>
+                                <option value = "BCH">BCH</option>
+                                <option value = "CHSB">CHSB</option>
+                                <option value = "DCR">DCR</option>
+                                <option value = "LEO">LEO</option>
+                                <option value = "QNT">QNT</option>
+                                <option value = "BUSD">BUSD</option>
+                                <option value = "UNI">UNI</option>
+                                <option value = "ZEC">ZEC</option>
+                                <option value = "HNT">HNT</option>
+                                <option value = "ENJ">ENJ</option>
+                                <option value = "AXS">AXS</option>
+                                <option value = "XLM">XLM</option>
+                                <option value = "BNB">BNB</option>
+                                <option value = "HT">HT</option>
+                                <option value = "EQUAD">EQUAD</option>
+                                <option value = "DOT">DOT</option>
+                                <option value = "LTC">LTC</option>
+                                <option value = "WAVES">WAVES</option>
+                                <option value = "QTUM">QTUM</option>
+                                <option value = "MIOTA">MIOTA</option>
+                                <option value = "NEAR">NEAR</option>
+                                <option value = "MATIC">MATIC</option>
+                                <option value = "FLOW">FLOW</option>
+                                <option value = "CELO">CELO</option>
+                                <option value = "ICX">ICX</option>
+                                <option value = "ICP">ICP</option>
+                                <option value = "EOS">EOS</option>
+                                <option value = "TUSD">TUSD</option>
+                                <option value = "KSM">KSM</option>
+                                <option value = "DASH">DASH</option>
+                                <option value = "GRT">GRT</option>
+                                <option value = "ONE">ONE</option>
+                                <option value = "BTT">BTT</option>
+                                <option value = "SUSHI">SUSHI</option>
+                                <option value = "HBAR">HBAR</option>
+                                <option value = "WBTC">WBTC</option>
+                                <option value = "NEO">NEO</option>
+                                <option value = "ONT">ONT</option>
+                                <option value = "ETH">ETH</option>
+                                <option value = "SOL">SOL</option>
+                                <option value = "MKR">MKR</option>
+                                <option value = "ETC">ETC</option>
+                                <!-- <script>
+                                    $(document).ready(function(){
+                                        
+                                        // $.ajax({
+                                        //     url:"{{url_for('select_symbol')}}",
+                                        //     data:{},
+                                        //     type:'POST',
+                                        //     async:false,
+                                        //     success:function(data1){
+                                        //         for(var symbol in data1){
+                                        //             document.getElementById("update_symbol_select").options.add(new Option(data1[symbol],data1[symbol]));
+                                        //         }
+                                                
+                                        //     },
+                                        //     error:function(msg){
+                                        //         // console.log(msg);
+                                        //         alert('接受信息错误')
+                                        //     }
+                                        // });
+                                    });
+                                </script> -->
+                            </select>
+                        </div>
+                        
+                        <!-- <div class="navboxall" id="echart4"></div> -->
+                        <div class="navboxall" id="k_line" style="margin: 10px;"></div>
+                        <script>
+                            var myChart = echarts.init(document.getElementById('k_line'));
+                             
+                            function paint_k_line(){
+                                var options = $("#update_symbol_select").val();
+                                console.log(options);
+                                $.ajax({
+                                    
+                                    // url:'/echart',
+                                    url: "{{ url_for('k_line_echart')}}",
+                                    data:{'symbol_opt':options},
+                                    type:'POST',
+                                    // async:false,
+                                    // dataType:'json',
+                                    // processData:false,
+                                    success:function(data){
+                                        // console.log(obj);
+                                        console.log(options);
+                                        // 颜色
+                                        var upColor = '#FF0000';
+                                        var upBorderColor = '#8A0000';
+                                        // var downColor = '#00da3c';
+                                        var downColor ='#00FF00'
+                                        var downBorderColor = '#008F28';
+                                        var axisFontColor='#D8D8D8'
+                                        // 得到选择框的数据
+                                        
+                    
+                                        var data0 = splitData(data);
+                                        function splitData(rawData){
+                                            var categoryData = [];
+                                            var values =[]
+                                            for( var line in rawData){
+                                                categoryData.push(rawData[line].splice(0,1)[0]);
+                                                values.push(rawData[line]);
+                                            }
+                                            return{
+                                                categoryData:categoryData,
+                                                values:values
+                                            };
+                                        };
+                    
+                                        function calculateMA(dayCount) {
+                                            var result = [];
+                                            for (var i = 0, len = data0.values.length; i < len; i++) {
+                                                if (i < dayCount) {
+                                                    result.push('-');
+                                                    continue;
+                                                }
+                                                var sum = 0;
+                                                for (var j = 0; j < dayCount; j++) {
+                                                    sum += data0.values[i - j][1];
+                                                }
+                                                result.push(sum / dayCount);
+                                            }
+                                            return result;
+                                        };
+                    
+                                        myChart.setOption({
+                                            title: {
+                                            text: options+'币',
+                                            left: 0.,
+                                            textStyle:{
+                                                    color:axisFontColor,
+                                                }
+   
+                                            
+                                        },
+                                        tooltip: {
+                                            trigger: 'axis',
+                                            axisPointer: {
+                                                type: 'cross'
+                                            }
+                                        },
+                                        legend: {
+                                            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30'],
+                                            textStyle:{
+                                                    color:axisFontColor,
+                                                }
+                                        },
+                                        grid: {
+                                            left: '10%',
+                                            right: '10%',
+                                            bottom: '15%'
+                                        },
+                                        xAxis: {
+                                            type: 'category',
+                                            data: data0.categoryData,
+                                            scale: true,
+                                            boundaryGap: false,
+                                            axisLine: {onZero: false},
+                                            splitLine: {show: false},
+                                            splitNumber: 20,
+                                            min: 'dataMin',
+                                            max: 'dataMax',
+                                            axisLabel:{
+                                                show:true,
+                                                textStyle:{
+                                                    color:axisFontColor,
+                                                }
+                                            },
+                                        },
+                                        yAxis: {
+                                            axisLabel:{
+                                                show:true,
+                                                textStyle:{
+                                                    color:axisFontColor,
+                                                }
+                                            },
+                                            splitLine: {show: false},
+                                            scale: true,
+                                            splitArea: {
+                                                show: true,
+                                                areaStyle:{
+                                                    color:[
+                                                        '#170B3B',
+                                                        '#0B0B3B'
+                                                    ],
+                                                },
+                                            }
+                                        },
+                                        dataZoom: [
+                                            {
+                                                type: 'inside',
+                                                start: 50,
+                                                end: 100
+                                            },
+                                            {
+                                                show: true,
+                                                type: 'slider',
+                                                top: '90%',
+                                                start: 50,
+                                                end: 100
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                name: '日K',
+                                                type: 'candlestick',
+                                                data: data0.values,
+                                                itemStyle: {
+                                                    color: upColor,
+                                                    color0: downColor,
+                                                    borderColor: upBorderColor,
+                                                    borderColor0: downBorderColor
+                                                },
+                                                markPoint: {
+                                                    label: {
+                                                        normal: {
+                                                            formatter: function (param) {
+                                                                return param != null ? Math.round(param.value) : '';
+                                                            }
+                                                        }
+                                                    },
+                                                    data: [
+                                                        {
+                                                            name: 'XX标点',
+                                                            coord: ['2013/5/31', 2300],
+                                                            value: 2300,
+                                                            itemStyle: {
+                                                                color: 'rgb(41,60,85)'
+                                                            }
+                                                        },
+                                                        {
+                                                            name: 'highest value',
+                                                            type: 'max',
+                                                            valueDim: 'highest'
+                                                        },
+                                                        {
+                                                            name: 'lowest value',
+                                                            type: 'min',
+                                                            valueDim: 'lowest'
+                                                        },
+                                                        {
+                                                            name: 'average value on close',
+                                                            type: 'average',
+                                                            valueDim: 'close'
+                                                        }
+                                                    ],
+                                                    tooltip: {
+                                                        formatter: function (param) {
+                                                            return param.name + '<br>' + (param.data.coord || '');
+                                                        }
+                                                    }
+                                                },
+                                                markLine: {
+                                                    symbol: ['none', 'none'],
+                                                    data: [
+                                                        [
+                                                            {
+                                                                name: 'from lowest to highest',
+                                                                type: 'min',
+                                                                valueDim: 'lowest',
+                                                                symbol: 'circle',
+                                                                symbolSize: 5,
+                                                                label: {
+                                                                    show: false
+                                                                },
+                                                                emphasis: {
+                                                                    label: {
+                                                                        show: false
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                type: 'max',
+                                                                valueDim: 'highest',
+                                                                symbol: 'circle',
+                                                                symbolSize: 5,
+                                                                label: {
+                                                                    show: false
+                                                                },
+                                                                emphasis: {
+                                                                    label: {
+                                                                        show: false
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        {
+                                                            name: 'min line on close',
+                                                            type: 'min',
+                                                            valueDim: 'close'
+                                                        },
+                                                        {
+                                                            name: 'max line on close',
+                                                            type: 'max',
+                                                            valueDim: 'close'
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                name: 'MA5',
+                                                type: 'line',
+                                                data: calculateMA(5),
+                                                smooth: true,
+                                                lineStyle: {
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            {
+                                                name: 'MA10',
+                                                type: 'line',
+                                                data: calculateMA(10),
+                                                smooth: true,
+                                                lineStyle: {
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            {
+                                                name: 'MA20',
+                                                type: 'line',
+                                                data: calculateMA(20),
+                                                smooth: true,
+                                                lineStyle: {
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            {
+                                                name: 'MA30',
+                                                type: 'line',
+                                                data: calculateMA(30),
+                                                smooth: true,
+                                                lineStyle: {
+                                                    opacity: 0.5,
+                                                   
+                                                }
+                                            },
+                    
+                                        ]
+                                        })
+                                    },
+                    
+                                    error:function(msg){
+                                        console.log(msg);
+                                        alert('接受信息错误')
+                                    }
+                                });
+                            }
+                    
+                           
+                        </script>
                     </div>
                     <div class="boxall" style="height:340px">
-                        <div class="alltitle">标题样式</div>
+                        <div class="alltitle">BTC</div>
                         <div class="navboxall" id="echart3"></div>
                     </div>
                 </li>
