@@ -1,12 +1,28 @@
 ﻿ $(window).load(function(){  
+     var html = ''
+    $.post("/rank",function(data){
+        for(line in data){
+            // html += data[line];
+            html +='<li><p><span>100021</span><span>19</span><span>'+data[line]+'</span><span>1小时</span></p></li>';
+        }
+        alert(html);
+        $('.rank_ul').html(html);
+        $('.wrap,.adduser').liMarquee({
+            direction: 'up',/*身上滚动*/
+            runshort: false,/*内容不足时不滚动*/
+            scrollamount: 20/*速度*/
+        });
+    })
+
              $(".loading").fadeOut()
             })  
 $(function () {
-    echarts_1();
-	echarts_2();
-	echarts_3();
-	echarts_4();
-	echarts_5();
+    // echarts_1();
+	// echarts_2();
+	// echarts_3();
+	// echarts_4();
+	// echarts_5();
+
 	zb1();
 	zb2();
 	zb3();

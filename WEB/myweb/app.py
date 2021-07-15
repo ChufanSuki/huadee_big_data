@@ -18,6 +18,9 @@ login_manager = LoginManager(app)
 # 指定登录的URL
 login_manager.login_view = 'login1'
 
+mainstream_currency = ['BTC','ETH','USDT','XRP','BCH','LTC','BNB','LINK','DOT','ADA']
+
+
 class User(UserMixin):
     pass
 
@@ -134,7 +137,7 @@ def select_symbol():
         return render_template('data.html')
     if request.method =="POST":  
         
-        conn = pymysql.connect(host='localhost',user='root',password='123456',database='bigdata')
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
         cur = conn.cursor()
         sql = "SELECT Symbol from coin" 
         cur.execute(sql)
@@ -156,5 +159,46 @@ def select_symbol():
         print("haha")
         return json_data
 
+@app.route('/rank', methods=['POST','GET'])
+def rank():
+    if request.method == "GET":
+        return render_template('data.html')
+    if request.method == 'POST':
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        sql = "SELECT name from avg_volume_marketcap" 
+        main_coin_five =[]
+        key_main = []
+        key_main_i = 0
+        not_main_coin_five =[]
+        # cur.execute(sql)
+        try:
+            cur.execute(sql)
+            # while(u!=None):
+            #     u = cur.fetchone()
+            #     if(u in mainstream_currency):
+            #         main_coin_five.append(u)
+            #         key_main_i = key_main_i + 1
+            #         key_main.append(str(key_main_i))
+            #     else:
+            #         not_main_coin_five.append(u)
+            #         key_main_i
+
+            u = cur.fetchall()
+            i = 0
+            for data in u:
+                main_coin_five.append(data)
+                i=i+1
+                key_main.append(str(i))
+
+            print("main",main_coin_five)
+            json_data = dict(zip(key_main,main_coin_five))
+            # print("not_mian",not_main_coin_five)
+            return json_data
+            # return render_template('data.html')
+        except:
+            print("排行榜出错!!")
+            return render_template('data.html')
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug="True")
