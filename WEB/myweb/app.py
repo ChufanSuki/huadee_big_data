@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, UserMixin, login_required, log
 import config
 from urllib.parse import urlparse, urljoin
 import mysql
+import pymysql
 import random
 from flask_mail import Mail,Message
 
@@ -142,7 +143,6 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
-<<<<<<< HEAD
 # 忘记密码
 @app.route('/forget',methods = ['GET','POST'])
 def forget():
@@ -173,7 +173,6 @@ def forget():
                 return redirect(url_for('login'))
         else:
             return render_template('register.html')
-=======
 # 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
 @app.route('/echart1', methods=['POST','GET'])        
 def select_symbol():
@@ -202,7 +201,6 @@ def select_symbol():
         # print(json_data)
         print("haha")
         return json_data
->>>>>>> 63bfd32c9bb29f9a71eda58043005a0de1d9454c
 
 @app.route('/rank', methods=['POST','GET'])
 def rank():
