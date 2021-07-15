@@ -24,6 +24,9 @@ mail = Mail(app)
 # 指定登录的URL
 login_manager.login_view = 'login1'
 
+mainstream_currency = ['BTC','ETH','USDT','XRP','BCH','LTC','BNB','LINK','DOT','ADA']
+
+
 class User(UserMixin):
     pass
 
@@ -139,6 +142,7 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
+<<<<<<< HEAD
 # 忘记密码
 @app.route('/forget',methods = ['GET','POST'])
 def forget():
@@ -169,6 +173,77 @@ def forget():
                 return redirect(url_for('login'))
         else:
             return render_template('register.html')
+=======
+# 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
+@app.route('/echart1', methods=['POST','GET'])        
+def select_symbol():
+    if request.method =="GET":
+        return render_template('data.html')
+    if request.method =="POST":  
+        
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        sql = "SELECT Symbol from coin" 
+        cur.execute(sql)
+        u = cur.fetchall()
+        symbol_set = set()
+        # 为了转化为json
+        keys = []
+        i = 0
+        for data in u:
+            symbol_set.add(data[-1])
+            i = i + 1
+            keys.append(str(i))
+        # print(s)
+        # set 转化为 list
+        symbol_list = list(symbol_set)
+        # print(keys)
+        json_data = dict(zip(keys,symbol_list))
+        # print(json_data)
+        print("haha")
+        return json_data
+>>>>>>> 63bfd32c9bb29f9a71eda58043005a0de1d9454c
+
+@app.route('/rank', methods=['POST','GET'])
+def rank():
+    if request.method == "GET":
+        return render_template('data.html')
+    if request.method == 'POST':
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        sql = "SELECT name from avg_volume_marketcap" 
+        main_coin_five =[]
+        key_main = []
+        key_main_i = 0
+        not_main_coin_five =[]
+        # cur.execute(sql)
+        try:
+            cur.execute(sql)
+            # while(u!=None):
+            #     u = cur.fetchone()
+            #     if(u in mainstream_currency):
+            #         main_coin_five.append(u)
+            #         key_main_i = key_main_i + 1
+            #         key_main.append(str(key_main_i))
+            #     else:
+            #         not_main_coin_five.append(u)
+            #         key_main_i
+
+            u = cur.fetchall()
+            i = 0
+            for data in u:
+                main_coin_five.append(data)
+                i=i+1
+                key_main.append(str(i))
+
+            print("main",main_coin_five)
+            json_data = dict(zip(key_main,main_coin_five))
+            # print("not_mian",not_main_coin_five)
+            return json_data
+            # return render_template('data.html')
+        except:
+            print("排行榜出错!!")
+            return render_template('data.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug="True")
