@@ -8,6 +8,84 @@
 <link rel="stylesheet" type="text/css" href="static/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="static/css/scanboardLogin.css" />
 <link rel="stylesheet" type="text/css" href="static/css/animsition.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<style type="text/css"> a:link{color: aqua;}
+ a:visited{color: aqua;}
+ a:hover{color: aliceblue;}
+ a:active{color: blue;}
+ </style>
+
+<script type="text/javascript">
+        // 检验用户名是否为空
+        function checkUsername(){
+            var username = document.getElementById("username").value;
+            var usernameSpan = document.getElementById("usernameSpan");
+            if(!username){
+				usernameSpan.innerHTML = "<font color='red'>用户名不能为空</font>";
+				// alert("用户名不能为空！")
+            }
+            else{
+				usernameSpan.innerHTML = "<font color='red'></font>";
+            }
+        }
+        // 检验用户名是否已经被注册
+		$(document).ready(function () {
+            $("#username").change(function () {
+                username = $("#username").val();
+				var sendData = {
+                'username':username};
+                $.ajax({
+                    async:true,
+                    url:"/validateUniqueName",
+                    type:"post",
+					data:sendData,
+                    // headers: {"X-CSRFToken":$.cookie("csrftoken")},
+                    success: function(data){
+                        if(data.data == "True"){
+							usernameSpan.innerHTML = "<font color='green'>用户名可以使用</font>";
+                        } else{
+							usernameSpan.innerHTML = "<font color='red'>用户名已被注册，请重新设置</font>";
+                        }
+                    },
+					error:function(error){
+						alert("error")
+					}
+                });
+            });
+        });
+
+        /* 检验两次密码输入是否一致 */
+        function checkPassword(){
+            // 可以首先对该密码进行正则校验,
+            var pwd1 = document.getElementById("pwd1").value;
+            var pwd2 = document.getElementById("pwd2").value;
+            if(!pwd1){
+				pwd2Span.innerHTML = "<font color='red'>密码不能为空</font>";
+            }else{
+                if(pwd1 != pwd2){
+					pwd2Span.innerHTML = "<font color='red'>两次密码不一致, 请重新输入</font>";
+                }
+                else{
+					pwd2Span.innerHTML = "<font color='green'>密码一致</font>";
+                }
+
+            }
+        }
+
+        function makeAble() {
+            var username = document.getElementById('username').value;
+            var passward = document.getElementById('pwd1').value;
+            var passward2 = document.getElementById('pwd2').value;
+            var email = document.getElementById('email').value;
+            var validateCode = document.getElementById('code').value;
+            var registerbtn = document.getElementById("registerbtn")
+            if (username.length != 0 && passward.length != 0 && passward2.length != 0 && email.length != 0 && validateCode.length != 0) {
+                registerbtn.diabled = false;
+                $('#registerbtn').removeAttr("disabled");
+            }
+        }
+</script>
+
 </head>
 <body>
 	<div class="wp animsition">
@@ -21,36 +99,36 @@
 			<form method="POST">
 				<div class="inpGroup">
 					<span class="loginIco1"></span>
-					<input type="text" name="username" placeholder="请输入您的用户名">
+					<input type="text" name="username" id="username" placeholder="请输入您的用户名" onblur="checkUsername()" autocomplete="off" required>
 				</div>
 				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
+					<span id="usernameSpan"></span>
 				</div>
 				
 				<div class="inpGroup">
 					<span class="loginIco2"></span>
-					<input type="password" name="pwd1" placeholder="请输入您的密码">
+					<input type="password" name="pwd1" id="pwd1" placeholder="请输入您的密码" autocomplete="off">
 				</div>
 				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
+					<span id="pwd1Span"></span>
 				</div>
 				<div class="inpGroup">
 					<span class="loginIco2"></span>
-					<input type="password" name="pwd2" placeholder="请重复您的密码">
+					<input type="password" name="pwd2" id="pwd2" placeholder="请重复您的密码" onblur="checkPassword()"  autocomplete="off">
 				</div>
 				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
+					<span id="pwd2Span"></span>
 				</div>
 				<div class="inpGroup">
 					<span class="loginIco4"></span>
-					<input type="email" name="email" placeholder="请输入您的邮箱">
+					<input type="email" name="email" id="email" placeholder="请输入您的邮箱">
 				</div>
 				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
+					<a id="verify" class="" href="#">发送验证码</a>
 				</div>
 				<div class="inpGroup">
 					<span class="loginIco3"></span>
-					<input type="text" name="valid" placeholder="请输入邮箱验证码">
+					<input type="text" name="valid" id="code" placeholder="请输入邮箱验证码" onchange="makeAble()">
 				</div>
 				<div class="prompt">
 					<p class="success">输入正确</p>
@@ -60,13 +138,58 @@
 				<!-- <a href="scanboard.html" class="animsition-link submit">登录</a> -->
 				<!-- <a href="templates/data.html" class="animsition-link submit">登录</a> -->
 				<!-- <a href="{{url_for('login')}}" class="animsition-link submit">注册</a> -->
-				<input type="submit" class="submit" name="注册" value="注册">
+				<input type="submit" class="submit" name="注册" id="registerbtn" disabled="disabled" value="注册">
 				<div class="prompt2"></div>
 				<a href="{{url_for('login')}}" class="animsition-link submit">登录</a>
 			</form>
 		</div>
 	</div>
 	<div id="particles-js"></div>
+
+	<script type ='text/javascript'>
+		// 发送邮件
+		$(document).ready(function () {
+			$('#verify').click(function(){
+                email = $("#email").val();
+				var sendData = {'email':email};
+				$.ajax({
+					type:'GET',
+					url:'/send_email',
+					data:sendData,
+					success:function (result) {
+						console.log(result.data);
+						alert("发送成功！");
+					}
+				});
+			});
+		});
+    //  检验验证码
+		$(document).ready(function () {
+			$('#registerbtn').click(function () {
+				email = $("#email").val();
+				var sendData = {'email':email};
+				$.ajax({
+					async:true,
+					url:"/checkCode",
+					type:"post",
+					data:sendData,
+					success: function(data){
+						v = $("#code").val();
+						console.log(data.data)
+						console.log(v)
+						if(data.data == v){
+							alert('验证码正确，若注册成功将跳转到登陆界面');
+						}
+						else {
+							alert('验证码错误!')
+						}
+					},
+				});
+			});
+		});
+	
+	</script>
+
 </body>
 <script type="text/javascript" src="static/js/jquery.min.js"></script>
 <script type="text/javascript" src="static/js/jquery.animsition.js"></script>
