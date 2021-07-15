@@ -1,0 +1,8 @@
+
+#数据处理的文件放在这里。用windows下的pyspark环境进行数据处理。
+
+#文件介绍：
+
+（1）avg_volume_marketcap.py  用pyspark处理交易额、市值排名的文件
+
+（2）price_rise_fall.py  用pyspark处理货币价格和涨跌幅的文件
