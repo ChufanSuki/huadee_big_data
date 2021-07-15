@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-<title>注册</title>
+<title>登录</title>
 <link rel="stylesheet" type="text/css" href="static/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="static/css/scanboardLogin.css" />
 <link rel="stylesheet" type="text/css" href="static/css/animsition.css" />
@@ -15,9 +15,6 @@
 			<a href="#" class="logo">
 				<img src="static/images/logowu.png">
 			</a>
-			{% for message in get_flashed_messages() %}
-				{{ message }}
-			{% endfor %}
 			<form method="POST">
 				<div class="inpGroup">
 					<span class="loginIco1"></span>
@@ -29,40 +26,16 @@
 				
 				<div class="inpGroup">
 					<span class="loginIco2"></span>
-					<input type="password" name="pwd1" placeholder="请输入您的密码">
-				</div>
-				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
-				</div>
-				<div class="inpGroup">
-					<span class="loginIco2"></span>
-					<input type="password" name="pwd2" placeholder="请重复您的密码">
-				</div>
-				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
-				</div>
-				<div class="inpGroup">
-					<span class="loginIco4"></span>
-					<input type="email" name="email" placeholder="请输入您的邮箱">
-				</div>
-				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
-				</div>
-				<div class="inpGroup">
-					<span class="loginIco3"></span>
-					<input type="text" name="valid" placeholder="请输入邮箱验证码">
+					<input type="password" name="pwd" placeholder="请输入您的密码">
 				</div>
 				<div class="prompt">
 					<p class="success">输入正确</p>
 				</div>
 				
-				<!-- <button class="submit">登录</button> -->
-				<!-- <a href="scanboard.html" class="animsition-link submit">登录</a> -->
-				<!-- <a href="templates/data.html" class="animsition-link submit">登录</a> -->
-				<!-- <a href="{{url_for('login')}}" class="animsition-link submit">注册</a> -->
-				<input type="submit" class="submit" name="注册" value="注册">
+
+				<input type="submit" class="submit" name="登录" value="登录">
 				<div class="prompt2"></div>
-				<a href="{{url_for('login')}}" class="animsition-link submit">登录</a>
+				<a href="{{url_for('register')}}" class="animsition-link submit">注册</a>
 			</form>
 		</div>
 	</div>
