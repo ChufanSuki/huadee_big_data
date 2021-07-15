@@ -173,6 +173,44 @@ def forget():
                 return redirect(url_for('login'))
         else:
             return render_template('register.html')
+
+# 关于画k线图的函数
+@app.route('/k_line_echart', methods=['POST','GET'])
+def k_line_echart():
+    if request.method =="GET":
+        return render_template('data.html')
+    if request.method =="POST":
+        symbol = str(request.form.get("symbol_opt"))
+        print(symbol)
+        # 连接数据库
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        # sql语句
+        sql = "SELECT Symbol,date,open,close,high,low from coin where symbol = '%s'" % symbol
+        print(sql)
+        try:
+            cur.execute(sql)
+            all_data = cur.fetchall()
+            data_lists =[]
+            for data in all_data:
+                symbol = data[0]
+                date = data[1].strftime("%Y/%m/%d")
+                open = data[2]
+                close = data[3]
+                high = data[4]
+                low = data[5]
+                data_list =[date,open,close,low,high]
+                data_lists.append(data_list)
+            # 将列表转化为json
+            keys =[]
+            for i in range(len(data_lists)):
+                keys.append(str(i))
+            json_data = dict(zip(keys,data_lists))
+       
+            return json_data
+        except:
+            print("k-line-echart的sql执行错误")
+            return render_template('data.html')
 # 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
 @app.route('/echart1', methods=['POST','GET'])        
 def select_symbol():
