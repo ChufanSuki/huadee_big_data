@@ -25,3 +25,8 @@ low（当天最低价格）  close（当天收盘价格）   market_cap（当天
 属性解释：
 name（币种的名称）  close_today（当天收盘价）  close_one_day_ago（昨天收盘价）  one_day_%（今日涨跌幅）
 close_one_week_ago（一周前收盘价）  one_week_%（一周内涨跌幅）  close_one_month_ago（一个月前收盘价）  one_month_%（一个月内涨跌幅）
+
+
+（5）marketcap_percentage.sql       #今日市值及其占比（按市值降序排名）。包含100种货币当天的市值和市值占比
+属性解释：
+name（币种的名称）  symbol（币种简称）  date（时间/天）  market_cap（当天市值）  percentage（当天市值占比）
