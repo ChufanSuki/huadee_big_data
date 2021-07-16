@@ -1,7 +1,7 @@
-
-#导入mysql驱动
+# 导入mysql驱动
 import pymysql
- 
+
+
 def conn():
     con = pymysql.connect(
         host="localhost",
@@ -12,9 +12,10 @@ def conn():
         charset="utf8mb4",
     )
     return con
- 
+
+
 # 查询传入sql语句，返回result结果
-def query(sql):  
+def query(sql):
     con = conn()
     cursor = con.cursor()
     # noinspection PyBroadException
@@ -30,7 +31,7 @@ def query(sql):
 
 
 # 新增数据库信息，新增前需要确保可以新增成功
-def insert(sql):  
+def insert(sql):
     con = conn()
     cursor = con.cursor()
     # noinspection PyBroadException
