@@ -28,7 +28,7 @@
 				usernameSpan.innerHTML = "<font color='red'></font>";
             }
         }
-        // 检验用户名是否已经被注册
+        // 检验用户名是否存在
 		$(document).ready(function () {
             $("#username").change(function () {
                 username = $("#username").val();
@@ -42,9 +42,9 @@
                     // headers: {"X-CSRFToken":$.cookie("csrftoken")},
                     success: function(data){
                         if(data.data == "True"){
-							usernameSpan.innerHTML = "<font color='green'>用户名可以使用</font>";
+							usernameSpan.innerHTML = "<font color='red'>用户名未注册</font>";
                         } else{
-							usernameSpan.innerHTML = "<font color='red'>用户名已被注册，请重新设置</font>";
+							usernameSpan.innerHTML = "<font color='green'>用户存在</font>";
                         }
                     },
 					error:function(error){
@@ -76,10 +76,9 @@
             var username = document.getElementById('username').value;
             var passward = document.getElementById('pwd1').value;
             var passward2 = document.getElementById('pwd2').value;
-            var email = document.getElementById('email').value;
             var validateCode = document.getElementById('code').value;
             var registerbtn = document.getElementById("registerbtn")
-            if (username.length != 0 && passward.length != 0 && passward2.length != 0 && email.length != 0 && validateCode.length != 0) {
+            if (username.length != 0 && passward.length != 0 && passward2.length != 0 && validateCode.length != 0) {
                 registerbtn.diabled = false;
                 $('#registerbtn').removeAttr("disabled");
             }
@@ -120,25 +119,18 @@
 					<span id="pwd2Span"></span>
 				</div>
 				<div class="inpGroup">
-					<span class="loginIco4"></span>
-					<input type="email" name="email" id="email" placeholder="请输入您的邮箱">
-				</div>
-				<div class="prompt">
-					<a id="verify" class="" href="#">发送验证码</a>
-				</div>
-				<div class="inpGroup">
 					<span class="loginIco3"></span>
 					<input type="text" name="valid" id="code" placeholder="请输入邮箱验证码" onchange="makeAble()">
 				</div>
 				<div class="prompt">
-					<p class="success">输入正确</p>
+					<a id="verify" class="" href="#">发送验证码</a>
 				</div>
 				
 				<!-- <button class="submit">登录</button> -->
 				<!-- <a href="scanboard.html" class="animsition-link submit">登录</a> -->
 				<!-- <a href="templates/data.html" class="animsition-link submit">登录</a> -->
 				<!-- <a href="{{url_for('login')}}" class="animsition-link submit">注册</a> -->
-				<input type="submit" class="submit" name="注册" id="registerbtn" disabled="disabled" value="注册">
+				<input type="submit" class="submit" name="修改" id="registerbtn" disabled="disabled" value="修改">
 				<div class="prompt2"></div>
 				<a href="{{url_for('login')}}" class="animsition-link submit">登录</a>
 			</form>
@@ -150,15 +142,15 @@
 		// 发送邮件
 		$(document).ready(function () {
 			$('#verify').click(function(){
-                email = $("#email").val();
-				var sendData = {'email':email};
+                username = $("#username").val();
+				var sendData = {'username':username};
 				$.ajax({
 					type:'GET',
-					url:'/send_email',
+					url:'/send_email_forget',
 					data:sendData,
 					success:function (result) {
 						console.log(result.data);
-						alert("发送成功！");
+						alert("发送成功！您的邮箱为:"+result.email);
 					}
 				});
 			});
@@ -176,7 +168,7 @@
 					success: function(data){
 						v = $("#code").val();
 						if(data.data.toUpperCase() == v.toUpperCase()){
-							alert('验证码正确，若注册成功将跳转到登陆界面');
+							alert('验证码正确，若修改成功将跳转到登陆界面');
 						}
 						else {
 							alert('验证码错误!')

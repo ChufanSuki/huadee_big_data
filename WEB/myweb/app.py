@@ -8,6 +8,7 @@ import mysql
 import pymysql
 import random
 from flask_mail import Mail,Message
+import hashlib
 
 app = Flask(__name__)
 app.secret_key = '1xasada'
@@ -48,6 +49,17 @@ def load_user(username):
         curr_user.id = username
         return curr_user
         
+# 加密函数
+def encryption(pwd):
+    # 加密
+    hs = hashlib.sha1()
+    data = str(pwd)
+    hs.update(data.encode())
+    # 加盐
+    hs.update("13sda23".encode())
+    hsvar = hs.hexdigest()
+    return hsvar
+
 # 登录功能
 @app.route('/login1',methods=['GET', 'POST'])
 def login():
@@ -55,7 +67,9 @@ def login():
         return render_template('login.html')
     username = request.form.get('username')
     pwd = request.form.get('pwd')
-    sql = "select name from user where name=\'"+username+"\' and pwd=\'"+pwd+"\';"
+    # 加密
+    hsvar = encryption(pwd)
+    sql = "select name from user where name=\'"+username+"\' and pwd=\'"+hsvar+"\';"
     user1 = mysql.query(sql)
     if len(user1) != 0:
         username = user1[-1][-1]
@@ -88,7 +102,7 @@ def register():
         return render_template('register.html')
     else:
         code = request.form.get('valid')
-        if session['code'] == code:
+        if str(session['code']).upper() == str(code).upper():
             username = request.form.get('username')
             pwd1 = request.form.get('pwd1')
             pwd2 = request.form.get('pwd2')
@@ -106,7 +120,9 @@ def register():
                 print("mima")
                 return render_template('register.html')
             else:
-                sql = "insert into user value(\'" + username +"\',\'" + pwd1 + "\',\'" + email + "\');"
+                # 加密
+                hsvar = encryption(pwd1)
+                sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\');"
                 flag = mysql.insert(sql)
                 return redirect(url_for('login'))
         else:
@@ -152,6 +168,41 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
+# 重置密码发送邮件
+@app.route('/send_email_forget',methods = ['GET','POST'])
+def send_email_forget():
+    res = {'data':'','email':''}
+    if request.method == 'POST':
+        return render_template('forget.html')
+    elif request.method == 'GET':
+        username = request.args.get('username')
+        email_code = random_str()
+        sql = "select email from user where name=\'"+username+"\';"
+        user1 = mysql.query(sql)
+        email = user1[-1][-1]
+        msg = ""
+        msg = Message('数字货币大数据分析平台重置密码',recipients=[email],body="您的验证码是:%s" %email_code)
+        mail.send(msg) # 发送
+        res['data'] = 'success'
+        # temp_email = email.split('@')
+        # temp_email[0]
+        res['email'] = str(email)
+        session['code'] = email_code
+        return jsonify(res)
+    else:
+        res['data'] = "error"
+        return jsonify(res)
+    
+# 验证码检验
+@app.route('/checkCode',methods = ['GET','POST'])
+def checkCode():
+    res = {'data':''}
+    if request.method == 'GET':
+        return render_template('register.html')
+    email = request.form.get('email')
+    res['data'] = session['code']
+    return jsonify(res)
+
 # 忘记密码
 @app.route('/forget',methods = ['GET','POST'])
 def forget():
@@ -159,7 +210,7 @@ def forget():
         return render_template('forget.html')
     else:
         code = request.form.get('valid')
-        if session['code'] == code:
+        if str(session['code']).upper() == str(code).upper():
             username = request.form.get('username')
             pwd1 = request.form.get('pwd1')
             pwd2 = request.form.get('pwd2')
@@ -168,20 +219,29 @@ def forget():
             user1 = mysql.query(sql)
             if username == "":
                 flash("用户名不能为空！")
-                return render_template('register.html')
-            elif len(user1) != 0:
-                flash("用户名已存在！")
-                return render_template('register.html')
+                return render_template('forget.html')
+            elif len(user1) == 0:
+                flash("用户名不存在！")
+                return render_template('forget.html')
             elif pwd1 != pwd2:
                 flash('两次密码不一致！')
                 print("mima")
-                return render_template('register.html')
+                return render_template('forget.html')
             else:
-                sql = "insert into user value(\'" + username +"\',\'" + pwd1 + "\',\'" + email + "\');"
-                flag = mysql.insert(sql)
+                # 加密
+                hsvar = encryption(pwd1)
+                sql = "update user set pwd=\'" + hsvar+ "\' where name = \'" + username +"\';"
+                flag = mysql.update(sql)
                 return redirect(url_for('login'))
         else:
-            return render_template('register.html')
+            return render_template('forget.html')
+
+
+# 忘记密码
+@app.route('/admin',methods = ['GET','POST'])
+def admin():
+    if request.method =="GET":
+        return render_template('admin.html')
 
 # 关于画k线图的函数
 @app.route('/k_line_echart', methods=['POST','GET'])

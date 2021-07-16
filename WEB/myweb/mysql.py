@@ -43,3 +43,18 @@ def insert(sql):
     finally:
         cursor.close()
         con.close()
+
+# 修改数据库信息，修改前需要确保可以修改成功
+def update(sql):  
+    con = conn()
+    cursor = con.cursor()
+    # noinspection PyBroadException
+    try:
+        cursor.execute(sql)
+        con.commit()
+        return True
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        con.close()
