@@ -1,14 +1,12 @@
-from os import name
-from flask import Flask, render_template, redirect, request, url_for, flash, jsonify, session
+from flask import Flask, render_template, redirect, request, url_for, jsonify, session
 from flask.helpers import flash
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user
 import config
-from urllib.parse import urlparse, urljoin
 import mysql
 import pymysql
 import random
 from flask_mail import Mail, Message
-from WEB.myweb.forms import LoginForm
+from forms import LoginForm
 
 app = Flask(__name__, template_folder='templates', static_folder="static")
 app.secret_key = '1xasada'
@@ -49,16 +47,19 @@ def login():
     if request.method == 'GET':
         return render_template('login.html', form=form)
     elif request.method == 'POST':
-        username = request.form.get('username')
-        pwd = request.form.get('pwd')
-        sql = "select name from user where name=\'" + username + "\' and pwd=\'" + pwd + "\';"
-        user1 = mysql.query(sql)
-        if len(user1) != 0:
-            username = user1[-1][-1]
-            curr_user = User()
-            curr_user.id = username
-            login_user(curr_user)
-            return redirect(url_for('index'))
+        if form.validate_on_submit():
+            username = form.username.data
+            pwd = form.password.data
+            sql = "select name from user where name=\'" + username + "\' and pwd=\'" + pwd + "\';"
+            user1 = mysql.query(sql)
+            if len(user1) != 0:
+                username = user1[-1][-1]
+                curr_user = User()
+                curr_user.id = username
+                login_user(curr_user)
+                return redirect(url_for('index'))
+            else:
+                return render_template('login.html', form=form)
         else:
             return render_template('login.html', form=form)
 
