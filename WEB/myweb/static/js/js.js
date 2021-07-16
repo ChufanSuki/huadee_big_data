@@ -13,7 +13,60 @@
             scrollamount: 20/*速度*/
         });
     });
-
+    $.post("/chart1_json",function(data){
+        var myChart = echarts.init(document.getElementById('chart1'));
+        alert(data['1']);
+        myChart.setOption({
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                    label:{
+                        show:true
+                    }
+                }
+            },
+            dataZoom: [{
+                show:true,
+                start:86,
+                end:92
+            },{
+                type: 'inside',
+                start:86,
+                end:92
+            }],
+            xAxis: {
+                type: 'category',
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
+                data:data['1']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
+            },
+            series:[{
+                name:'跌涨幅',
+                type:'bar',
+                label:{
+                    show:true,
+                    formatter:'{b}',
+                    color: 'rgba(10,9,9,0)',
+                },
+                itemStyle: {
+                    color:'#49bcf7'
+                },
+                barGap:'30%',
+                data:data['2']
+            }]
+        })
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    });
     $.post("/k_line_echart",{symbol:'BTC'}, function(data){
         var myChart = echarts.init(document.getElementById('k_line'));
                              
