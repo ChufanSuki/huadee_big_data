@@ -230,10 +230,8 @@ def forget():
                 flag = mysql.update(sql)
                 return redirect(url_for('login'))
         else:
-<<<<<<< HEAD
             return render_template('forget.html')
-=======
-            return render_template('register.html')
+
 
 # 关于画k线图的函数
 @app.route('/k_line_echart', methods=['POST','GET'])
@@ -272,7 +270,6 @@ def k_line_echart():
         except:
             print("k-line-echart的sql执行错误")
             return render_template('data.html')
->>>>>>> 7ef3f76dfc1bdb3488bfee51692a20166f036c00
 # 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
 @app.route('/echart1', methods=['POST','GET'])        
 def select_symbol():

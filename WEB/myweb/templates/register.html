@@ -175,10 +175,7 @@
 					data:sendData,
 					success: function(data){
 						v = $("#code").val();
-						console.log(data.data)
-						console.log(v)
 						if(data.data.toUpperCase() == v.toUpperCase()){
-							console.log(v.toUpperCase())
 							alert('验证码正确，若注册成功将跳转到登陆界面');
 						}
 						else {
