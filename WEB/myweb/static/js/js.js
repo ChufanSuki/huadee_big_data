@@ -1,11 +1,11 @@
 ﻿ $(window).load(function(){  
     var html = ''
-    $.post("/rank",function(data){
+    $.post("/rank_left",function(data){
         for(line in data){
             // html += data[line];
-            html +='<li><p><span>100021</span><span>19</span><span>'+data[line]+'</span><span>1小时</span></p></li>';
+            html +='<li><p><span>'+line+'</span><span>'+data[line][0]+'</span><span>'+data[line][1]+'</span><span>'+data[line][2]+'</span></p></li>';
         }
-        alert(html);
+        // alert(html);
         $('.rank_ul').html(html);
         $('.wrap,.adduser').liMarquee({
             direction: 'up',/*身上滚动*/
@@ -13,15 +13,293 @@
             scrollamount: 20/*速度*/
         });
     });
+
+    $.post("/k_line_echart",{symbol:'BTC'}, function(data){
+        var myChart = echarts.init(document.getElementById('k_line'));
+                             
+        // console.log(obj);
+        var upColor = '#FF0000';
+        var upBorderColor = '#8A0000';
+        // var downColor = '#00da3c';
+        var downColor ='#00FF00'
+        var downBorderColor = '#008F28';
+        var axisFontColor='#D8D8D8'
+        // 得到选择框的数据
+                                        
+        // alert(data);        
+        var data0 = splitData(data);
+        function splitData(rawData){
+            var categoryData = [];
+            var values =[]
+            for( var line in rawData){
+                categoryData.push(rawData[line].splice(0,1)[0]);
+                values.push(rawData[line]);
+            }
+            return{
+                categoryData:categoryData,
+                values:values
+            };
+        };
+                    
+        function calculateMA(dayCount) {
+            var result = [];
+            for (var i = 0, len = data0.values.length; i < len; i++) {
+                if (i < dayCount) {
+                    result.push('-');
+                    continue;
+                }
+                var sum = 0;
+                for (var j = 0; j < dayCount; j++) {
+                    sum += data0.values[i - j][1];
+                }
+                result.push(sum / dayCount);
+            }
+            return result;
+        };
+                    
+        myChart.setOption({
+            title: {
+            text: 'BTC币',
+            left: 0.,
+            textStyle:{
+                    color:axisFontColor,
+                }                             
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
+            },
+            legend: {
+                data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30'],
+                textStyle:{
+                        color:axisFontColor,
+                    }
+            },
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '15%'
+            },
+            xAxis: {
+                type: 'category',
+                data: data0.categoryData,
+                scale: true,
+                boundaryGap: false,
+                axisLine: {onZero: false},
+                splitLine: {show: false},
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax',
+                axisLabel:{
+                    show:true,
+                    textStyle:{
+                        color:axisFontColor,
+                    }
+                },
+            },
+            yAxis: {
+                axisLabel:{
+                    show:true,
+                    textStyle:{
+                        color:axisFontColor,
+                    }
+                },
+                splitLine: {show: false},
+                scale: true,
+                splitArea: {
+                    show: true,
+                    areaStyle:{
+                        color:[
+                            '#0B0B3B',
+                            '#0B0B3B'
+                        ],
+                    },
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    start: 50,
+                    end: 100
+                },
+                {
+                    show: true,
+                    type: 'slider',
+                    top: '90%',
+                    start: 50,
+                    end: 100
+                }
+            ],
+            series: [
+                {
+                    name: '日K',
+                    type: 'candlestick',
+                    data: data0.values,
+                    itemStyle: {
+                        color: upColor,
+                        color0: downColor,
+                        borderColor: upBorderColor,
+                        borderColor0: downBorderColor
+                    },
+                    markPoint: {
+                        label: {
+                            normal: {
+                                formatter: function (param) {
+                                    return param != null ? Math.round(param.value) : '';
+                                }
+                            }
+                        },
+                        data: [
+                            {
+                                name: 'XX标点',
+                                coord: ['2013/5/31', 2300],
+                                value: 2300,
+                                itemStyle: {
+                                    color: 'rgb(41,60,85)'
+                                }
+                            },
+                                        {
+                                            name: 'highest value',
+                                            type: 'max',
+                                            valueDim: 'highest'
+                                        },
+                                        {
+                                            name: 'lowest value',
+                                            type: 'min',
+                                            valueDim: 'lowest'
+                                        },
+                                        {
+                                            name: 'average value on close',
+                                            type: 'average',
+                                            valueDim: 'close'
+                                        }
+                                    ],
+                                    tooltip: {
+                                        formatter: function (param) {
+                                            return param.name + '<br>' + (param.data.coord || '');
+                                        }
+                                    }
+                                },
+                                markLine: {
+                                    symbol: ['none', 'none'],
+                                    data: [
+                                        [
+                                            {
+                                                name: 'from lowest to highest',
+                                                type: 'min',
+                                                valueDim: 'lowest',
+                                                symbol: 'circle',
+                                                symbolSize: 5,
+                                                label: {
+                                                    show: false
+                                                },
+                                                emphasis: {
+                                                    label: {
+                                                        show: false
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                type: 'max',
+                                                valueDim: 'highest',
+                                                symbol: 'circle',
+                                                symbolSize: 5,
+                                                label: {
+                                                    show: false
+                                                },
+                                                emphasis: {
+                                                    label: {
+                                                        show: false
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        {
+                                            name: 'min line on close',
+                                            type: 'min',
+                                            valueDim: 'close'
+                                        },
+                                        {
+                                            name: 'max line on close',
+                                            type: 'max',
+                                            valueDim: 'close'
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                name: 'MA5',
+                                type: 'line',
+                                data: calculateMA(5),
+                                smooth: true,
+                                lineStyle: {
+                                    opacity: 0.5
+                                }
+                            },
+                            {
+                                name: 'MA10',
+                                type: 'line',
+                                data: calculateMA(10),
+                                smooth: true,
+                                lineStyle: {
+                                    opacity: 0.5
+                                }
+                            },
+                            {
+                                name: 'MA20',
+                                type: 'line',
+                                data: calculateMA(20),
+                                smooth: true,
+                                lineStyle: {
+                                    opacity: 0.5
+                                }
+                            },
+                            {
+                                name: 'MA30',
+                                type: 'line',
+                                data: calculateMA(30),
+                                smooth: true,
+                                lineStyle: {
+                                    opacity: 0.5,
+                                    
+                                }
+                            },
+    
+                        ]
+        });
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    });
+    $.post('/rank_right',function(data){
+        // 右侧排行 主流币
+        $('#tr_main_coin_1').html('<td><span>1</span></td><td>'+data['1']['0']['0']+'</td><td>'+data['1']['0']['1']+'<br></td><td>'+data['1']['0']['2']+'<br></td>');
+        $('#tr_main_coin_2').html('<td><span>2</span></td><td>'+data['1']['1']['0']+'</td><td>'+data['1']['1']['1']+'<br></td><td>'+data['1']['1']['2']+'<br></td>');
+        $('#tr_main_coin_3').html('<td><span>3</span></td><td>'+data['1']['2']['0']+'</td><td>'+data['1']['2']['1']+'<br></td><td>'+data['1']['2']['2']+'<br></td>');
+        $('#tr_main_coin_4').html('<td><span>4</span></td><td>'+data['1']['3']['0']+'</td><td>'+data['1']['3']['1']+'<br></td><td>'+data['1']['3']['2']+'<br></td>');
+        $('#tr_main_coin_5').html('<td><span>5</span></td><td>'+data['1']['4']['0']+'</td><td>'+data['1']['4']['1']+'<br></td><td>'+data['1']['4']['2']+'<br></td>');
+        // 左侧排行 山寨币
+        $('#tr_not_main_coin_1').html('<td><span>1</span></td><td>'+data['2']['0']['0']+'</td><td>'+data['2']['0']['1']+'<br></td><td>'+data['2']['0']['2']+'<br></td>');
+        $('#tr_not_main_coin_2').html('<td><span>2</span></td><td>'+data['2']['1']['0']+'</td><td>'+data['2']['1']['1']+'<br></td><td>'+data['2']['1']['2']+'<br></td>');
+        $('#tr_not_main_coin_3').html('<td><span>3</span></td><td>'+data['2']['2']['0']+'</td><td>'+data['2']['2']['1']+'<br></td><td>'+data['2']['2']['2']+'<br></td>');
+        $('#tr_not_main_coin_4').html('<td><span>4</span></td><td>'+data['2']['3']['0']+'</td><td>'+data['2']['3']['1']+'<br></td><td>'+data['2']['3']['2']+'<br></td>');
+        $('#tr_not_main_coin_5').html('<td><span>5</span></td><td>'+data['2']['4']['0']+'</td><td>'+data['2']['4']['1']+'<br></td><td>'+data['2']['4']['2']+'<br></td>');
+    });
+
+
+                 
+                    
     $(".loading").fadeOut()
             })  
 $(function () {
-    // echarts_1();
-	// echarts_2();
+    echarts_1();
+	echarts_2();
 	// echarts_3();
 	// echarts_4();
-	// echarts_5();
-	zb1();
+	echarts_5();
+	// zb1();
 	zb2();
 	zb3();
     function echarts_1() {

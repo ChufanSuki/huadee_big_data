@@ -27,6 +27,15 @@ login_manager.login_view = 'login1'
 
 mainstream_currency = ['BTC','ETH','USDT','XRP','BCH','LTC','BNB','LINK','DOT','ADA']
 
+def float_to_str(price):
+    if(price >100000000):
+        price = price /100000000
+        return str(price)+'亿'
+    elif(price>10000):
+        price = price /10000
+        return str(price)+'万'
+    else:
+        return str(price)
 
 class User(UserMixin):
     pass
@@ -181,6 +190,9 @@ def k_line_echart():
         return render_template('data.html')
     if request.method =="POST":
         symbol = str(request.form.get("symbol_opt"))
+        # 便于一开始的页面展示
+        if(symbol == 'None'):
+            symbol = 'BTC'
         print(symbol)
         # 连接数据库
         conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
@@ -240,46 +252,84 @@ def select_symbol():
         print("haha")
         return json_data
 
-@app.route('/rank', methods=['POST','GET'])
-def rank():
+@app.route('/rank_left', methods=['POST','GET'])
+def rank_left():
     if request.method == "GET":
         return render_template('data.html')
     if request.method == 'POST':
         conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
         cur = conn.cursor()
-        sql = "SELECT name from avg_volume_marketcap" 
-        main_coin_five =[]
-        key_main = []
-        key_main_i = 0
-        not_main_coin_five =[]
-        # cur.execute(sql)
+        sql = "SELECT symbol,open,market_cap from coin_price"
+        sql_res = []
+        keys = []
         try:
             cur.execute(sql)
-            # while(u!=None):
-            #     u = cur.fetchone()
-            #     if(u in mainstream_currency):
-            #         main_coin_five.append(u)
-            #         key_main_i = key_main_i + 1
-            #         key_main.append(str(key_main_i))
-            #     else:
-            #         not_main_coin_five.append(u)
-            #         key_main_i
-
             u = cur.fetchall()
             i = 0
             for data in u:
-                main_coin_five.append(data)
+                symbol = data[0]
+                open = str(data[1])
+                market_cap_today = float_to_str(data[2])
+                data_list = [symbol,open,market_cap_today]
+                sql_res.append(data_list)
                 i=i+1
-                key_main.append(str(i))
-
-            print("main",main_coin_five)
-            json_data = dict(zip(key_main,main_coin_five))
-            # print("not_mian",not_main_coin_five)
+                keys.append(str(i))
+            
+            # print("data:",sql_res)
+            json_data = dict(zip(keys,sql_res))
+            cur.close()
+            conn.close()
             return json_data
-            # return render_template('data.html')
         except:
-            print("排行榜出错!!")
+            print("左侧排行榜sql执行出错!!")
             return render_template('data.html')
 
+
+@app.route('/rank_right', methods=['POST','GET'])
+def rank_right():
+    if request.method == "GET":
+        return render_template('data.html')
+    if request.method == 'POST':
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        sql = "SELECT symbol,market_cap_today,volume_today from avg_volume_marketcap"
+         
+        main_coin_five =[]
+        key_main = []
+        key_main_i = 0
+        key_not_main = []
+        key_not_main_i =0
+        not_main_coin_five =[]
+        cur.execute(sql)
+        try:
+            cur.execute(sql)
+            u = cur.fetchall()
+            for data in u:
+                data_list =[]
+                symbol = data[0]
+                market_cap_today = float_to_str(data[1])
+                volume_today = float_to_str(data[2])
+                data_list=[symbol,market_cap_today,volume_today]
+                if(key_main_i<5 and symbol in mainstream_currency):
+                    main_coin_five.append(data_list)
+                    key_main.append(str(key_main_i))
+                    key_main_i = key_main_i + 1
+                elif(key_not_main_i<5 and symbol not in mainstream_currency):
+                    not_main_coin_five.append(data_list)
+                    key_not_main.append(str(key_not_main_i))
+                    key_not_main_i = key_not_main_i +1
+                elif(key_main_i==5 and key_not_main_i==5):
+                    break
+
+            print("main",main_coin_five)
+            print("not_mian",not_main_coin_five)
+            json_data1 = dict(zip(key_main,main_coin_five))
+            json_data2 = dict(zip(key_not_main,not_main_coin_five))
+
+            return {'1':json_data1,'2':json_data2}
+            # return render_template('data.html')
+        except:
+            print("右侧排行榜sql出错!!")
+            return render_template('data.html')
 if __name__ == '__main__':
     app.run(debug="True")
