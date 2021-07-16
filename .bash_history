@@ -34,3 +34,11 @@ git pull --rebase
 git push origin master
 git pull --rebase origin master
 git push origin master
+git init
+git branch wj
+git pull --origin master
+git pull origin master
+git pull origin master
+git commit -m "xix"
+git pull origin master
+git push origin master

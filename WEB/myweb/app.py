@@ -86,7 +86,7 @@ def login():
 def index():
     if request.method == 'POST':
         return redirect(url_for('/index'))
-    return render_template("index.html")
+    return render_template("data.html")
 
 # 登出
 @app.route('/logout/')
