@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<di>
+    <div>
+        <div>
+            <div>
+                <h3>Students</h3>
+            </div>
+            <div>
+                <div>
+                    <table>
+                        <thead>
+                        <tr>   
+                            {% for i in content %}
+                                <th>{{ i }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in content2 %}
+                            <tr>
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+</body>
+</html>
