@@ -84,10 +84,10 @@ a:hover{ color:#06c; text-decoration: none!important}
 .wrap li p,.wraptit{ font-size: 0; }
 .wrap li span,.wraptit span{ display: inline-block; font-size: 18px;color: rgba(255,255,255,.6);}
 .wraptit { border-bottom: 1px solid rgba(255,255,255,.2); padding:0 0 10px 0; margin-bottom: 10px;}
-.wrap li span:nth-child(1),.wraptit span:nth-child(1){ width: 30%}
-.wrap li span:nth-child(2),.wraptit span:nth-child(2){ width: 20%}
-.wrap li span:nth-child(3),.wraptit span:nth-child(3){ width: 20%}
-.wrap li span:nth-child(4),.wraptit span:nth-child(4){ width: 30%}
+.wrap li span:nth-child(1),.wraptit span:nth-child(1){ width: 10%;text-align: center;}
+.wrap li span:nth-child(2),.wraptit span:nth-child(2){ width: 20%;text-align: center;}
+.wrap li span:nth-child(3),.wraptit span:nth-child(3){ width: 35%;text-align: center;}
+.wrap li span:nth-child(4),.wraptit span:nth-child(4){ width: 35%;text-align: center;}
 
 .str_wrap {
 	overflow:hidden;
