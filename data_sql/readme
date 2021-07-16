@@ -17,10 +17,16 @@ avg_volume_month（一个月内每天平均交易额）  avg_market_cap_month（
 
 （3）coin_price.sql           #货币价格排名（按今日开盘价降序排名）。包含100种货币当天开盘价、最高价、最低价、收盘价。
 属性解释：
-name（币种的名称）  date（时间/天）  open（当天开盘价格）  high（当天最高价格）  low（当天最低价格）  close（当天收盘价格）
+name（币种的名称）  symbol（币种简称）  date（时间/天）  open（当天开盘价格）  high（当天最高价格）
+low（当天最低价格）  close（当天收盘价格）   market_cap（当天市值）
 
 
 （4）coin_rise_fall.sql       #货币价格的涨跌幅排名（按当天涨跌幅从高到低排序）。包含100种货币当天，近七天，近一个月的涨跌幅，和今天、昨天、七天前、一个月前，四个时间点的收盘价。
 属性解释：
 name（币种的名称）  close_today（当天收盘价）  close_one_day_ago（昨天收盘价）  one_day_%（今日涨跌幅）
 close_one_week_ago（一周前收盘价）  one_week_%（一周内涨跌幅）  close_one_month_ago（一个月前收盘价）  one_month_%（一个月内涨跌幅）
+
+
+（5）marketcap_percentage.sql       #今日市值及其占比（按市值降序排名）。包含100种货币当天的市值和市值占比
+属性解释：
+name（币种的名称）  symbol（币种简称）  date（时间/天）  market_cap（当天市值）  percentage（当天市值占比）
