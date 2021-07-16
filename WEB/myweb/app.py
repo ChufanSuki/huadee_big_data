@@ -87,7 +87,7 @@ def register():
         return render_template('register.html')
     else:
         code = request.form.get('valid')
-        if session['code'] == code:
+        if str(session['code']).upper() == str(code).upper():
             username = request.form.get('username')
             pwd1 = request.form.get('pwd1')
             pwd2 = request.form.get('pwd2')
@@ -200,7 +200,7 @@ def forget():
         return render_template('forget.html')
     else:
         code = request.form.get('valid')
-        if session['code'] == code:
+        if str(session['code']).upper() == str(code).upper():
             username = request.form.get('username')
             pwd1 = request.form.get('pwd1')
             pwd2 = request.form.get('pwd2')
