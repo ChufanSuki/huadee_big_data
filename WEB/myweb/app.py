@@ -251,12 +251,26 @@ def test():
 @app.route('/admin',methods = ['GET','POST'])
 def admin():
     if request.method =="GET":
-        sql = "select * from coin limit 0,1000;"
+        sql = "select * from coin limit 0,200;"
         content = mysql.query(sql)
         sql = "SHOW FIELDS FROM coin"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
         return render_template('admin.html', content=lables,content2=content)
+    elif request.method =="POST":
+        res = {'data':''}
+        symbol = request.form.get('select')
+        sql = "select * from coin where symbol = \'" + symbol + "\';"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM coin"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        res['data'] = 'True'
+        print(content)
+        return render_template('admin.html', content=lables,content2=content)
+    else:
+        return render_template('admin.html')
+
 
 # 后台管理-用户
 @app.route('/adminUser',methods = ['GET','POST'])
