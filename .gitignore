@@ -71,3 +71,4 @@ fabric.properties
 
 /data_sql/
 /.vscode/
+!/data_sql/

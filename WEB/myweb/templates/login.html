@@ -1,72 +1,93 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-<title>登录</title>
-<link rel="stylesheet" type="text/css" href="static/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="static/css/scanboardLogin.css" />
-<link rel="stylesheet" type="text/css" href="static/css/animsition.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="static/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/scanboardLogin.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/animsition.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 </head>
 <body>
-	<div class="wp animsition">
-		<div class="boardLogin">
-			<a href="#" class="logo">
-				<img src="static/images/logowu.png">
-			</a>
-			<form method="POST">
-				<div class="inpGroup">
-					<span class="loginIco1"></span>
-					<input type="text" name="username" placeholder="请输入您的用户名">
-				</div>
-				<div class="prompt">
-					<p class="error">用户名错误或不存在</p>
-				</div>
-				
-				<div class="inpGroup">
-					<span class="loginIco2"></span>
-					<input type="password" name="pwd" placeholder="请输入您的密码">
-				</div>
-				<div class="prompt">
-					<p class="success">输入正确</p>
-				</div>
-				
-				<input type="submit" class="submit" name="登录" value="登录">
-				<div class="prompt2"></div>
-				<a href="{{url_for('register')}}" class="animsition-link submit">注册</a>
-				<div class="prompt2"></div>
-				<a href="{{url_for('forget')}}" class="animsition-link submit">重置密码</a>
-			</form>
-		</div>
-	</div>
-	<div id="particles-js"></div>
+<div class="wp animsition">
+    <div class="boardLogin">
+        <a href="#" class="logo">
+            <img src="static/images/logowu.png">
+        </a>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="inpGroup">
+                <span class="loginIco1"></span>
+                {{ form.username(size=80) }}
+            </div>
+            <div class="prompt">
+                <p class="error">用户名错误或不存在</p>
+            </div>
+
+            <div class="inpGroup">
+                <span class="loginIco2"></span>
+                {{ form.password(size=80) }}
+            </div>
+            <div class="prompt">
+                <p class="success">输入正确</p>
+            </div>
+
+            {% if form.errors %}
+                <ul class="errors">
+                    {% for error in form.username.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </ul>
+                <ul class="errors">
+                    {% for error in form.password.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <input type="submit" class="submit" name="登录" value="登录">
+            <div class="prompt2"></div>
+            <a href="{{ url_for('register')}}" class="animsition-link submit">注册</a>
+        </form>
+    </div>
+</div>
+<div id="particles-js"></div>
 </body>
 <script type="text/javascript" src="static/js/jquery.min.js"></script>
 <script type="text/javascript" src="static/js/jquery.animsition.js"></script>
 <script src="static/js/particles.min.js"></script>
 <script src="static/js/app.js"></script>
 <script type="text/javascript">
-	$(".animsition").animsition({
-	    inClass               :   'fade-in',
-	    outClass              :   'fade-out',
-	    inDuration            :    800,
-	    outDuration           :    1000,
-	    linkElement           :   '.animsition-link',
+    $(".animsition").animsition({
+        inClass: 'fade-in',
+        outClass: 'fade-out',
+        inDuration: 800,
+        outDuration: 1000,
+        linkElement: '.animsition-link',
 
-	    loading               :    false,
-	    loadingParentElement  :   'body',
-	    loadingClass          :   'animsition-loading',
-	    unSupportCss          : [ 'animation-duration',
-	                              '-webkit-animation-duration',
-	                              '-o-animation-duration'
-	                            ],
-	
+        loading: false,
+        loadingParentElement: 'body',
+        loadingClass: 'animsition-loading',
+        unSupportCss: ['animation-duration',
+            '-webkit-animation-duration',
+            '-o-animation-duration'
+        ],
 
-	    overlay               :   false,
-	    
-	    overlayClass          :   'animsition-overlay-slide',
-	    overlayParentElement  :   'body'
-  	});
+
+        overlay: false,
+
+        overlayClass: 'animsition-overlay-slide',
+        overlayParentElement: 'body'
+    });
 </script>
 </html>

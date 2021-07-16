@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Regexp, ValidationError, EqualTo, Email
+from wtforms import StringField, PasswordField, SelectField
+from wtforms.validators import DataRequired, Regexp, ValidationError, EqualTo, Email, InputRequired, Optional
 
 
 # from .app import User
@@ -33,6 +33,7 @@ class LoginForm(FlaskForm):
                                                      Length(6, 14)],
                              default="")
 
+
 # class RegistrationForm(FlaskForm):
 #     email = StringField('Email', validators=[DataRequired(), Length(1, 60), Email()])
 #     username = StringField('Username', validators=[DataRequired(), Length(1, 60),
@@ -49,3 +50,11 @@ class LoginForm(FlaskForm):
 #     def validate_username(self, field):
 #         if User.objects.filter(username=field.data).count() > 0:
 #             raise ValidationError('Username has exist')
+
+
+class AdminCoinSelectForm(FlaskForm):
+    selectCoin = SelectField('selectCoin', validators=[Optional()],
+                             # choices=[("BTC", "BTC"), ("ETH", "ETH"), ("USDT", "USDT")],
+                             # )
+                             choices=[(0, "BTC"), (1, "ETH"), (2, "USDT")],
+                             coerce=int)
