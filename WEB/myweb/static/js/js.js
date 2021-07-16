@@ -1,5 +1,5 @@
 ﻿ $(window).load(function(){  
-     var html = ''
+    var html = ''
     $.post("/rank",function(data){
         for(line in data){
             // html += data[line];
@@ -12,9 +12,8 @@
             runshort: false,/*内容不足时不滚动*/
             scrollamount: 20/*速度*/
         });
-    })
-
-             $(".loading").fadeOut()
+    });
+    $(".loading").fadeOut()
             })  
 $(function () {
     // echarts_1();
@@ -22,7 +21,6 @@ $(function () {
 	// echarts_3();
 	// echarts_4();
 	// echarts_5();
-
 	zb1();
 	zb2();
 	zb3();
