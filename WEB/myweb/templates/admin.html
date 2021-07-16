@@ -34,7 +34,8 @@
             data:sendData,
             // headers: {"X-CSRFToken":$.cookie("csrftoken")},
             success: function(data){
-              if(data.data == "True"){
+              if(data){
+                console.log(data)
                 alert("success")
               } else{
                 // alert("error")

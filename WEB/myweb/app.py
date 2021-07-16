@@ -236,7 +236,7 @@ def forget():
         else:
             return render_template('forget.html')
 
-# 后台管理-数字货币数据
+# 后台管理-测试
 @app.route('/test')
 def test():
     sql = "select * from coin limit 1,100"
@@ -256,8 +256,10 @@ def admin():
         sql = "SHOW FIELDS FROM coin"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
+        print("test111111111")
         return render_template('admin.html', content=lables,content2=content)
     elif request.method =="POST":
+        print("test33333333333333")
         res = {'data':''}
         symbol = request.form.get('select')
         sql = "select * from coin where symbol = \'" + symbol + "\';"
@@ -269,20 +271,49 @@ def admin():
         print(content)
         return render_template('admin.html', content=lables,content2=content)
     else:
+        print("test2222222")
         return render_template('admin.html')
+
+# 后台管理-数字货币数据
+@app.route('/select',methods = ['GET','POST'])
+def select():
+        print("test33333333333333")
+        res = {'data':''}
+        symbol = request.args.get('select')
+        sql = "select * from coin where symbol = \'" + symbol + "\';"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM coin"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        res['data'] = 'True'
+        print(content)
+        return render_template('admin.html', content=lables,content2=content)
 
 
 # 后台管理-用户
 @app.route('/adminUser',methods = ['GET','POST'])
 def adminUser():
     if request.method =="GET":
-        return render_template('admin_user.html')
+        sql = "select * from user;"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM user"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        print("test111111111")
+        return render_template('admin_user.html', content=lables,content2=content)
 
 # 后台管理-管理员
 @app.route('/adminAdmin',methods = ['GET','POST'])
 def adminAdmin():
     if request.method =="GET":
-        return render_template('admin_admin.html')
+        sql = "select * from admin;"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM admin"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        print("test111111111")
+        return render_template('admin_admin.html', content=lables,content2=content)
+
 
 # 关于画k线图的函数
 @app.route('/k_line_echart', methods=['POST','GET'])
