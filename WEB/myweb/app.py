@@ -40,6 +40,17 @@ def load_user(username):
         curr_user.id = username
         return curr_user
         
+# 加密函数
+def encryption(pwd):
+    # 加密
+    hs = hashlib.sha1()
+    data = str(pwd)
+    hs.update(data.encode())
+    # 加盐
+    hs.update("13sda23".encode())
+    hsvar = hs.hexdigest()
+    return hsvar
+
 # 登录功能
 @app.route('/login1',methods=['GET', 'POST'])
 def login():
@@ -48,12 +59,7 @@ def login():
     username = request.form.get('username')
     pwd = request.form.get('pwd')
     # 加密
-    hs = hashlib.sha1()
-    data = str(pwd)
-    hs.update(data.encode())
-    # 加盐
-    hs.update("13sda23".encode())
-    hsvar = hs.hexdigest()
+    hsvar = encryption(pwd)
     sql = "select name from user where name=\'"+username+"\' and pwd=\'"+hsvar+"\';"
     user1 = mysql.query(sql)
     if len(user1) != 0:
@@ -106,12 +112,7 @@ def register():
                 return render_template('register.html')
             else:
                 # 加密
-                hs = hashlib.sha1()
-                data = str(pwd1)
-                hs.update(data.encode())
-                # 加盐
-                hs.update("13sda23".encode())
-                hsvar = hs.hexdigest()
+                hsvar = encryption(pwd1)
                 sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\');"
                 flag = mysql.insert(sql)
                 return redirect(url_for('login'))
@@ -219,19 +220,19 @@ def forget():
                 return render_template('forget.html')
             else:
                 # 加密
-                hs = hashlib.sha1()
-                data = str(pwd1)
-                hs.update(data.encode())
-                # 加盐
-                hs.update("13sda23".encode())
-                hsvar = hs.hexdigest()
-                print(username)
+                hsvar = encryption(pwd1)
                 sql = "update user set pwd=\'" + hsvar+ "\' where name = \'" + username +"\';"
                 flag = mysql.update(sql)
                 return redirect(url_for('login'))
         else:
             return render_template('forget.html')
 
+
+# 忘记密码
+@app.route('/admin',methods = ['GET','POST'])
+def admin():
+    if request.method =="GET":
+        return render_template('admin.html')
 
 # 关于画k线图的函数
 @app.route('/k_line_echart', methods=['POST','GET'])
