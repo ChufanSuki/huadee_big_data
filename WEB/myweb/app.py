@@ -23,7 +23,7 @@ login_manager = LoginManager(app)
 mail = Mail(app)
 
 # 指定登录的URL
-login_manager.login_view = 'login1'
+login_manager.login_view = 'login'
 
 mainstream_currency = ['BTC', 'ETH', 'USDT', 'XRP', 'BCH', 'LTC', 'BNB', 'LINK', 'DOT', 'ADA']
 
@@ -90,12 +90,13 @@ def login():
 
 
 # 大数据面板
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/data', methods=['GET', 'POST'])
 @login_required
 def index():
     if request.method == 'POST':
-        return redirect(url_for('/index'))
-    return render_template("data.html")
+        return redirect(url_for('/data'))
+    # index为添加导航后界面
+    return render_template('index.html')
 
 
 # 登出
