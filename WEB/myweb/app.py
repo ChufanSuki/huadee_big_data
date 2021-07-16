@@ -432,5 +432,36 @@ def rank_right():
         except:
             print("右侧排行榜sql出错!!")
             return render_template('data.html')
+#跌涨幅
+@app.route('/chart1_json',methods=['POST','GET'])
+def getChart1():
+    if request.method == 'GET':
+        return render_template('data.html')
+    if request.method == 'POST':
+        # item_name = []
+        # item_data = []
+        try:
+            con = mysql.conn()
+            cur = con.cursor()
+            sql = """
+            select * from coin_rise_fall
+            """
+            cur.execute(sql)
+            data = cur.fetchall()
+            datalists = []
+            item_name = []
+            item_data = []
+            for item in data:
+                item_name.append(item[0])
+                item_data.append(item[3])
+            datalists.append(item_name)
+            datalists.append(item_data)
+            keys =['1','2']
+            json_data = dict(zip(keys,datalists))
+            print(type(json_data))
+            return json_data
+        except:
+            print("出错啦")
+            return render_template('data.html')
 if __name__ == '__main__':
     app.run(debug="True")
