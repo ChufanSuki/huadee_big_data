@@ -8,6 +8,7 @@ import mysql
 import pymysql
 import random
 from flask_mail import Mail,Message
+import hashlib
 
 app = Flask(__name__)
 app.secret_key = '1xasada'
@@ -46,7 +47,14 @@ def login():
         return render_template('login.html')
     username = request.form.get('username')
     pwd = request.form.get('pwd')
-    sql = "select name from user where name=\'"+username+"\' and pwd=\'"+pwd+"\';"
+    # 加密
+    hs = hashlib.sha1()
+    data = str(pwd)
+    hs.update(data.encode())
+    # 加盐
+    hs.update("13sda23".encode())
+    hsvar = hs.hexdigest()
+    sql = "select name from user where name=\'"+username+"\' and pwd=\'"+hsvar+"\';"
     user1 = mysql.query(sql)
     if len(user1) != 0:
         username = user1[-1][-1]
@@ -97,7 +105,14 @@ def register():
                 print("mima")
                 return render_template('register.html')
             else:
-                sql = "insert into user value(\'" + username +"\',\'" + pwd1 + "\',\'" + email + "\');"
+                # 加密
+                hs = hashlib.sha1()
+                data = str(pwd1)
+                hs.update(data.encode())
+                # 加盐
+                hs.update("13sda23".encode())
+                hsvar = hs.hexdigest()
+                sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\');"
                 flag = mysql.insert(sql)
                 return redirect(url_for('login'))
         else:
@@ -143,6 +158,41 @@ def send_email():
         res['data'] = "error"
         return jsonify(res)
 
+# 重置密码发送邮件
+@app.route('/send_email_forget',methods = ['GET','POST'])
+def send_email_forget():
+    res = {'data':'','email':''}
+    if request.method == 'POST':
+        return render_template('forget.html')
+    elif request.method == 'GET':
+        username = request.args.get('username')
+        email_code = random_str()
+        sql = "select email from user where name=\'"+username+"\';"
+        user1 = mysql.query(sql)
+        email = user1[-1][-1]
+        msg = ""
+        msg = Message('数字货币大数据分析平台重置密码',recipients=[email],body="您的验证码是:%s" %email_code)
+        mail.send(msg) # 发送
+        res['data'] = 'success'
+        # temp_email = email.split('@')
+        # temp_email[0]
+        res['email'] = str(email)
+        session['code'] = email_code
+        return jsonify(res)
+    else:
+        res['data'] = "error"
+        return jsonify(res)
+    
+# 验证码检验
+@app.route('/checkCode',methods = ['GET','POST'])
+def checkCode():
+    res = {'data':''}
+    if request.method == 'GET':
+        return render_template('register.html')
+    email = request.form.get('email')
+    res['data'] = session['code']
+    return jsonify(res)
+
 # 忘记密码
 @app.route('/forget',methods = ['GET','POST'])
 def forget():
@@ -159,22 +209,28 @@ def forget():
             user1 = mysql.query(sql)
             if username == "":
                 flash("用户名不能为空！")
-                return render_template('register.html')
-            elif len(user1) != 0:
-                flash("用户名已存在！")
-                return render_template('register.html')
+                return render_template('forget.html')
+            elif len(user1) == 0:
+                flash("用户名不存在！")
+                return render_template('forget.html')
             elif pwd1 != pwd2:
                 flash('两次密码不一致！')
                 print("mima")
-                return render_template('register.html')
+                return render_template('forget.html')
             else:
-                sql = "insert into user value(\'" + username +"\',\'" + pwd1 + "\',\'" + email + "\');"
-                flag = mysql.insert(sql)
+                # 加密
+                hs = hashlib.sha1()
+                data = str(pwd1)
+                hs.update(data.encode())
+                # 加盐
+                hs.update("13sda23".encode())
+                hsvar = hs.hexdigest()
+                print(username)
+                sql = "update user set pwd=\'" + hsvar+ "\' where name = \'" + username +"\';"
+                flag = mysql.update(sql)
                 return redirect(url_for('login'))
         else:
-            return render_template('register.html')
-<<<<<<< HEAD
-=======
+            return render_template('forget.html')
 # 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
 @app.route('/echart1', methods=['POST','GET'])        
 def select_symbol():
@@ -203,7 +259,6 @@ def select_symbol():
         # print(json_data)
         print("haha")
         return json_data
->>>>>>> 915b33932a086fe75198e449f67b854afbaaf25b
 
 @app.route('/rank', methods=['POST','GET'])
 def rank():
