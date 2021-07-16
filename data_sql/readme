@@ -17,7 +17,7 @@ avg_volume_month（一个月内每天平均交易额）  avg_market_cap_month（
 
 （3）coin_price.sql           #货币价格排名（按今日开盘价降序排名）。包含100种货币当天开盘价、最高价、最低价、收盘价。
 属性解释：
-name（币种的名称）  date（时间/天）  open（当天开盘价格）  high（当天最高价格）
+name（币种的名称）  symbol（币种简称）  date（时间/天）  open（当天开盘价格）  high（当天最高价格）
 low（当天最低价格）  close（当天收盘价格）   market_cap（当天市值）
 
 
