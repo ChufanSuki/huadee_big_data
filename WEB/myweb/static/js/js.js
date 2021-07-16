@@ -12,7 +12,7 @@
             runshort: false,/*内容不足时不滚动*/
             scrollamount: 20/*速度*/
         });
-    })
+    });
     $(".loading").fadeOut()
             })  
 $(function () {
