@@ -1,3 +1,4 @@
+# encoding: utf-8
 from os import name
 from flask import Flask, render_template, redirect, request, url_for, flash, jsonify, session
 from flask.helpers import flash
@@ -65,7 +66,6 @@ def encryption(pwd):
 
 
 # 登录功能
-# 登录功能
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -87,6 +87,12 @@ def login():
                 return render_template('login.html', form=form)
         else:
             return render_template('login.html', form=form)
+
+
+# / 重定向到登录
+@app.route('/', methods=['GET'])
+def empty_redirect():
+    return redirect(url_for('login'))
 
 
 # 大数据面板
@@ -281,14 +287,7 @@ def admin():
     elif request.method == "POST":
         if form.validate_on_submit():
             res = {'data': ''}
-            # symbol = request.form.get('select')
-            symbol = ""
-            if (form.selectCoin.data == 0):
-                symbol = "BTC"
-            elif (form.selectCoin.data == 1):
-                symbol = "ETH"
-            elif (form.selectCoin.data == 2):
-                symbol = "USDT"
+            symbol = form.selectCoin.data
             sql = "select * from coin where symbol = \'" + symbol + "\';"
             content = mysql_connector.query(sql)
             sql = "SHOW FIELDS FROM coin"
