@@ -144,6 +144,7 @@ to {}
 /* 修改select样式 */
 select{border: none;outline: none;}
 select{
+	background-color: #010b46;
 	color: rgba(255,255,255,.6);
 }
 select::-ms-expand { display: none; }

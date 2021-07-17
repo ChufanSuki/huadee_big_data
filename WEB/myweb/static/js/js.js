@@ -15,7 +15,7 @@
     });
     $.post("/chart1_json",function(data){
         var myChart = echarts.init(document.getElementById('chart1'));
-        alert(data['1']);
+        // alert(data['1']);
         myChart.setOption({
             tooltip: {
                 trigger: 'axis',
