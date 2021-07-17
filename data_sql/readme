@@ -23,7 +23,7 @@ low（当天最低价格）  close（当天收盘价格）   market_cap（当天
 
 （4）coin_rise_fall.sql       #货币价格的涨跌幅排名（按当天涨跌幅从高到低排序）。包含100种货币当天，近七天，近一个月的涨跌幅，和今天、昨天、七天前、一个月前，四个时间点的收盘价。
 属性解释：
-name（币种的名称）  close_today（当天收盘价）  close_one_day_ago（昨天收盘价）  one_day_%（今日涨跌幅）
+name（币种的名称）  symbol（币种简称）  close_today（当天收盘价）  close_one_day_ago（昨天收盘价）  one_day_%（今日涨跌幅）
 close_one_week_ago（一周前收盘价）  one_week_%（一周内涨跌幅）  close_one_month_ago（一个月前收盘价）  one_month_%（一个月内涨跌幅）
 
 

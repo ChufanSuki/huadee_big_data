@@ -2,6 +2,7 @@
 #导入mysql驱动
 import pymysql
  
+
 def conn():
     con = pymysql.connect(
         host="localhost",
