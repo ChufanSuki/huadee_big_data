@@ -15,7 +15,7 @@
     });
     $.post("/chart1_json",function(data){
         var myChart = echarts.init(document.getElementById('chart1'));
-        alert(data['1']);
+        // alert(data['1']);
         myChart.setOption({
             tooltip: {
                 trigger: 'axis',
@@ -49,7 +49,7 @@
                 },
             },
             series:[{
-                name:'跌涨幅',
+                name:'涨跌幅',
                 type:'bar',
                 label:{
                     show:true,

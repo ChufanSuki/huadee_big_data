@@ -6,7 +6,7 @@ from flask.helpers import flash
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user
 import config
 from urllib.parse import urlparse, urljoin
-import mysql
+import mysql_connector
 import pymysql
 import random
 from flask_mail import Mail,Message
@@ -92,7 +92,7 @@ def login():
     # 加密
     hsvar = encryption(pwd)
     sql = "select name from user where name=\'"+username+"\' and pwd=\'"+hsvar+"\';"
-    user1 = mysql.query(sql)
+    user1 = mysql_connector.query(sql)
     if len(user1) != 0:
         username = user1[-1][-1]
         curr_user = User()
@@ -130,7 +130,7 @@ def register():
             pwd2 = request.form.get('pwd2')
             email = request.form.get('email')
             sql = "select name from user where name=\'"+username+"\';"
-            user1 = mysql.query(sql)
+            user1 = mysql_connector.query(sql)
             if username == "":
                 flash("用户名不能为空！")
                 return render_template('register.html')
@@ -159,7 +159,7 @@ def validateUniqueName():
         return render_template('register.html')
     username = request.form.get('username')
     sql = "select name from user where name=\'"+username+"\';"
-    user1 = mysql.query(sql)
+    user1 = mysql_connector.query(sql)
     flag = "True"
     if len(user1) != 0:
         flag = "False"
@@ -201,7 +201,7 @@ def send_email_forget():
         username = request.args.get('username')
         email_code = random_str()
         sql = "select email from user where name=\'"+username+"\';"
-        user1 = mysql.query(sql)
+        user1 = mysql_connector.query(sql)
         email = user1[-1][-1]
         msg = ""
         msg = Message('数字货币大数据分析平台重置密码',recipients=[email],body="您的验证码是:%s" %email_code)
@@ -239,7 +239,7 @@ def forget():
             pwd2 = request.form.get('pwd2')
             email = request.form.get('email')
             sql = "select name from user where name=\'"+username+"\';"
-            user1 = mysql.query(sql)
+            user1 = mysql_connector.query(sql)
             if username == "":
                 flash("用户名不能为空！")
                 return render_template('forget.html')
@@ -254,7 +254,7 @@ def forget():
                 # 加密
                 hsvar = encryption(pwd1)
                 sql = "update user set pwd=\'" + hsvar+ "\' where name = \'" + username +"\';"
-                flag = mysql.update(sql)
+                flag = mysql_connector.update(sql)
                 return redirect(url_for('login'))
         else:
             return render_template('forget.html')
@@ -267,18 +267,18 @@ def admin():
     print([session['_user_id']])
     if request.method =="GET":
         sql = "select * from coin limit 0,200;"
-        content = mysql.query(sql)
+        content = mysql_connector.query(sql)
         sql = "SHOW FIELDS FROM coin"
-        lables = mysql.query(sql)
+        lables = mysql_connector.query(sql)
         lables = [l[0] for l in lables]
         return render_template('admin.html', content=lables,content2=content)
     elif request.method =="POST":
         res = {'data':''}
         symbol = request.form.get('select')
         sql = "select * from coin where symbol = \'" + symbol + "\';"
-        content = mysql.query(sql)
+        content = mysql_connector.query(sql)
         sql = "SHOW FIELDS FROM coin"
-        lables = mysql.query(sql)
+        lables = mysql_connector.query(sql)
         lables = [l[0] for l in lables]
         res['data'] = 'True'
         # print(content)
@@ -294,9 +294,9 @@ def admin():
 def adminUser():
     if request.method =="GET":
         sql = "select * from user;"
-        content = mysql.query(sql)
+        content = mysql_connector.query(sql)
         sql = "SHOW FIELDS FROM user"
-        lables = mysql.query(sql)
+        lables = mysql_connector.query(sql)
         lables = [l[0] for l in lables]
         return render_template('admin_user.html', content=lables,content2=content)
 
@@ -307,9 +307,9 @@ def adminUser():
 def adminAdmin():
     if request.method =="GET":
         sql = "select * from admin;"
-        content = mysql.query(sql)
+        content = mysql_connector.query(sql)
         sql = "SHOW FIELDS FROM admin"
-        lables = mysql.query(sql)
+        lables = mysql_connector.query(sql)
         lables = [l[0] for l in lables]
         return render_template('admin_admin.html', content=lables,content2=content)
 
@@ -501,7 +501,7 @@ def rank_right():
         except:
             print("右侧排行榜sql出错!!")
             return render_template('data.html')
-#跌涨幅
+#涨跌幅
 @app.route('/chart1_json',methods=['POST','GET'])
 def getChart1():
     if request.method == 'GET':
@@ -510,7 +510,7 @@ def getChart1():
         # item_name = []
         # item_data = []
         try:
-            con = mysql.conn()
+            con = mysql_connector.conn()
             cur = con.cursor()
             sql = """
             select * from coin_rise_fall
@@ -527,7 +527,7 @@ def getChart1():
             datalists.append(item_data)
             keys =['1','2']
             json_data = dict(zip(keys,datalists))
-            print(type(json_data))
+            # print(type(json_data))
             return json_data
         except:
             print("出错啦")
