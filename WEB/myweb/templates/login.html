@@ -33,9 +33,11 @@
             <div class="prompt">
                 <p class="success">输入正确</p>
             </div>
+            <ul class="errors">
 
-            {% if form.errors %}
-                <ul class="errors">
+                {#   表单提供错误     #}
+                {% if form.errors %}
+
                     {% for error in form.username.errors %}
                         <div class="alert alert-danger" role="alert">
                             {#        提示信息             #}
@@ -44,8 +46,6 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </ul>
-                <ul class="errors">
                     {% for error in form.password.errors %}
                         <div class="alert alert-danger" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -53,9 +53,18 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </ul>
-            {% endif %}
+                {% endif %}
 
+                {#       用户密码匹配错误提示         #}
+                {% if errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            {{ errors }}
+                        </div>
+                {% endif %}
+
+            </ul>
             <input type="submit" class="submit" name="登录" value="登录">
             <div class="prompt2"></div>
             <a href="{{ url_for('register')}}" class="animsition-link submit">注册</a>

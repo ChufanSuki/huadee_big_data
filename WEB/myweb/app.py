@@ -120,7 +120,8 @@ def encryption(pwd):
 # 登录功能
 @app.route('/login1', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    form = LoginForm(request.form)
+    error = None
     if request.method == 'GET':
         return render_template('login.html', form=form)
     elif request.method == 'POST':
@@ -138,7 +139,8 @@ def login():
                 login_user(curr_user)
                 return redirect(url_for('index'))
             else:
-                return render_template('login.html', form=form)
+                errors = "用户名密码错误"
+                return render_template('login.html', errors=errors, form=form, )
         else:
             return render_template('login.html', form=form)
 
