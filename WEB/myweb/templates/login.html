@@ -15,6 +15,11 @@
 			<a href="#" class="logo">
 				<img src="static/images/logowu.png">
 			</a>
+			<font color="red">
+				{% for message in get_flashed_messages() %}
+				{{ message}}
+				{% endfor %}
+			</font>
 			<form method="POST">
 				<div class="inpGroup">
 					<span class="loginIco1"></span>

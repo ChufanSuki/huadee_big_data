@@ -30,7 +30,7 @@ login_manager = LoginManager(app)
 mail = Mail(app)
 
 # 指定登录的URL
-login_manager.login_view = 'login1'
+login_manager.login_view = '/login1'
 
 mainstream_currency = ['BTC', 'ETH', 'USDT', 'XRP', 'BCH', 'LTC', 'BNB', 'LINK', 'DOT', 'ADA']
 
@@ -137,6 +137,7 @@ def login():
         login_user(curr_user)
         return redirect(url_for('index'))
     else:
+        flash("账号或密码错误！")
         return render_template('login.html')
 
 
