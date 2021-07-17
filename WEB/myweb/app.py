@@ -40,6 +40,18 @@ def float_to_str(price):
     else:
         return str(price)
 
+def float_formatter(f):
+    if(f>10000):
+        return format(f,'.0f')
+    elif(f>1000):
+        return format(f,'.1f')
+    elif(f>100):
+        return format(f,'.2f')
+    elif(f>10):
+        return format(f,".3f")
+    else:
+        return format(f,'.4f')
+
 class User(UserMixin):
     pass
 
@@ -48,6 +60,16 @@ def getDateTime():
     now=datetime.datetime.now()
     now_funmat=now.strftime("%Y-%m-%d %H:%M:%S")
     return now_funmat
+
+# 绑定默认错误页面
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
+
+# 绑定默认错误页面
+@app.errorhandler(500)
+def page_server_error(e):
+    return render_template('login.html'),500
 
 # 构造一个用户类对象,并使用用户名作为ID
 # 回调函数
@@ -319,6 +341,9 @@ def adminAdmin():
 @login_required
 def error_page():
     if request.method =="GET":
+        print("#########################")
+        print(session['_user_id'])
+        print("#########################")
         return redirect(url_for('index'))
 
 
@@ -329,7 +354,7 @@ def k_line_echart():
         return render_template('data.html')
     if request.method =="POST":
         symbol = str(request.form.get("symbol_opt"))
-        # 便于一开始的页面展示
+        # 默认值设置为BTC，便于一开始的页面展示
         if(symbol == 'None'):
             symbol = 'BTC'
         print(symbol)
@@ -339,7 +364,7 @@ def k_line_echart():
         # sql语句
         sql = "SELECT Symbol,date,open,close,high,low from coin where symbol = '%s'" % symbol
         # 上方两个圆形的数据sql
-        sql2 = "SELECT * from coin_rise_fall where name='EOS'" 
+        sql2 = "SELECT * from coin_rise_fall where symbol='%s'" % symbol 
         cur.execute(sql2)
         print(sql2)
         try:
@@ -365,8 +390,10 @@ def k_line_echart():
             all_data2 = cur.fetchall()
             data_list2 =[]
             for data2 in all_data2:
-                close_taday = data2[0]
-                rise_down = data2[1]
+                close_taday = float_formatter(data2[2])
+                rise_down = data2[4]
+                # sym = data[1]
+                # print(sym)
                 data_list2.append([close_taday,rise_down])
             keys2 = ['0']
             json_data2 = dict(zip(keys2,data_list2))
@@ -409,7 +436,7 @@ def select_symbol():
         # print(json_data)
         print("haha")
         return json_data
-
+# 左侧动态栏
 @app.route('/rank_left', methods=['POST','GET'])
 def rank_left():
     if request.method == "GET":
@@ -441,7 +468,7 @@ def rank_left():
         except:
             print("左侧排行榜sql执行出错!!")
             return render_template('data.html')
-
+# 左下角玫瑰图
 @app.route('/rose_echart', methods=['POST','GET'])
 def rose_echart():
         if request.method =="GET":

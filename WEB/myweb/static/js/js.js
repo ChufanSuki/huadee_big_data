@@ -415,8 +415,130 @@
 
     });
     
+
+    // 右上方三个圆圈的两个圆圈
     $.post('/k_line_echart',function(data){
-        var myChart1 = echarts.init(document.getElementById('zb1'));
+
+        // var myChart1 = echarts.init(document.getElementById('zb1'));
+        function zb2(data) {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart1 = echarts.init(document.getElementById('zb1'));
+            var myChart2 = echarts.init(document.getElementById('zb2'));
+            datafortwo = []
+            for(val in data){
+                // alert(data[val]);
+                datafortwo.push(data[val]);
+            }
+            var down_or_rise =datafortwo[1];
+            var color_for_second = '#FF0000'
+            if(down_or_rise>0){
+                down_or_rise = '+'+down_or_rise;
+            }
+            else{
+                down_or_rise = ''+down_or_rise;
+                color_for_second = '#00FF00'
+            } 
+            option1 = {
+                series: [{	
+                    type: 'pie',
+                    radius: ['60%', '70%'],
+                    color:'#2ECCFA',
+                label: {
+                    normal: {
+                        position: 'center'
+                    }
+                },
+                data: [{
+                    value:1,
+                    name: '',
+                    label: {
+                        normal: {
+                            formatter: datafortwo[0]+'',
+                            textStyle: {
+                                fontSize: 20,
+                                color:'#fff',
+                            }
+                        }
+                    }
+                }, {
+                    value: 0,
+                    name: '',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: '#aaa',
+                                fontSize: 12
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(255,255,255,.2)'
+                        },
+                        emphasis: {
+                            color: '#fff'
+                        }
+                    },
+                }]
+            }]
+        };
+            // alert(data1[0]);
+          option2 = {
+            series: [{	
+                type: 'pie',
+                radius: ['60%', '70%'],
+                color:color_for_second,
+            label: {
+                normal: {
+                    position: 'center'
+                }
+            },
+            data: [{
+                value:1,
+                name: '',
+                label: {
+                    normal: {
+                        formatter: down_or_rise+'%',
+                        textStyle: {
+                            fontSize: 20,
+                            color:'#fff',
+                        }
+                    }
+                }
+            }, {
+                value: 0,
+                name: '',
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: '#aaa',
+                            fontSize: 12
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgba(255,255,255,.2)'
+                    },
+                    emphasis: {
+                        color: '#fff'
+                    }
+                },
+            }]
+        }]
+    };        
+        myChart1.setOption(option1)
+        myChart2.setOption(option2);
+        window.addEventListener("resize",function(){
+            myChart1.resize();    
+            myChart2.resize();
+            });
+        }
+
+        for( val in data['2']){
+            // alert(data['2'][val]);
+            zb2(data['2'][val]);
+        };
         
 
         
@@ -433,8 +555,8 @@ $(function () {
 	// echarts_3();
 	// echarts_4();
 	// echarts_5();
-	zb1();
-	zb2();
+	// zb1();
+	// zb2();
 	zb3();
     function echarts_1() {
         // 基于准备好的dom，初始化echarts实例
@@ -1012,7 +1134,7 @@ option = {
             value: 'BTC',
             label: {
                 normal: {
-                    formatter: "BTC" +'',
+                    formatter: "BTC",
                     textStyle: {
                         fontSize: 20,
 						color:'#fff',
@@ -1023,23 +1145,23 @@ option = {
             value: v1,
 
             label: {
-            //     normal: {
-            //      formatter : function (params){
-            //     return '占比'+Math.round( v2/v3*100)+ '%'
-            // },
-            //         textStyle: {
-            //             color: '#aaa',
-            //             fontSize: 12
-            //         }
-            //     }
+                normal: {
+                 formatter : function (params){
+                return '占比'+Math.round( v2/v3*100)+ '%'
+            },
+                    textStyle: {
+                        color: '#aaa',
+                        fontSize: 12
+                    }
+                }
             },
             itemStyle: {
-                // normal: {
-                //     color: 'rgba(255,255,255,.2)'
-                // },
-                // emphasis: {
-                //     color: '#fff'
-                // }
+                normal: {
+                    color: 'rgba(255,255,255,.2)'
+                },
+                emphasis: {
+                    color: '#fff'
+                }
             },
         }]
     }]
@@ -1049,15 +1171,12 @@ option = {
             myChart.resize();
         });
     }
-function zb2() {
+function zb2(data) {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('zb2'));
- var v1=298//男消费
-		var v2=523//女消费
-		var v3=v1+v2//总消费 
+        
+        alert(data[0]);
       option = {
-	
-//animation: false,
     series: [{	
         type: 'pie',
        radius: ['60%', '70%'],
@@ -1068,11 +1187,11 @@ function zb2() {
             }
         },
         data: [{
-            value: v1,
-            name: '男消费',
+            value:10,
+            name: '',
             label: {
                 normal: {
-                    formatter: v1 +'',
+                    formatter: data[0],
                     textStyle: {
                         fontSize: 20,
 						color:'#fff',
@@ -1080,13 +1199,11 @@ function zb2() {
                 }
             }
         }, {
-            value: v2,
-            name: '女消费',
+
+            value: 0,
+            name: '',
             label: {
                 normal: {
-                 formatter : function (params){
-                return '占比'+Math.round( v1/v3*100)+ '%'
-            },
                     textStyle: {
                         color: '#aaa',
                         fontSize: 12
@@ -1112,9 +1229,9 @@ function zb2() {
 function zb3() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('zb3'));
-		var v1=298//男消费
-		var v2=523//女消费
-		var v3=v1+v2//总消费 
+		// var v1=298//男消费
+		// var v2=523//女消费
+		// var v3=v1+v2//总消费 
 option = {	
     series: [{
 		
@@ -1127,11 +1244,11 @@ option = {
             }
         },
         data: [{
-            value: v2,
-            name: '女消费',
+            value: 1,
+            name: '',
             label: {
                 normal: {
-                    formatter: v2 +'',
+                    formatter: 100 +'',
                     textStyle: {
                         fontSize: 20,
 						color:'#fff',
@@ -1139,13 +1256,13 @@ option = {
                 }
             }
         }, {
-            value: v1,
-            name: '男消费',
+            value: 0,
+            name: '',
             label: {
                 normal: {
-                 formatter : function (params){
-                return '占比'+Math.round( v2/v3*100)+ '%'
-            },
+            //      formatter : function (params){
+            //     return '占比'+Math.round( v2/v3*100)+ '%'
+            // },
                     textStyle: {
                         color: '#aaa',
                         fontSize: 12
