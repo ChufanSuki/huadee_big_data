@@ -49,7 +49,7 @@
                 },
             },
             series:[{
-                name:'跌涨幅',
+                name:'涨跌幅',
                 type:'bar',
                 label:{
                     show:true,

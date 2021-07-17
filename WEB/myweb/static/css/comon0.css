@@ -141,5 +141,10 @@ a:hover{ color:#06c; text-decoration: none!important}
 from {width: 0}
 to {}
 }
-
+/* 修改select样式 */
+select{border: none;outline: none;}
+select{
+	color: rgba(255,255,255,.6);
+}
+select::-ms-expand { display: none; }
 

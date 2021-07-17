@@ -4,7 +4,7 @@ from flask.helpers import flash
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user
 import config
 from urllib.parse import urlparse, urljoin
-import mysql
+import mysql_connector
 import pymysql
 import random
 from flask_mail import Mail,Message
@@ -528,7 +528,7 @@ def rank_right():
         except:
             print("右侧排行榜sql出错!!")
             return render_template('data.html')
-#跌涨幅
+#涨跌幅
 @app.route('/chart1_json',methods=['POST','GET'])
 def getChart1():
     if request.method == 'GET':
@@ -537,7 +537,7 @@ def getChart1():
         # item_name = []
         # item_data = []
         try:
-            con = mysql.conn()
+            con = mysql_connector.conn()
             cur = con.cursor()
             sql = """
             select * from coin_rise_fall
@@ -554,7 +554,7 @@ def getChart1():
             datalists.append(item_data)
             keys =['1','2']
             json_data = dict(zip(keys,datalists))
-            print(type(json_data))
+            # print(type(json_data))
             return json_data
         except:
             print("出错啦")
