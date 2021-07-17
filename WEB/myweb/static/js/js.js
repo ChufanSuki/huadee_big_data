@@ -174,14 +174,14 @@
             dataZoom: [
                 {
                     type: 'inside',
-                    start: 50,
+                    start: 95,
                     end: 100
                 },
                 {
                     show: true,
                     type: 'slider',
                     top: '90%',
-                    start: 50,
+                    start: 95,
                     end: 100
                 }
             ],
