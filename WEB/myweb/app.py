@@ -49,6 +49,11 @@ def getDateTime():
     now_funmat=now.strftime("%Y-%m-%d %H:%M:%S")
     return now_funmat
 
+# 绑定默认错误页面
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
+
 # 构造一个用户类对象,并使用用户名作为ID
 # 回调函数
 @login_manager.user_loader
