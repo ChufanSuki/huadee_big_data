@@ -16,7 +16,7 @@
 <body>
     <div style="background-color: #010b46;background-image: radial-gradient(#012ae6,#030d4a)">
         <div class="loading">
-            <div class="loadbox"> <img src="static/images/loading.gif"> 页面加载中... </div>
+            <div class="loadbox" style="text-align: center;"> <img src="static/images/loading.gif"> </div>
         </div>
         <div class="back"></div>
         <div class="head">
@@ -53,7 +53,7 @@
             <ul class="clearfix">
                 <li>
                     <div class="boxall" style="height:400px;">
-                        <div class="alltitle">涨跌幅</div>
+                        <div class="alltitle">周涨跌幅</div>
                         <div class="navboxall" id="chart1"></div>
                         <!-- 在js中 -->
                     </div>
@@ -83,11 +83,11 @@
                     <div class="boxall" style="height:230px">
                         <div class="clearfix navboxall" style="height: 100%">
                             <div class="pulll_left num">
-                                <div class="numbt">总体情况<span>(单位：元)</span></div>
+                                <div class="numbt">斌斌就是逊<span>(单位：元)</span></div>
                                 <div class="numtxt">19382721 </div>
                             </div>
                             <div class="pulll_right zhibiao">
-                                <div class="zb1"><span>价格</span><div id="zb1"></div></div>
+                                <div class="zb1" ><span id='zb1_span'>BTC价格($)</span><div id="zb1"></div></div>
                                 <div class="zb2"><span>跌涨幅</span><div id="zb2"></div></div>
                                 <div class="zb3"><span>总币种</span><div id="zb3"></div></div>
                             </div>
@@ -99,106 +99,106 @@
                             <select id='update_symbol_select' onclick="paint_k_line()" style="background: 'rgba(10,9,9,0)'; float: right;">
                                 <!-- 异步更新选择option的Symbol -->
                                 <!-- <option value="请选择">请选择</option> -->
-                                <option value = "CRV">CRV</option>
-                                <option value = "AMP">AMP</option>
-                                <option value = "MDX">MDX</option>
-                                <option value = "ZEN">ZEN</option>
-                                <option value = "XMR">XMR</option>
-                                <option value = "CEL">CEL</option>
-                                <option value = "USDC">USDC</option>
-                                <option value = "XRP">XRP</option>
-                                <option value = "BTC">BTC</option>
-                                <option value = "FTM">FTM</option>
-                                <option value = "HOT">HOT</option>
-                                <option value = "SHIB">SHIB</option>
-                                <option value = "RUNE">RUNE</option>
-                                <option value = "AVAX">AVAX</option>
-                                <option value = "EGLD">EGLD</option>
-                                <option value = "VET">VET</option>
-                                <option value = "KCS">KCS</option>
-                                <option value = "XTZ">XTZ</option>
-                                <option value = "BTG">BTG</option>
-                                <option value = "DGB">DGB</option>
-                                <option value = "BNT">BNT</option>
-                                <option value = "KLAY">KLAY</option>
-                                <option value = "XDC">XDC</option>
-                                <option value = "STX">STX</option>
-                                <option value = "AR">AR</option>
-                                <option value = "PAX">PAX</option>
-                                <option value = "COMP">COMP</option>
-                                <option value = "USDT">USDT</option>
-                                <option value = "XEM">XEM</option>
-                                <option value = "DOGE">DOGE</option>
-                                <option value = "NANO">NANO</option>
-                                <option value = "MANA">MANA</option>
-                                <option value = "TFUEL">TFUEL</option>
                                 <option value = "AAVE">AAVE</option>
-                                <option value = "ATOM">ATOM</option>
-                                <option value = "BSV">BSV</option>
-                                <option value = "CAKE">CAKE</option>
-                                <option value = "SNX">SNX</option>
-                                <option value = "SC">SC</option>
-                                <option value = "ALGO">ALGO</option>
-                                <option value = "TEL">TEL</option>
-                                <option value = "FIL">FIL</option>
-                                <option value = "NEXO">NEXO</option>
-                                <option value = "UST">UST</option>
-                                <option value = "FTT">FTT</option>
-                                <option value = "LUNA">LUNA</option>
-                                <option value = "ZRX">ZRX</option>
-                                <option value = "DAI">DAI</option>
-                                <option value = "TRX">TRX</option>
-                                <option value = "OKB">OKB</option>
-                                <option value = "BTCB">BTCB</option>
                                 <option value = "ADA">ADA</option>
-                                <option value = "ZIL">ZIL</option>
-                                <option value = "YFI">YFI</option>
-                                <option value = "LINK">LINK</option>
-                                <option value = "CHZ">CHZ</option>
-                                <option value = "BAT">BAT</option>
-                                <option value = "THETA">THETA</option>
-                                <option value = "BCH">BCH</option>
-                                <option value = "CHSB">CHSB</option>
-                                <option value = "DCR">DCR</option>
-                                <option value = "LEO">LEO</option>
-                                <option value = "QNT">QNT</option>
-                                <option value = "BUSD">BUSD</option>
-                                <option value = "UNI">UNI</option>
-                                <option value = "ZEC">ZEC</option>
-                                <option value = "HNT">HNT</option>
-                                <option value = "ENJ">ENJ</option>
+                                <option value = "ALGO">ALGO</option>
+                                <option value = "AMP">AMP</option>
+                                <option value = "AR">AR</option>
+                                <option value = "ATOM">ATOM</option>
+                                <option value = "AVAX">AVAX</option>
                                 <option value = "AXS">AXS</option>
-                                <option value = "XLM">XLM</option>
+                                <option value = "BAT">BAT</option>
+                                <option value = "BCH">BCH</option>
                                 <option value = "BNB">BNB</option>
-                                <option value = "HT">HT</option>
-                                <option value = "EQUAD">EQUAD</option>
-                                <option value = "DOT">DOT</option>
-                                <option value = "LTC">LTC</option>
-                                <option value = "WAVES">WAVES</option>
-                                <option value = "QTUM">QTUM</option>
-                                <option value = "MIOTA">MIOTA</option>
-                                <option value = "NEAR">NEAR</option>
-                                <option value = "MATIC">MATIC</option>
-                                <option value = "FLOW">FLOW</option>
-                                <option value = "CELO">CELO</option>
-                                <option value = "ICX">ICX</option>
-                                <option value = "ICP">ICP</option>
-                                <option value = "EOS">EOS</option>
-                                <option value = "TUSD">TUSD</option>
-                                <option value = "KSM">KSM</option>
-                                <option value = "DASH">DASH</option>
-                                <option value = "GRT">GRT</option>
-                                <option value = "ONE">ONE</option>
+                                <option value = "BNT">BNT</option>
+                                <option value = "BSV">BSV</option>
+                                <option value = "BTC" selected>BTC</option>
+                                <option value = "BTCB">BTCB</option>
+                                <option value = "BTG">BTG</option>
                                 <option value = "BTT">BTT</option>
-                                <option value = "SUSHI">SUSHI</option>
-                                <option value = "HBAR">HBAR</option>
-                                <option value = "WBTC">WBTC</option>
-                                <option value = "NEO">NEO</option>
-                                <option value = "ONT">ONT</option>
-                                <option value = "ETH">ETH</option>
-                                <option value = "SOL">SOL</option>
-                                <option value = "MKR">MKR</option>
+                                <option value = "BUSD">BUSD</option>
+                                <option value = "CAKE">CAKE</option>
+                                <option value = "CEL">CEL</option>
+                                <option value = "CELO">CELO</option>
+                                <option value = "CHSB">CHSB</option>
+                                <option value = "CHZ">CHZ</option>
+                                <option value = "COMP">COMP</option>
+                                <option value = "CRV">CRV</option>
+                                <option value = "DAI">DAI</option>
+                                <option value = "DASH">DASH</option>
+                                <option value = "DCR">DCR</option>
+                                <option value = "DGB">DGB</option>
+                                <option value = "DOGE">DOGE</option>
+                                <option value = "DOT">DOT</option>
+                                <option value = "EGLD">EGLD</option>
+                                <option value = "ENJ">ENJ</option>
+                                <option value = "EOS">EOS</option>
+                                <option value = "EQUAD">EQUAD</option>
                                 <option value = "ETC">ETC</option>
+                                <option value = "ETH">ETH</option>
+                                <option value = "FIL">FIL</option>
+                                <option value = "FLOW">FLOW</option>
+                                <option value = "FTM">FTM</option>
+                                <option value = "FTT">FTT</option>
+                                <option value = "GRT">GRT</option>
+                                <option value = "HBAR">HBAR</option>
+                                <option value = "HNT">HNT</option>
+                                <option value = "HOT">HOT</option>
+                                <option value = "HT">HT</option>
+                                <option value = "ICP">ICP</option>
+                                <option value = "ICX">ICX</option>
+                                <option value = "KCS">KCS</option>
+                                <option value = "KLAY">KLAY</option>
+                                <option value = "KSM">KSM</option>
+                                <option value = "LEO">LEO</option>
+                                <option value = "LINK">LINK</option>
+                                <option value = "LTC">LTC</option>
+                                <option value = "LUNA">LUNA</option>
+                                <option value = "MANA">MANA</option>
+                                <option value = "MATIC">MATIC</option>
+                                <option value = "MDX">MDX</option>
+                                <option value = "MIOTA">MIOTA</option>
+                                <option value = "MKR">MKR</option>
+                                <option value = "NANO">NANO</option>
+                                <option value = "NEAR">NEAR</option>
+                                <option value = "NEO">NEO</option>
+                                <option value = "NEXO">NEXO</option>
+                                <option value = "OKB">OKB</option>
+                                <option value = "ONE">ONE</option>
+                                <option value = "ONT">ONT</option>
+                                <option value = "PAX">PAX</option>
+                                <option value = "QNT">QNT</option>
+                                <option value = "QTUM">QTUM</option>
+                                <option value = "RUNE">RUNE</option>
+                                <option value = "SC">SC</option>
+                                <option value = "SHIB">SHIB</option>
+                                <option value = "SNX">SNX</option>
+                                <option value = "SOL">SOL</option>
+                                <option value = "STX">STX</option>
+                                <option value = "SUSHI">SUSHI</option>
+                                <option value = "TEL">TEL</option>
+                                <option value = "TFUEL">TFUEL</option>
+                                <option value = "THETA">THETA</option>
+                                <option value = "TRX">TRX</option>
+                                <option value = "TUSD">TUSD</option>
+                                <option value = "UNI">UNI</option>
+                                <option value = "USDC">USDC</option>
+                                <option value = "USDT">USDT</option>
+                                <option value = "UST">UST</option>
+                                <option value = "VET">VET</option>
+                                <option value = "WAVES">WAVES</option>
+                                <option value = "WBTC">WBTC</option>
+                                <option value = "XDC">XDC</option>
+                                <option value = "XEM">XEM</option>
+                                <option value = "XLM">XLM</option>
+                                <option value = "XMR">XMR</option>
+                                <option value = "XRP">XRP</option>
+                                <option value = "XTZ">XTZ</option>
+                                <option value = "YFI">YFI</option>
+                                <option value = "ZEC">ZEC</option>
+                                <option value = "ZEN">ZEN</option>
+                                <option value = "ZIL">ZIL</option>
+                                <option value = "ZRX">ZRX</option>
                                 <!-- <script>
                                     $(document).ready(function(){
                                         
@@ -221,6 +221,7 @@
                                     });
                                 </script> -->
                             </select>
+                           
                         </div>
                         
                         <!-- <div class="navboxall" id="echart4"></div> -->
@@ -230,11 +231,12 @@
 
                             function paint_k_line(){
                                 var options = $("#update_symbol_select").val();
-
-                                console.log(options);
+                                
+                                // console.log(options);
 
                                 $.ajax({
                                     
+
                                     
                                     // url:'/echart',
                                     url: "{{ url_for('k_line_echart')}}",
@@ -255,7 +257,7 @@
                                         var downBorderColor = '#008F28';
                                         var axisFontColor='#D8D8D8'
                                         // 得到选择框的数据
-                                        
+                                        $('#zb1_span').html(options +'价格($)');
                     
                                         var data0 = splitData(data['1']);
                                         function splitData(rawData){
@@ -502,7 +504,128 @@
                                         window.addEventListener("resize",function(){
                                             myChart.resize();
                                         });
+
+                        function zb2(data) {
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart1 = echarts.init(document.getElementById('zb1'));
+                            var myChart2 = echarts.init(document.getElementById('zb2'));
+                            datafortwo = []
+                            for(val in data){
+                                // alert(data[val]);
+                                datafortwo.push(data[val]);
+                            }
+                            var down_or_rise =datafortwo[1];
+                            var color_for_second = '#FF0000'
+                            if(down_or_rise>0){
+                                down_or_rise = '+'+down_or_rise;
+                            }
+                            else{
+                                down_or_rise = ''+down_or_rise;
+                                color_for_second = '#00FF00'
+                            } 
+                            option1 = {
+                                series: [{	
+                                    type: 'pie',
+                                    radius: ['60%', '70%'],
+                                    color:'#2ECCFA',
+                                label: {
+                                    normal: {
+                                        position: 'center'
+                                    }
+                                },
+                                data: [{
+                                    value:1,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            formatter: datafortwo[0]+'',
+                                            textStyle: {
+                                                fontSize: 20,
+                                                color:'#fff',
+                                            }
+                                        }
+                                    }
+                                }, {
+                                    value: 0,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            textStyle: {
+                                                color: '#aaa',
+                                                fontSize: 12
+                                            }
+                                        }
                                     },
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(255,255,255,.2)'
+                                        },
+                                        emphasis: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                }]
+                            }]
+                        };
+                            // alert(data1[0]);
+                            option2 = {
+                                series: [{	
+                                    type: 'pie',
+                                    radius: ['60%', '70%'],
+                                    color:color_for_second,
+                                label: {
+                                    normal: {
+                                        position: 'center'
+                                    }
+                                },
+                                data: [{
+                                    value:1,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            formatter: down_or_rise+'%',
+                                            textStyle: {
+                                                fontSize: 20,
+                                                color:'#fff',
+                                            }
+                                        }
+                                    }
+                                }, {
+                                    value: 0,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            textStyle: {
+                                                color: '#aaa',
+                                                fontSize: 12
+                                            }
+                                        }
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(255,255,255,.2)'
+                                        },
+                                        emphasis: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                }]
+                            }]
+                        };        
+                            myChart1.setOption(option1)
+                            myChart2.setOption(option2);
+                            window.addEventListener("resize",function(){
+                                myChart1.resize();    
+                                myChart2.resize();
+                                });
+                            }
+
+                            for( val in data['2']){
+                                // alert(data['2'][val]);
+                                zb2(data['2'][val]);
+                            };
+                                        
+                     },
 
 
                     
@@ -515,6 +638,9 @@
                             window.addEventListener("resize",function(){
                             myChart.resize();
                             });
+
+
+
                            
                         </script>
                     </div>
