@@ -1,3 +1,5 @@
+import datetime
+import functools
 from os import name
 from flask import Flask,render_template,redirect,request,url_for,flash,jsonify,session
 from flask.helpers import flash
@@ -41,6 +43,12 @@ def float_to_str(price):
 class User(UserMixin):
     pass
 
+# 获取当前系统时间 年-月-日 时:分:秒
+def getDateTime():
+    now=datetime.datetime.now()
+    now_funmat=now.strftime("%Y-%m-%d %H:%M:%S")
+    return now_funmat
+
 # 构造一个用户类对象,并使用用户名作为ID
 # 回调函数
 @login_manager.user_loader
@@ -48,7 +56,21 @@ def load_user(username):
         curr_user = User()
         curr_user.id = username
         return curr_user
-        
+
+# 装饰器，判断是否为管理员  
+def is_admin(f):
+    @functools.wraps(f)
+    def decorated_function(*args, **kws):
+        # 需要在登录状态调用, 检查是否为有admin权限的用户登录，
+        # 如果不是，返回错误码；
+        adminname = session['_user_id']
+        sql = "select name from admin where name=\'"+adminname+"\';"
+        user1 = mysql.query(sql)
+        if len(user1) == 0:
+            return render_template('404.html')
+        return f(*args, **kws)
+    return decorated_function
+
 # 加密函数
 def encryption(pwd):
     # 加密
@@ -121,8 +143,9 @@ def register():
                 return render_template('register.html')
             else:
                 # 加密
+                regdate = getDateTime()
                 hsvar = encryption(pwd1)
-                sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\');"
+                sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\',\' " + regdate +"\');"
                 flag = mysql.insert(sql)
                 return redirect(url_for('login'))
         else:
@@ -236,30 +259,20 @@ def forget():
         else:
             return render_template('forget.html')
 
-# 后台管理-测试
-@app.route('/test')
-def test():
-    sql = "select * from coin limit 1,100"
-    content = mysql.query(sql)
-    sql = "SHOW FIELDS FROM coin"
-    lables = mysql.query(sql)
-    lables = [l[0] for l in lables]
-    return render_template('test.html',content=lables,content2=content)
-
-
 # 后台管理-数字货币数据
 @app.route('/admin',methods = ['GET','POST'])
+@login_required
+@is_admin
 def admin():
+    print([session['_user_id']])
     if request.method =="GET":
         sql = "select * from coin limit 0,200;"
         content = mysql.query(sql)
         sql = "SHOW FIELDS FROM coin"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
-        print("test111111111")
         return render_template('admin.html', content=lables,content2=content)
     elif request.method =="POST":
-        print("test33333333333333")
         res = {'data':''}
         symbol = request.form.get('select')
         sql = "select * from coin where symbol = \'" + symbol + "\';"
@@ -268,30 +281,16 @@ def admin():
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
         res['data'] = 'True'
-        print(content)
+        # print(content)
         return render_template('admin.html', content=lables,content2=content)
     else:
-        print("test2222222")
         return render_template('admin.html')
-
-# 后台管理-数字货币数据
-@app.route('/select',methods = ['GET','POST'])
-def select():
-        print("test33333333333333")
-        res = {'data':''}
-        symbol = request.args.get('select')
-        sql = "select * from coin where symbol = \'" + symbol + "\';"
-        content = mysql.query(sql)
-        sql = "SHOW FIELDS FROM coin"
-        lables = mysql.query(sql)
-        lables = [l[0] for l in lables]
-        res['data'] = 'True'
-        print(content)
-        return render_template('admin.html', content=lables,content2=content)
 
 
 # 后台管理-用户
 @app.route('/adminUser',methods = ['GET','POST'])
+@login_required
+@is_admin
 def adminUser():
     if request.method =="GET":
         sql = "select * from user;"
@@ -299,11 +298,12 @@ def adminUser():
         sql = "SHOW FIELDS FROM user"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
-        print("test111111111")
         return render_template('admin_user.html', content=lables,content2=content)
 
 # 后台管理-管理员
 @app.route('/adminAdmin',methods = ['GET','POST'])
+@login_required
+@is_admin
 def adminAdmin():
     if request.method =="GET":
         sql = "select * from admin;"
@@ -311,8 +311,14 @@ def adminAdmin():
         sql = "SHOW FIELDS FROM admin"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
-        print("test111111111")
         return render_template('admin_admin.html', content=lables,content2=content)
+
+# 404返回
+@app.route('/error_page',methods = ['GET','POST'])
+@login_required
+def error_page():
+    if request.method =="GET":
+        return redirect(url_for('index'))
 
 
 # 关于画k线图的函数
