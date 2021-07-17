@@ -15,7 +15,7 @@
     });
     $.post("/chart1_json",function(data){
         var myChart = echarts.init(document.getElementById('chart1'));
-        alert(data['1']);
+        // alert(data['1']);
         myChart.setOption({
             tooltip: {
                 trigger: 'axis',
@@ -80,7 +80,7 @@
         // 得到选择框的数据
                                         
         // alert(data);        
-        var data0 = splitData(data);
+        var data0 = splitData(data['1']);
         function splitData(rawData){
             var categoryData = [];
             var values =[]
@@ -411,11 +411,16 @@
         myChart.setOption(option);
         window.addEventListener("resize",function(){
             myChart.resize();
-        });
+            });
 
-       
-        });
- 
+    });
+    
+    $.post('/k_line_echart',function(data){
+        var myChart1 = echarts.init(document.getElementById('zb1'));
+        
+
+        
+    });
 
 
                  
@@ -427,7 +432,7 @@ $(function () {
 	// echarts_2();
 	// echarts_3();
 	// echarts_4();
-	echarts_5();
+	// echarts_5();
 	zb1();
 	zb2();
 	zb3();
@@ -988,7 +993,8 @@ var option = {
 function zb1() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('zb1'));
-	var v1=298//男消费
+        var symbol ="BTC"
+	    var v1=298//男消费
 		var v2=523//女消费
 		var v3=v1+v2//总消费 
 option = {	
@@ -1003,11 +1009,10 @@ option = {
             }
         },
         data: [{
-            value: v2,
-            name: '女消费',
+            value: 'BTC',
             label: {
                 normal: {
-                    formatter: v2 +'',
+                    formatter: "BTC" +'',
                     textStyle: {
                         fontSize: 20,
 						color:'#fff',
@@ -1016,25 +1021,25 @@ option = {
             }
         }, {
             value: v1,
-            name: '男消费',
+
             label: {
-                normal: {
-                 formatter : function (params){
-                return '占比'+Math.round( v2/v3*100)+ '%'
-            },
-                    textStyle: {
-                        color: '#aaa',
-                        fontSize: 12
-                    }
-                }
+            //     normal: {
+            //      formatter : function (params){
+            //     return '占比'+Math.round( v2/v3*100)+ '%'
+            // },
+            //         textStyle: {
+            //             color: '#aaa',
+            //             fontSize: 12
+            //         }
+            //     }
             },
             itemStyle: {
-                normal: {
-                    color: 'rgba(255,255,255,.2)'
-                },
-                emphasis: {
-                    color: '#fff'
-                }
+                // normal: {
+                //     color: 'rgba(255,255,255,.2)'
+                // },
+                // emphasis: {
+                //     color: '#fff'
+                // }
             },
         }]
     }]
