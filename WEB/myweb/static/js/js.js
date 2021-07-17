@@ -165,8 +165,8 @@
                     show: true,
                     areaStyle:{
                         color:[
-                            '#0B0B3B',
-                            '#0B0B3B'
+                            'rgba(10,9,9,0)',
+                            'rgba(10,9,9,0)'
                         ],
                     },
                 }
@@ -174,14 +174,14 @@
             dataZoom: [
                 {
                     type: 'inside',
-                    start: 50,
+                    start: 95,
                     end: 100
                 },
                 {
                     show: true,
                     type: 'slider',
                     top: '90%',
-                    start: 50,
+                    start: 95,
                     end: 100
                 }
             ],
