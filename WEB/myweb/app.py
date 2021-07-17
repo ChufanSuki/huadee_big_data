@@ -1,23 +1,20 @@
 import datetime
 import functools
 from os import name
-<<<<<<< HEAD
 import re
 from flask import Flask,render_template,redirect,request,url_for,flash,jsonify,session
-=======
-from flask import Flask, render_template, redirect, request, url_for, flash, jsonify, session
->>>>>>> 0c51e11622dd0a06020c5dac241da142e174a7d8
 from flask.helpers import flash
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user
 import config
 from urllib.parse import urlparse, urljoin
-# import mysql_connector
-from . import mysql_connector
+import mysql_connector
+# from . import mysql_connector
 import pymysql
 import random
 from flask_mail import Mail, Message
 import hashlib
-from .forms import LoginForm
+# from .forms import LoginForm
+from forms import LoginForm
 
 app = Flask(__name__)
 app.secret_key = '1xasada'
@@ -167,7 +164,6 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-<<<<<<< HEAD
 # 功能：检查字符串str是否符合正则表达式re_exp
 # re_exp:正则表达式
 # str:待检查的字符串
@@ -212,8 +208,6 @@ def check_pwd(pwd1,pwd2):
         flag = 3
     return flag
 
-=======
->>>>>>> 0c51e11622dd0a06020c5dac241da142e174a7d8
 
 # 注册
 @app.route('/register', methods=['GET', 'POST'])
@@ -264,25 +258,16 @@ def register():
             return render_template('register.html')
 
 
-<<<<<<< HEAD
 
 # 验证用户名是否可以使用(用户名未注册且格式正确)
 @app.route('/validateUniqueName',methods = ['GET','POST'])
-=======
-# 验证用户名是否存在
-@app.route('/validateUniqueName', methods=['GET', 'POST'])
->>>>>>> 0c51e11622dd0a06020c5dac241da142e174a7d8
 def validateUniqueName():
     res = {'data': ''}
     if request.method == 'GET':
         return render_template('register.html')
     username = request.form.get('username')
-<<<<<<< HEAD
     username = username.replace(" ","")
     sql = "select name from user where name=\'"+username+"\';"
-=======
-    sql = "select name from user where name=\'" + username + "\';"
->>>>>>> 0c51e11622dd0a06020c5dac241da142e174a7d8
     user1 = mysql_connector.query(sql)
     # 用户名判断
     check = check_username(username)
