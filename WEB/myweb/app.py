@@ -65,7 +65,7 @@ def is_admin(f):
         # 如果不是，返回错误码；
         adminname = session['_user_id']
         sql = "select name from admin where name=\'"+adminname+"\';"
-        user1 = mysql.query(sql)
+        user1 = mysql_connector.query(sql)
         if len(user1) == 0:
             return render_template('404.html')
         return f(*args, **kws)
@@ -146,7 +146,7 @@ def register():
                 regdate = getDateTime()
                 hsvar = encryption(pwd1)
                 sql = "insert into user value(\'" + username +"\',\'" + hsvar + "\',\'" + email + "\',\' " + regdate +"\');"
-                flag = mysql.insert(sql)
+                flag = mysql_connector.insert(sql)
                 return redirect(url_for('login'))
         else:
             return render_template('register.html')
@@ -522,7 +522,7 @@ def getChart1():
             item_data = []
             for item in data:
                 item_name.append(item[0])
-                item_data.append(item[3])
+                item_data.append(item[4])
             datalists.append(item_name)
             datalists.append(item_data)
             keys =['1','2']
