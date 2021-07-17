@@ -120,31 +120,24 @@ def encryption(pwd):
 
 
 # 登录功能
-@app.route('/login1', methods=['GET', 'POST'])
+@app.route('/login1',methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
-    error = None
-    if request.method == 'GET':
-        return render_template('login.html', form=form)
-    elif request.method == 'POST':
-        if form.validate_on_submit():
-            username = form.username.data
-            pwd = form.password.data
-            # 加密
-            hsvar = encryption(pwd)
-            sql = "select name from user where name=\'" + username + "\' and pwd=\'" + hsvar + "\';"
-            user1 = mysql_connector.query(sql)
-            if len(user1) != 0:
-                username = user1[-1][-1]
-                curr_user = User()
-                curr_user.id = username
-                login_user(curr_user)
-                return redirect(url_for('index'))
-            else:
-                errors = "用户名密码错误"
-                return render_template('login.html', errors=errors, form=form, )
-        else:
-            return render_template('login.html', form=form)
+    if request.method =='GET':
+        return render_template('login.html')
+    username = request.form.get('username')
+    pwd = request.form.get('pwd')
+    # 加密
+    hsvar = encryption(pwd)
+    sql = "select name from user where name=\'"+username+"\' and pwd=\'"+hsvar+"\';"
+    user1 = mysql_connector.query(sql)
+    if len(user1) != 0:
+        username = user1[-1][-1]
+        curr_user = User()
+        curr_user.id = username
+        login_user(curr_user)
+        return redirect(url_for('index'))
+    else:
+        return render_template('login.html')
 
 
 # 大数据面板
