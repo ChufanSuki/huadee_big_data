@@ -32,9 +32,10 @@ a:hover{ color:#06c; text-decoration: none!important}
 .pulll_right{float:right;}
 
 
-.loading{position:fixed; left:0; top:0; font-size:16px; z-index:100000000;width:100%; height:100%; background:#1a1a1c; text-align:center;}
-.loadbox{position:absolute; width:160px;height:150px; color: rgba(255,255,255,.6); left:50%; top:50%; margin-top:-100px; margin-left:-75px;}
-.loadbox img{ margin:10px auto; display:block; width:40px;}
+.loading{position:absolute; font-size:16px; z-index:100000000;width:100%; height:100%; background:#1a1a1c; text-align:center;}
+/* .loadbox{position:absolute; width:160px;height:150px; color: rgba(255,255,255,.6); left:50%; top:50%; margin-top:-100px; margin-left:-75px;} */
+.loadbox{position:absolute; width: 100%;height: 100%; color: rgba(255,255,255,.6); text-align: center; margin:0 auto;}
+.loadbox img{ position: absolute; top: 50%;left: 50%; display:block; width:40px;text-align: center;}
  
 .head{ height:90px; background: url(../images/head_bg.png) no-repeat center center; position: relative}
 .head h1{ color:#fff; text-align: center; font-size:42px; line-height:90px;;}
