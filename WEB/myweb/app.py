@@ -569,7 +569,7 @@ def getChart1():
             item_data = []
             for item in data:
                 item_name.append(item[0])
-                item_data.append(item[4])
+                item_data.append(item[6])
             datalists.append(item_name)
             datalists.append(item_data)
             keys =['1','2']
