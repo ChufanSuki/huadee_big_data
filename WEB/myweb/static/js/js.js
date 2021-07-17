@@ -288,23 +288,99 @@
         $('#tr_not_main_coin_5').html('<td><span>5</span></td><td>'+data['2']['4']['0']+'</td><td>'+data['2']['4']['1']+'<br></td><td>'+data['2']['4']['2']+'<br></td>');
     });
 
+    $.post('/rose_echart',function(data){
+        var myChart = echarts.init(document.getElementById('rose_echart'));
+        // alert(data['0']);
+        // var data= $.parseJSON(data);    //将传递过来的json字符串转化为对象
+        //alert(data);
+        //  console.log(data);
+        var servicedata=[];
+        for(var i=0;i<data['0'].length;i++){
+            var obj=new Object();
+            obj.name=data['0'][i]; 
+            obj.value=data['1'][i];
+            servicedata[i]=obj;
+            
+        }
+        console.log(servicedata);
+        option = {
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        right:0,
+                        top:30,
+                        height:160,
+                        itemWidth:10,
+                        itemHeight:10,
+                        itemGap:10,
+                        textStyle:{
+                            color: 'rgba(255,255,255,.6)',
+                            fontSize:12
+                        },
+                        orient:'vertical',
+                        data: data['0']
+                    },
+                   calculable : true,
+                    series : [
+                        {
+                            name:' ',
+							color: ['#62c98d', '#2f89cf', '#4cb9cf', '#205acf', '#c9c862', '#c98b62', '#c962b9', '#7562c9','#c96262','#c25775','#00b7be'],	
+                            type:'pie',
+                            radius : [30, 70],
+                            center : ['35%', '50%'],
+                            roseType : 'radius',
+                            label: {
+                                normal: {
+                                    show: true
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+
+                            lableLine: {
+                                normal: {
+                                    show: true
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+
+                            data:servicedata,
+                        },
+                    ]
+                };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+
+       
+        });
+ 
+
 
                  
                     
     $(".loading").fadeOut()
-            })  
+})  
 $(function () {
-    echarts_1();
-	echarts_2();
+    // echarts_1();
+	// echarts_2();
 	// echarts_3();
 	// echarts_4();
 	echarts_5();
-	// zb1();
+	zb1();
 	zb2();
 	zb3();
     function echarts_1() {
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echart1'));
+        var myChart = echarts.init(document.getElementById('rose_echart'));
         option = {
                     tooltip : {
                         trigger: 'item',

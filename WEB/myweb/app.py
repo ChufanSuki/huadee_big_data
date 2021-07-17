@@ -266,7 +266,40 @@ def admin():
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
         res['data'] = 'True'
-        print(content)
+        i = 0
+        key =[]
+        vals =[]
+        datalist =[]
+        # content[3]= content[3].strftime("%Y-%m-%d-%H-%I-%M")
+        # print(content)
+        for val in content:
+            # print(val)
+            ID =val[0]
+            name =val[1]
+            symbol = val[2]
+            date = val[3]
+            time_high = val[4]
+            time_low =val[5]
+
+            time_high= time_high.strftime("%Y-%m-%d %H:%M:%S")
+            date = date.strftime("%Y-%m-%d %H:%M:%S")
+            time_low = time_low.strftime("%Y-%m-%d %H:%M:%S")
+
+            open =val[6]
+            print(type(open))
+            high = val[7]
+            low = val[8]
+            close = val[9]
+            volume = val[10]
+            market_cap =val[11]
+            datalist.append([ID,name,symbol,date,time_high,time_low,open,high,low,close,volume,market_cap])
+            i = i + 1
+            # print(i)
+            vals.append(val)
+            key.append(str(i))
+        # json_data = dict(zip(key,content))
+        json_data = dict(zip(key,datalist))           
+        return json_data
         return render_template('admin.html', content=lables,content2=content)
     else:
         return render_template('admin.html')
@@ -385,6 +418,38 @@ def rank_left():
             print("左侧排行榜sql执行出错!!")
             return render_template('data.html')
 
+@app.route('/rose_echart', methods=['POST','GET'])
+def rose_echart():
+        if request.method =="GET":
+            return render_template('data.html')
+        if request.method =="POST":  
+        
+            conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+            cur = conn.cursor()
+            sql = "SELECT symbol,percentage from marketcap_percentage limit 0,4" 
+            try:
+                cur.execute(sql)
+                u = cur.fetchall()
+                print(u)
+                xdatalist =[]
+                ydatalist =[]
+
+                i = 1
+                for data in u:
+                    xdatalist.append(data[0])
+                    ydatalist.append(data[1])
+                    i = i - data[1]
+
+                xdatalist.append('other')
+                ydatalist.append(i)
+
+                json_data = {'0':xdatalist,'1':ydatalist}
+                print(json_data)
+
+                return json_data
+            except:
+                print("ERROR")
+                return render_template('data.html')
 
 @app.route('/rank_right', methods=['POST','GET'])
 def rank_right():
@@ -422,8 +487,8 @@ def rank_right():
                 elif(key_main_i==5 and key_not_main_i==5):
                     break
 
-            print("main",main_coin_five)
-            print("not_mian",not_main_coin_five)
+            # print("main",main_coin_five)
+            # print("not_mian",not_main_coin_five)
             json_data1 = dict(zip(key_main,main_coin_five))
             json_data2 = dict(zip(key_not_main,not_main_coin_five))
 
