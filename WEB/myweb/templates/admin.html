@@ -13,8 +13,7 @@
     <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
-    <meta property="og:description"
-          content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
     <title>数字货币数据</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,8 +21,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script type="text/javascript">
       // 检验用户名是否为空
@@ -47,25 +45,27 @@
               } else{
                 // alert("error")
                 }
-            });
+                  },
+            error:function(error){
+              alert("error")
+            }
+          });
         };
-    </script>
+</script>
 
-</head>
-<body class="app sidebar-mini">
-<!-- Navbar-->
-<header class="app-header"><a class="app-header__logo" href="{{ url_for('index')}}">Home</a>
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-                                    aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
+  </head>
+  <body class="app sidebar-mini">
+    <!-- Navbar-->
+    <header class="app-header"><a class="app-header__logo" href="{{url_for('index')}}">Home</a>
+      <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      <!-- Navbar Right Menu-->
+      <ul class="app-nav">
         <li class="app-search">
-            <input class="app-search__input" type="search" placeholder="Search">
-            <button class="app-search__button"><i class="fa fa-search"></i></button>
+          <input class="app-search__input" type="search" placeholder="Search">
+          <button class="app-search__button"><i class="fa fa-search"></i></button>
         </li>
         <!--Notification Menu-->
-        <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i
-                class="fa fa-bell-o fa-lg"></i></a>
+        <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i></a>
         </li>
         <!-- User Menu-->
         <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
@@ -73,96 +73,173 @@
             <li><a class="dropdown-item" href="{{url_for('logout')}}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
           </ul>
         </li>
-    </ul>
-</header>
-<!-- Sidebar menu-->
-<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-<aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../static/images/s_ico6.png"
-                                        alt="User Image">
+      </ul>
+    </header>
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../static/images/s_ico6.png" alt="User Image">
         <div>
-            <p class="app-sidebar__user-name">数字货币大数据分析</p>
-            <p class="app-sidebar__user-designation">后台管理</p>
+          <p class="app-sidebar__user-name">数字货币大数据分析</p>
+          <p class="app-sidebar__user-designation">后台管理</p>
         </div>
-    </div>
-    <ul class="app-menu">
-        <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i
-                class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">数据管理</span><i
-                class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-                <li><a class="treeview-item active" href="{{ url_for('admin')}}"><i class="icon fa fa-circle-o"></i>数字货币</a>
-                </li>
-            </ul>
+      </div>
+      <ul class="app-menu">
+        <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">数据管理</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item active" href="{{url_for('admin')}}"><i class="icon fa fa-circle-o"></i>数字货币</a></li>
+          </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i
-                class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">用户管理</span><i
-                class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-                <li><a class="treeview-item" href="{{ url_for('adminUser')}}"><i
-                        class="icon fa fa-circle-o"></i>注册用户</a></li>
-                <li><a class="treeview-item" href="{{ url_for('adminAdmin')}}"><i class="icon fa fa-circle-o"></i>
-                    管理员</a></li>
-            </ul>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">用户管理</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="{{url_for('adminUser')}}"><i class="icon fa fa-circle-o"></i>注册用户</a></li>
+          </ul>
         </li>
-    </ul>
-</aside>
-<main class="app-content">
-    <div class="app-title">
+      </ul>
+    </aside>
+    <main class="app-content">
+      <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i> 数字货币数据</h1>
-            <p>Table to display data of digital currency</p>
+          <h1><i class="fa fa-th-list"></i> 数字货币数据</h1>
+          <p>Table to display data of digital currency</p>
         </div>
         <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item active"><a href="#">数字货币</a></li>
+          <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+          <li class="breadcrumb-item active"><a href="#">数字货币</a></li>
         </ul>
-    </div>
-    <div class="row">
+      </div>
+      <div class="row">
         <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered" id="sampleTable">
-                            <div class="dataTables_length" id="sampleTable_length">
-                                <form method="post">
-                                    {{ form.csrf_token }}
-                                    <label>Select
-                                        {{ form.selectCoin(class="form-control-sm") }}
-{#                                        <select select id='selectCoin' class="form-control-sm" >#}
-{#                                            {% for choice in form.selectCoin.choices %}#}
-{#                                                <option value="{{ choice[0] }}">{{ choice[1] }}</option>#}
-{#                                            {% endfor %}#}
-{#                                        </select> Coin#}
-                                        <button type="submit">查询</button>
-
-                                    </label>
-
-                                    </select>
-                                </form>
-                            </div>
-
-                            {#                表头#}
-                            <thead>
-                            <tr>
-                                {% for i in content %}
-                                    <th class="text-center">{{ i }}</th>
-                                {% endfor %}
-                            </tr>
-                            </thead>
-                            {#                数据#}
-                            <tbody>
-                            {% for i in content2 %}
-                                <tr>
-                                    {% for j in i %}
-                                        <td class="text-center">{{ j }}</td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                  <div class="dataTables_length" id="sampleTable_length">
+                    <label>Select 
+                      <select select id='selectCoin' onchange="select_coin()" class="form-control-sm">
+                        <option value = "CRV">CRV</option>
+                        <option value = "AMP">AMP</option>
+                        <option value = "MDX">MDX</option>
+                        <option value = "ZEN">ZEN</option>
+                        <option value = "XMR">XMR</option>
+                        <option value = "CEL">CEL</option>
+                        <option value = "USDC">USDC</option>
+                        <option value = "XRP">XRP</option>
+                        <option value = "BTC">BTC</option>
+                        <option value = "FTM">FTM</option>
+                        <option value = "HOT">HOT</option>
+                        <option value = "SHIB">SHIB</option>
+                        <option value = "RUNE">RUNE</option>
+                        <option value = "AVAX">AVAX</option>
+                        <option value = "EGLD">EGLD</option>
+                        <option value = "VET">VET</option>
+                        <option value = "KCS">KCS</option>
+                        <option value = "XTZ">XTZ</option>
+                        <option value = "BTG">BTG</option>
+                        <option value = "DGB">DGB</option>
+                        <option value = "BNT">BNT</option>
+                        <option value = "KLAY">KLAY</option>
+                        <option value = "XDC">XDC</option>
+                        <option value = "STX">STX</option>
+                        <option value = "AR">AR</option>
+                        <option value = "PAX">PAX</option>
+                        <option value = "COMP">COMP</option>
+                        <option value = "USDT">USDT</option>
+                        <option value = "XEM">XEM</option>
+                        <option value = "DOGE">DOGE</option>
+                        <option value = "NANO">NANO</option>
+                        <option value = "MANA">MANA</option>
+                        <option value = "TFUEL">TFUEL</option>
+                        <option value = "AAVE">AAVE</option>
+                        <option value = "ATOM">ATOM</option>
+                        <option value = "BSV">BSV</option>
+                        <option value = "CAKE">CAKE</option>
+                        <option value = "SNX">SNX</option>
+                        <option value = "SC">SC</option>
+                        <option value = "ALGO">ALGO</option>
+                        <option value = "TEL">TEL</option>
+                        <option value = "FIL">FIL</option>
+                        <option value = "NEXO">NEXO</option>
+                        <option value = "UST">UST</option>
+                        <option value = "FTT">FTT</option>
+                        <option value = "LUNA">LUNA</option>
+                        <option value = "ZRX">ZRX</option>
+                        <option value = "DAI">DAI</option>
+                        <option value = "TRX">TRX</option>
+                        <option value = "OKB">OKB</option>
+                        <option value = "BTCB">BTCB</option>
+                        <option value = "ADA">ADA</option>
+                        <option value = "ZIL">ZIL</option>
+                        <option value = "YFI">YFI</option>
+                        <option value = "LINK">LINK</option>
+                        <option value = "CHZ">CHZ</option>
+                        <option value = "BAT">BAT</option>
+                        <option value = "THETA">THETA</option>
+                        <option value = "BCH">BCH</option>
+                        <option value = "CHSB">CHSB</option>
+                        <option value = "DCR">DCR</option>
+                        <option value = "LEO">LEO</option>
+                        <option value = "QNT">QNT</option>
+                        <option value = "BUSD">BUSD</option>
+                        <option value = "UNI">UNI</option>
+                        <option value = "ZEC">ZEC</option>
+                        <option value = "HNT">HNT</option>
+                        <option value = "ENJ">ENJ</option>
+                        <option value = "AXS">AXS</option>
+                        <option value = "XLM">XLM</option>
+                        <option value = "BNB">BNB</option>
+                        <option value = "HT">HT</option>
+                        <option value = "EQUAD">EQUAD</option>
+                        <option value = "DOT">DOT</option>
+                        <option value = "LTC">LTC</option>
+                        <option value = "WAVES">WAVES</option>
+                        <option value = "QTUM">QTUM</option>
+                        <option value = "MIOTA">MIOTA</option>
+                        <option value = "NEAR">NEAR</option>
+                        <option value = "MATIC">MATIC</option>
+                        <option value = "FLOW">FLOW</option>
+                        <option value = "CELO">CELO</option>
+                        <option value = "ICX">ICX</option>
+                        <option value = "ICP">ICP</option>
+                        <option value = "EOS">EOS</option>
+                        <option value = "TUSD">TUSD</option>
+                        <option value = "KSM">KSM</option>
+                        <option value = "DASH">DASH</option>
+                        <option value = "GRT">GRT</option>
+                        <option value = "ONE">ONE</option>
+                        <option value = "BTT">BTT</option>
+                        <option value = "SUSHI">SUSHI</option>
+                        <option value = "HBAR">HBAR</option>
+                        <option value = "WBTC">WBTC</option>
+                        <option value = "NEO">NEO</option>
+                        <option value = "ONT">ONT</option>
+                        <option value = "ETH">ETH</option>
+                        <option value = "SOL">SOL</option>
+                        <option value = "MKR">MKR</option>
+                        <option value = "ETC">ETC</option>
+                      </select> Coin
+                    </label>
+                  </div>
+                  <thead>
+                    <tr>
+                        {% for i in content %}
+                            <th class="text-center">{{ i }}</th>
+                        {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in content2 %}
+                    <tr>
+                        {% for j in i %}
+                          <td class="text-center">{{ j }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </main>
