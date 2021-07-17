@@ -236,7 +236,7 @@ def forget():
         else:
             return render_template('forget.html')
 
-# 后台管理-数字货币数据
+# 后台管理-测试
 @app.route('/test')
 def test():
     sql = "select * from coin limit 1,100"
@@ -256,8 +256,10 @@ def admin():
         sql = "SHOW FIELDS FROM coin"
         lables = mysql.query(sql)
         lables = [l[0] for l in lables]
+        print("test111111111")
         return render_template('admin.html', content=lables,content2=content)
     elif request.method =="POST":
+        print("test33333333333333")
         res = {'data':''}
         symbol = request.form.get('select')
         sql = "select * from coin where symbol = \'" + symbol + "\';"
@@ -302,20 +304,49 @@ def admin():
         return json_data
         return render_template('admin.html', content=lables,content2=content)
     else:
+        print("test2222222")
         return render_template('admin.html')
+
+# 后台管理-数字货币数据
+@app.route('/select',methods = ['GET','POST'])
+def select():
+        print("test33333333333333")
+        res = {'data':''}
+        symbol = request.args.get('select')
+        sql = "select * from coin where symbol = \'" + symbol + "\';"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM coin"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        res['data'] = 'True'
+        print(content)
+        return render_template('admin.html', content=lables,content2=content)
 
 
 # 后台管理-用户
 @app.route('/adminUser',methods = ['GET','POST'])
 def adminUser():
     if request.method =="GET":
-        return render_template('admin_user.html')
+        sql = "select * from user;"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM user"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        print("test111111111")
+        return render_template('admin_user.html', content=lables,content2=content)
 
 # 后台管理-管理员
 @app.route('/adminAdmin',methods = ['GET','POST'])
 def adminAdmin():
     if request.method =="GET":
-        return render_template('admin_admin.html')
+        sql = "select * from admin;"
+        content = mysql.query(sql)
+        sql = "SHOW FIELDS FROM admin"
+        lables = mysql.query(sql)
+        lables = [l[0] for l in lables]
+        print("test111111111")
+        return render_template('admin_admin.html', content=lables,content2=content)
+
 
 # 关于画k线图的函数
 @app.route('/k_line_echart', methods=['POST','GET'])
@@ -496,6 +527,37 @@ def rank_right():
             # return render_template('data.html')
         except:
             print("右侧排行榜sql出错!!")
+            return render_template('data.html')
+#跌涨幅
+@app.route('/chart1_json',methods=['POST','GET'])
+def getChart1():
+    if request.method == 'GET':
+        return render_template('data.html')
+    if request.method == 'POST':
+        # item_name = []
+        # item_data = []
+        try:
+            con = mysql.conn()
+            cur = con.cursor()
+            sql = """
+            select * from coin_rise_fall
+            """
+            cur.execute(sql)
+            data = cur.fetchall()
+            datalists = []
+            item_name = []
+            item_data = []
+            for item in data:
+                item_name.append(item[0])
+                item_data.append(item[3])
+            datalists.append(item_name)
+            datalists.append(item_data)
+            keys =['1','2']
+            json_data = dict(zip(keys,datalists))
+            print(type(json_data))
+            return json_data
+        except:
+            print("出错啦")
             return render_template('data.html')
 if __name__ == '__main__':
     app.run(debug="True")
