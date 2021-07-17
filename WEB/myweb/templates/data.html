@@ -75,11 +75,11 @@
                     <div class="boxall" style="height:230px">
                         <div class="clearfix navboxall" style="height: 100%">
                             <div class="pulll_left num">
-                                <div class="numbt">总体情况<span>(单位：元)</span></div>
+                                <div class="numbt">斌斌就是逊<span>(单位：元)</span></div>
                                 <div class="numtxt">19382721 </div>
                             </div>
                             <div class="pulll_right zhibiao">
-                                <div class="zb1"><span>价格</span><div id="zb1"></div></div>
+                                <div class="zb1" ><span id='zb1_span'>BTC价格($)</span><div id="zb1"></div></div>
                                 <div class="zb2"><span>跌涨幅</span><div id="zb2"></div></div>
                                 <div class="zb3"><span>总币种</span><div id="zb3"></div></div>
                             </div>
@@ -99,7 +99,7 @@
                                 <option value = "CEL">CEL</option>
                                 <option value = "USDC">USDC</option>
                                 <option value = "XRP">XRP</option>
-                                <option value = "BTC">BTC</option>
+                                <option value = "BTC" selected>BTC</option>
                                 <option value = "FTM">FTM</option>
                                 <option value = "HOT">HOT</option>
                                 <option value = "SHIB">SHIB</option>
@@ -213,6 +213,7 @@
                                     });
                                 </script> -->
                             </select>
+                           
                         </div>
                         
                         <!-- <div class="navboxall" id="echart4"></div> -->
@@ -222,11 +223,12 @@
 
                             function paint_k_line(){
                                 var options = $("#update_symbol_select").val();
-
-                                console.log(options);
+                                
+                                // console.log(options);
 
                                 $.ajax({
                                     
+
                                     
                                     // url:'/echart',
                                     url: "{{ url_for('k_line_echart')}}",
@@ -247,7 +249,7 @@
                                         var downBorderColor = '#008F28';
                                         var axisFontColor='#D8D8D8'
                                         // 得到选择框的数据
-                                        
+                                        $('#zb1_span').html(options +'价格($)');
                     
                                         var data0 = splitData(data['1']);
                                         function splitData(rawData){
@@ -494,7 +496,128 @@
                                         window.addEventListener("resize",function(){
                                             myChart.resize();
                                         });
+
+                        function zb2(data) {
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart1 = echarts.init(document.getElementById('zb1'));
+                            var myChart2 = echarts.init(document.getElementById('zb2'));
+                            datafortwo = []
+                            for(val in data){
+                                // alert(data[val]);
+                                datafortwo.push(data[val]);
+                            }
+                            var down_or_rise =datafortwo[1];
+                            var color_for_second = '#FF0000'
+                            if(down_or_rise>0){
+                                down_or_rise = '+'+down_or_rise;
+                            }
+                            else{
+                                down_or_rise = ''+down_or_rise;
+                                color_for_second = '#00FF00'
+                            } 
+                            option1 = {
+                                series: [{	
+                                    type: 'pie',
+                                    radius: ['60%', '70%'],
+                                    color:'#2ECCFA',
+                                label: {
+                                    normal: {
+                                        position: 'center'
+                                    }
+                                },
+                                data: [{
+                                    value:1,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            formatter: datafortwo[0]+'',
+                                            textStyle: {
+                                                fontSize: 20,
+                                                color:'#fff',
+                                            }
+                                        }
+                                    }
+                                }, {
+                                    value: 0,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            textStyle: {
+                                                color: '#aaa',
+                                                fontSize: 12
+                                            }
+                                        }
                                     },
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(255,255,255,.2)'
+                                        },
+                                        emphasis: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                }]
+                            }]
+                        };
+                            // alert(data1[0]);
+                            option2 = {
+                                series: [{	
+                                    type: 'pie',
+                                    radius: ['60%', '70%'],
+                                    color:color_for_second,
+                                label: {
+                                    normal: {
+                                        position: 'center'
+                                    }
+                                },
+                                data: [{
+                                    value:1,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            formatter: down_or_rise+'%',
+                                            textStyle: {
+                                                fontSize: 20,
+                                                color:'#fff',
+                                            }
+                                        }
+                                    }
+                                }, {
+                                    value: 0,
+                                    name: '',
+                                    label: {
+                                        normal: {
+                                            textStyle: {
+                                                color: '#aaa',
+                                                fontSize: 12
+                                            }
+                                        }
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(255,255,255,.2)'
+                                        },
+                                        emphasis: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                }]
+                            }]
+                        };        
+                            myChart1.setOption(option1)
+                            myChart2.setOption(option2);
+                            window.addEventListener("resize",function(){
+                                myChart1.resize();    
+                                myChart2.resize();
+                                });
+                            }
+
+                            for( val in data['2']){
+                                // alert(data['2'][val]);
+                                zb2(data['2'][val]);
+                            };
+                                        
+                     },
 
 
                     
@@ -507,6 +630,9 @@
                             window.addEventListener("resize",function(){
                             myChart.resize();
                             });
+
+
+
                            
                         </script>
                     </div>
