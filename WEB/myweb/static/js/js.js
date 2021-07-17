@@ -165,8 +165,8 @@
                     show: true,
                     areaStyle:{
                         color:[
-                            '#0B0B3B',
-                            '#0B0B3B'
+                            'rgba(10,9,9,0)',
+                            'rgba(10,9,9,0)'
                         ],
                     },
                 }
