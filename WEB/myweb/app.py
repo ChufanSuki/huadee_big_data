@@ -1,6 +1,7 @@
 import datetime
 import functools
 from os import name
+import re
 from flask import Flask,render_template,redirect,request,url_for,flash,jsonify,session
 from flask.helpers import flash
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user
@@ -128,6 +129,51 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+# 功能：检查字符串str是否符合正则表达式re_exp
+# re_exp:正则表达式
+# str:待检查的字符串
+def check_string(str):
+    re_exp = '^[A-Za-z0-9]+$'
+    res = re.match(re_exp, str)
+    if res:
+        return True
+    else:
+        return False
+
+# 判断用户名
+# 0:通过检查 1：用户名为空 2：位数不正确 3：格式不正确
+def check_username(username):
+    username = username.replace(" ","")
+    username_len = len(username)
+    zz = check_string(username)
+    flag = 0
+    if username_len == 0:
+        flag = 1
+    elif (username_len < 6) or (username_len > 14):
+        flag = 2
+    elif(zz == False):
+        flag = 3
+    return flag
+
+# 判断密码
+# 0:通过检查 1：密码不一致 2：密码存在空格 3:密码长度不在[6-14]
+def check_pwd(pwd1,pwd2):
+    pwd1_len = len(pwd1)
+    pwd2_len = len(pwd2)
+    pwd1 = pwd1.replace(" ","")
+    pwd2 = pwd2.replace(" ","")
+    pwd1_len_q = len(pwd1)
+    pwd2_len_q = len(pwd2)
+    flag = 0
+    if pwd1 != pwd2:
+        flag = 1
+    elif (pwd1_len != pwd1_len_q) or (pwd2_len != pwd2_len_q) or (pwd1_len_q == 0) or (pwd2_len_q == 0):
+        flag = 2
+    elif (pwd1_len_q <6) or (pwd1_len_q >14):
+        flag = 3
+    return flag
+
+
 # 注册
 @app.route('/register',methods = ['GET','POST'])
 def register():
@@ -137,20 +183,34 @@ def register():
         code = request.form.get('valid')
         if str(session['code']).upper() == str(code).upper():
             username = request.form.get('username')
+            username = username.replace(" ","")
             pwd1 = request.form.get('pwd1')
             pwd2 = request.form.get('pwd2')
             email = request.form.get('email')
             sql = "select name from user where name=\'"+username+"\';"
             user1 = mysql_connector.query(sql)
-            if username == "":
+            checkname = check_username(username)
+            checkpwd = check_pwd(pwd1,pwd2)
+            if  checkname == 1:
                 flash("用户名不能为空！")
+                return render_template('register.html')
+            elif checkname == 2:
+                flash("用户名位数错误！")
+                return render_template('register.html')
+            elif checkname == 3:
+                flash("用户名格式错误！")
                 return render_template('register.html')
             elif len(user1) != 0:
                 flash("用户名已存在！")
                 return render_template('register.html')
-            elif pwd1 != pwd2:
+            elif checkpwd == 1:
                 flash('两次密码不一致！')
-                print("mima")
+                return render_template('register.html')
+            elif checkpwd == 2:
+                flash('密码为空或存在空格！')
+                return render_template('register.html')
+            elif checkpwd == 3:
+                flash('密码长度不符合！')
                 return render_template('register.html')
             else:
                 # 加密
@@ -162,17 +222,25 @@ def register():
         else:
             return render_template('register.html')
 
-# 验证用户名是否存在
+
+
+# 验证用户名是否可以使用(用户名未注册且格式正确)
 @app.route('/validateUniqueName',methods = ['GET','POST'])
 def validateUniqueName():
     res = {'data':''}
     if request.method == 'GET':
         return render_template('register.html')
     username = request.form.get('username')
+    username = username.replace(" ","")
     sql = "select name from user where name=\'"+username+"\';"
     user1 = mysql_connector.query(sql)
+    # 用户名判断
+    check = check_username(username)
     flag = "True"
+    # 是否存在判断
     if len(user1) != 0:
+        flag = "False"
+    elif check != 0:
         flag = "False"
     res['data'] = flag
     return jsonify(res)
