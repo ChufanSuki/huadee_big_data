@@ -54,6 +54,11 @@ def getDateTime():
 def page_not_found(e):
     return render_template('404.html'),404
 
+# 绑定默认错误页面
+@app.errorhandler(500)
+def page_server_error(e):
+    return render_template('login.html'),500
+
 # 构造一个用户类对象,并使用用户名作为ID
 # 回调函数
 @login_manager.user_loader
@@ -324,6 +329,9 @@ def adminAdmin():
 @login_required
 def error_page():
     if request.method =="GET":
+        print("#########################")
+        print(session['_user_id'])
+        print("#########################")
         return redirect(url_for('index'))
 
 
