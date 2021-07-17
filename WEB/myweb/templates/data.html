@@ -2,220 +2,195 @@
 <html>
 <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+<!-- <script src ="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script> -->
 <script type="text/javascript" src="static/js/js.js"></script>
 <script type="text/javascript" src="static/js/jquery.liMarquee.js"></script>
 <script type="text/javascript" src="static/js/jquery.cxselect.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="static/css/comon0.css">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <head>
     <meta charset="utf-8">
     <title>数字货币大数据分析平台</title>
 
     <link rel="stylesheet" href="static/css/comon0.css">
 </head>
-
-
 <body>
-<div class="bootstrap.min">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-        <a class="navbar-brand" href="#">欢迎, {{ current_user.id }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('logout') }}">注销 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">外链</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for{'admin'} }}">管理界面</a>
-                </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <div class="weather"><span id="showTime"></span></div>
-            </form>
+    <div style="background-color: #010b46;background-image: radial-gradient(#012ae6,#030d4a)">
+        <div class="loading">
+            <div class="loadbox"> <img src="static/images/loading.gif"> 页面加载中... </div>
         </div>
-    </nav>
-</div>
-{#底部栏#}
-<footer class="py-3 bg-dark fixed-bottom" id="footer">
-    <div class="container">
-        <h2 class="m-0 text-center text-white ">数字货币大数据分析平台</h2>
-    </div>
-</footer>
-<div style="background-color: #010b46;background-image: radial-gradient(#012ae6,#030d4a)">
-    <div class="loading">
-        <div class="loadbox"><img src="static/images/loading.gif"> 页面加载中...</div>
-    </div>
-    <div class="back"></div>
-    <div class="head">
-        <div class="weather"><span id="showTime"></span></div>
-        <h1>数字货币大数据分析平台</h1>
+        <div class="back"></div>
+        <div class="head">
+            <div class="weather"><span id="showTime"></span></div>
+            <h1>数字货币大数据分析平台</h1>
 
-    </div>
+        </div>
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000);/*開始运行*/
+            function time() {
+                clearTimeout(t);/*清除定时器*/
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();
+                var m = dt.getMinutes();
+                var s = dt.getSeconds();
+                document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+                t = setTimeout(time, 1000); 
+            }
 
-    <div class="mainbox">
-        <ul class="clearfix">
-            <li>
-                <div class="boxall" style="height:400px;">
-                    <div class="alltitle">标题样式</div>
-                    <div class="navboxall" id="chart1"></div>
-                    <!-- 在js中 -->
-                </div>
-                <div class="boxall" style="height:260px;">
-                    <div class="alltitle">今日开盘价排名滚动栏</div>
-                    <div class="navboxall">
-                        <div class="wraptit">
-                            <span>NO.</span><span> 币种</span><span>今日开盘价($)</span><span>今日市值($)</span>
-                        </div>
-                        <div class="wrap">
-                            <ul class="rank_ul">
-                                <!-- 这部分在js.js中加载 读取后端数据库 -->
-                            </ul>
-
-                        </div>
-
+        </script>
+        <div class="mainbox">
+            <ul class="clearfix">
+                <li>
+                    <div class="boxall" style="height:400px;">
+                        <div class="alltitle">标题样式</div>
+                        <div class="navboxall" id="chart1"></div>
+                        <!-- 在js中 -->
                     </div>
-                </div>
-                <div class="boxall" style="height:260px;">
-                    <div class="alltitle">标题样式</div>
+                    <div class="boxall" style="height:260px;">
+                        <div class="alltitle">今日开盘价排名滚动栏</div>
+                        <div class="navboxall">
+                            <div class="wraptit">
+                                <span>NO.</span><span> 币种</span><span>今日开盘价($)</span><span>今日市值($)</span>
+                            </div>
+                            <div class="wrap">
+                                <ul class="rank_ul">
+                                    <!-- 这部分在js.js中加载 读取后端数据库 -->
+                                </ul>
 
-                    <div class="navboxall" id="echart"></div>
-                </div>
-            </li>
-            <li>
+                            </div>
 
-                <div class="boxall" style="height:230px">
-                    <div class="clearfix navboxall" style="height: 100%">
-                        <div class="pulll_left num">
-                            <div class="numbt">总体情况<span>(单位：元)</span></div>
-                            <div class="numtxt">19382721</div>
-                        </div>
-                        <div class="pulll_right zhibiao">
-                            <div class="zb1"><span>标题样式</span>
-                                <div id="zb1"></div>
-                            </div>
-                            <div class="zb2"><span>标题样式</span>
-                                <div id="zb2"></div>
-                            </div>
-                            <div class="zb3"><span>标题样式</span>
-                                <div id="zb3"></div>
-                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="boxall" style="height: 400px;">
-                    <div class="alltitle">K-Line
-                        <select id='update_symbol_select' onclick="paint_k_line()"
-                                style="background: url(../static/images/car.jpg); float: right;">
-                            <!-- 异步更新选择option的Symbol -->
-                            <!-- <option value="请选择">请选择</option> -->
-                            <option value="CRV">CRV</option>
-                            <option value="AMP">AMP</option>
-                            <option value="MDX">MDX</option>
-                            <option value="ZEN">ZEN</option>
-                            <option value="XMR">XMR</option>
-                            <option value="CEL">CEL</option>
-                            <option value="USDC">USDC</option>
-                            <option value="XRP">XRP</option>
-                            <option value="BTC">BTC</option>
-                            <option value="FTM">FTM</option>
-                            <option value="HOT">HOT</option>
-                            <option value="SHIB">SHIB</option>
-                            <option value="RUNE">RUNE</option>
-                            <option value="AVAX">AVAX</option>
-                            <option value="EGLD">EGLD</option>
-                            <option value="VET">VET</option>
-                            <option value="KCS">KCS</option>
-                            <option value="XTZ">XTZ</option>
-                            <option value="BTG">BTG</option>
-                            <option value="DGB">DGB</option>
-                            <option value="BNT">BNT</option>
-                            <option value="KLAY">KLAY</option>
-                            <option value="XDC">XDC</option>
-                            <option value="STX">STX</option>
-                            <option value="AR">AR</option>
-                            <option value="PAX">PAX</option>
-                            <option value="COMP">COMP</option>
-                            <option value="USDT">USDT</option>
-                            <option value="XEM">XEM</option>
-                            <option value="DOGE">DOGE</option>
-                            <option value="NANO">NANO</option>
-                            <option value="MANA">MANA</option>
-                            <option value="TFUEL">TFUEL</option>
-                            <option value="AAVE">AAVE</option>
-                            <option value="ATOM">ATOM</option>
-                            <option value="BSV">BSV</option>
-                            <option value="CAKE">CAKE</option>
-                            <option value="SNX">SNX</option>
-                            <option value="SC">SC</option>
-                            <option value="ALGO">ALGO</option>
-                            <option value="TEL">TEL</option>
-                            <option value="FIL">FIL</option>
-                            <option value="NEXO">NEXO</option>
-                            <option value="UST">UST</option>
-                            <option value="FTT">FTT</option>
-                            <option value="LUNA">LUNA</option>
-                            <option value="ZRX">ZRX</option>
-                            <option value="DAI">DAI</option>
-                            <option value="TRX">TRX</option>
-                            <option value="OKB">OKB</option>
-                            <option value="BTCB">BTCB</option>
-                            <option value="ADA">ADA</option>
-                            <option value="ZIL">ZIL</option>
-                            <option value="YFI">YFI</option>
-                            <option value="LINK">LINK</option>
-                            <option value="CHZ">CHZ</option>
-                            <option value="BAT">BAT</option>
-                            <option value="THETA">THETA</option>
-                            <option value="BCH">BCH</option>
-                            <option value="CHSB">CHSB</option>
-                            <option value="DCR">DCR</option>
-                            <option value="LEO">LEO</option>
-                            <option value="QNT">QNT</option>
-                            <option value="BUSD">BUSD</option>
-                            <option value="UNI">UNI</option>
-                            <option value="ZEC">ZEC</option>
-                            <option value="HNT">HNT</option>
-                            <option value="ENJ">ENJ</option>
-                            <option value="AXS">AXS</option>
-                            <option value="XLM">XLM</option>
-                            <option value="BNB">BNB</option>
-                            <option value="HT">HT</option>
-                            <option value="EQUAD">EQUAD</option>
-                            <option value="DOT">DOT</option>
-                            <option value="LTC">LTC</option>
-                            <option value="WAVES">WAVES</option>
-                            <option value="QTUM">QTUM</option>
-                            <option value="MIOTA">MIOTA</option>
-                            <option value="NEAR">NEAR</option>
-                            <option value="MATIC">MATIC</option>
-                            <option value="FLOW">FLOW</option>
-                            <option value="CELO">CELO</option>
-                            <option value="ICX">ICX</option>
-                            <option value="ICP">ICP</option>
-                            <option value="EOS">EOS</option>
-                            <option value="TUSD">TUSD</option>
-                            <option value="KSM">KSM</option>
-                            <option value="DASH">DASH</option>
-                            <option value="GRT">GRT</option>
-                            <option value="ONE">ONE</option>
-                            <option value="BTT">BTT</option>
-                            <option value="SUSHI">SUSHI</option>
-                            <option value="HBAR">HBAR</option>
-                            <option value="WBTC">WBTC</option>
-                            <option value="NEO">NEO</option>
-                            <option value="ONT">ONT</option>
-                            <option value="ETH">ETH</option>
-                            <option value="SOL">SOL</option>
-                            <option value="MKR">MKR</option>
-                            <option value="ETC">ETC</option>
-                            <!-- <script>
+                    <div class="boxall" style="height:260px;">
+                        <div class="alltitle">市值占比</div>
+
+                        <div class="navboxall" id="rose_echart"></div>
+                    </div>
+                </li>
+                <li>
+
+                    <div class="boxall" style="height:230px">
+                        <div class="clearfix navboxall" style="height: 100%">
+                            <div class="pulll_left num">
+                                <div class="numbt">总体情况<span>(单位：元)</span></div>
+                                <div class="numtxt">19382721 </div>
+                            </div>
+                            <div class="pulll_right zhibiao">
+                                <div class="zb1"><span>标题样式</span><div id="zb1"></div></div>
+                                <div class="zb2"><span>标题样式</span><div id="zb2"></div></div>
+                                <div class="zb3"><span>标题样式</span><div id="zb3"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="boxall" style="height: 400px;">
+                        <div class="alltitle">K-Line
+                            <select id='update_symbol_select' onclick="paint_k_line()" style="background: url(../static/images/car.jpg); float: right;">
+                                <!-- 异步更新选择option的Symbol -->
+                                <!-- <option value="请选择">请选择</option> -->
+                                <option value = "CRV">CRV</option>
+                                <option value = "AMP">AMP</option>
+                                <option value = "MDX">MDX</option>
+                                <option value = "ZEN">ZEN</option>
+                                <option value = "XMR">XMR</option>
+                                <option value = "CEL">CEL</option>
+                                <option value = "USDC">USDC</option>
+                                <option value = "XRP">XRP</option>
+                                <option value = "BTC">BTC</option>
+                                <option value = "FTM">FTM</option>
+                                <option value = "HOT">HOT</option>
+                                <option value = "SHIB">SHIB</option>
+                                <option value = "RUNE">RUNE</option>
+                                <option value = "AVAX">AVAX</option>
+                                <option value = "EGLD">EGLD</option>
+                                <option value = "VET">VET</option>
+                                <option value = "KCS">KCS</option>
+                                <option value = "XTZ">XTZ</option>
+                                <option value = "BTG">BTG</option>
+                                <option value = "DGB">DGB</option>
+                                <option value = "BNT">BNT</option>
+                                <option value = "KLAY">KLAY</option>
+                                <option value = "XDC">XDC</option>
+                                <option value = "STX">STX</option>
+                                <option value = "AR">AR</option>
+                                <option value = "PAX">PAX</option>
+                                <option value = "COMP">COMP</option>
+                                <option value = "USDT">USDT</option>
+                                <option value = "XEM">XEM</option>
+                                <option value = "DOGE">DOGE</option>
+                                <option value = "NANO">NANO</option>
+                                <option value = "MANA">MANA</option>
+                                <option value = "TFUEL">TFUEL</option>
+                                <option value = "AAVE">AAVE</option>
+                                <option value = "ATOM">ATOM</option>
+                                <option value = "BSV">BSV</option>
+                                <option value = "CAKE">CAKE</option>
+                                <option value = "SNX">SNX</option>
+                                <option value = "SC">SC</option>
+                                <option value = "ALGO">ALGO</option>
+                                <option value = "TEL">TEL</option>
+                                <option value = "FIL">FIL</option>
+                                <option value = "NEXO">NEXO</option>
+                                <option value = "UST">UST</option>
+                                <option value = "FTT">FTT</option>
+                                <option value = "LUNA">LUNA</option>
+                                <option value = "ZRX">ZRX</option>
+                                <option value = "DAI">DAI</option>
+                                <option value = "TRX">TRX</option>
+                                <option value = "OKB">OKB</option>
+                                <option value = "BTCB">BTCB</option>
+                                <option value = "ADA">ADA</option>
+                                <option value = "ZIL">ZIL</option>
+                                <option value = "YFI">YFI</option>
+                                <option value = "LINK">LINK</option>
+                                <option value = "CHZ">CHZ</option>
+                                <option value = "BAT">BAT</option>
+                                <option value = "THETA">THETA</option>
+                                <option value = "BCH">BCH</option>
+                                <option value = "CHSB">CHSB</option>
+                                <option value = "DCR">DCR</option>
+                                <option value = "LEO">LEO</option>
+                                <option value = "QNT">QNT</option>
+                                <option value = "BUSD">BUSD</option>
+                                <option value = "UNI">UNI</option>
+                                <option value = "ZEC">ZEC</option>
+                                <option value = "HNT">HNT</option>
+                                <option value = "ENJ">ENJ</option>
+                                <option value = "AXS">AXS</option>
+                                <option value = "XLM">XLM</option>
+                                <option value = "BNB">BNB</option>
+                                <option value = "HT">HT</option>
+                                <option value = "EQUAD">EQUAD</option>
+                                <option value = "DOT">DOT</option>
+                                <option value = "LTC">LTC</option>
+                                <option value = "WAVES">WAVES</option>
+                                <option value = "QTUM">QTUM</option>
+                                <option value = "MIOTA">MIOTA</option>
+                                <option value = "NEAR">NEAR</option>
+                                <option value = "MATIC">MATIC</option>
+                                <option value = "FLOW">FLOW</option>
+                                <option value = "CELO">CELO</option>
+                                <option value = "ICX">ICX</option>
+                                <option value = "ICP">ICP</option>
+                                <option value = "EOS">EOS</option>
+                                <option value = "TUSD">TUSD</option>
+                                <option value = "KSM">KSM</option>
+                                <option value = "DASH">DASH</option>
+                                <option value = "GRT">GRT</option>
+                                <option value = "ONE">ONE</option>
+                                <option value = "BTT">BTT</option>
+                                <option value = "SUSHI">SUSHI</option>
+                                <option value = "HBAR">HBAR</option>
+                                <option value = "WBTC">WBTC</option>
+                                <option value = "NEO">NEO</option>
+                                <option value = "ONT">ONT</option>
+                                <option value = "ETH">ETH</option>
+                                <option value = "SOL">SOL</option>
+                                <option value = "MKR">MKR</option>
+                                <option value = "ETC">ETC</option>
+                                <!-- <script>
                                     $(document).ready(function(){
                                         
                                         // $.ajax({
@@ -236,80 +211,79 @@
                                         // });
                                     });
                                 </script> -->
-                        </select>
-                    </div>
+                            </select>
+                        </div>
+                        
+                        <!-- <div class="navboxall" id="echart4"></div> -->
+                        <div class="navboxall" id="k_line" style="margin: 10px;"></div>
+                        <script>
+                            var myChart = echarts.init(document.getElementById('k_line'));
 
-                    <!-- <div class="navboxall" id="echart4"></div> -->
-                    <div class="navboxall" id="k_line" style="margin: 10px;"></div>
-                    <script>
-                        var myChart = echarts.init(document.getElementById('k_line'));
+                            function paint_k_line(){
+                                var options = $("#update_symbol_select").val();
 
-                        function paint_k_line() {
-                            var options = $("#update_symbol_select").val();
+                                console.log(options);
 
-                            console.log(options);
-
-                            $.ajax({
-
-
-                                // url:'/echart',
-                                url: "{{ url_for('k_line_echart')}}",
-                                data: {'symbol_opt': options},
-                                type: 'POST',
-                                // async:false,
-                                // dataType:'json',
-                                // processData:false,
-                                success: function (data) {
-                                    // console.log(obj);
-                                    console.log(options);
-                                    // 颜色
-                                    var upColor = '#FF0000';
-                                    var upBorderColor = '#8A0000';
-                                    // var downColor = '#00da3c';
-                                    var downColor = '#00FF00'
-                                    var downBorderColor = '#008F28';
-                                    var axisFontColor = '#D8D8D8'
-                                    // 得到选择框的数据
-
-
-                                    var data0 = splitData(data);
-
-                                    function splitData(rawData) {
-                                        var categoryData = [];
-                                        var values = []
-                                        for (var line in rawData) {
-                                            categoryData.push(rawData[line].splice(0, 1)[0]);
-                                            values.push(rawData[line]);
-                                        }
-                                        return {
-                                            categoryData: categoryData,
-                                            values: values
+                                $.ajax({
+                                    
+                                    
+                                    // url:'/echart',
+                                    url: "{{ url_for('k_line_echart')}}",
+                                    data:{'symbol_opt':options},
+                                    type:'POST',
+                                    // async:false,
+                                    // dataType:'json',
+                                    // processData:false,
+                                    success:function(data){
+                                        // console.log(obj);
+                                        console.log(options);
+                                        // 颜色
+                                        var upColor = '#FF0000';
+                                        var upBorderColor = '#8A0000';
+                                        // var downColor = '#00da3c';
+                                        var downColor ='#00FF00'
+                                        var downBorderColor = '#008F28';
+                                        var axisFontColor='#D8D8D8'
+                                        // 得到选择框的数据
+                                        
+                    
+                                        var data0 = splitData(data);
+                                        function splitData(rawData){
+                                            var categoryData = [];
+                                            var values =[]
+                                            for( var line in rawData){
+                                                categoryData.push(rawData[line].splice(0,1)[0]);
+                                                values.push(rawData[line]);
+                                            }
+                                            return{
+                                                categoryData:categoryData,
+                                                values:values
+                                            };
                                         };
-                                    };
-
-                                    function calculateMA(dayCount) {
-                                        var result = [];
-                                        for (var i = 0, len = data0.values.length; i < len; i++) {
-                                            if (i < dayCount) {
-                                                result.push('-');
-                                                continue;
+                    
+                                        function calculateMA(dayCount) {
+                                            var result = [];
+                                            for (var i = 0, len = data0.values.length; i < len; i++) {
+                                                if (i < dayCount) {
+                                                    result.push('-');
+                                                    continue;
+                                                }
+                                                var sum = 0;
+                                                for (var j = 0; j < dayCount; j++) {
+                                                    sum += data0.values[i - j][1];
+                                                }
+                                                result.push(sum / dayCount);
                                             }
-                                            var sum = 0;
-                                            for (var j = 0; j < dayCount; j++) {
-                                                sum += data0.values[i - j][1];
-                                            }
-                                            result.push(sum / dayCount);
-                                        }
-                                        return result;
-                                    };
-
-                                    myChart.setOption({
-                                        title: {
-                                            text: options + '币',
+                                            return result;
+                                        };
+                    data
+                                        myChart.setOption({
+                                            title: {
+                                            text: options+'币',
                                             left: 0.,
-                                            textStyle: {
-                                                color: axisFontColor,
-                                            }
+                                            textStyle:{
+                                                    color:axisFontColor,
+                                                }          
                                         },
                                         tooltip: {
                                             trigger: 'axis',
@@ -319,9 +293,9 @@
                                         },
                                         legend: {
                                             data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30'],
-                                            textStyle: {
-                                                color: axisFontColor,
-                                            }
+                                            textStyle:{
+                                                    color:axisFontColor,
+                                                }
                                         },
                                         grid: {
                                             left: '10%',
@@ -338,26 +312,26 @@
                                             splitNumber: 20,
                                             min: 'dataMin',
                                             max: 'dataMax',
-                                            axisLabel: {
-                                                show: true,
-                                                textStyle: {
-                                                    color: axisFontColor,
+                                            axisLabel:{
+                                                show:true,
+                                                textStyle:{
+                                                    color:axisFontColor,
                                                 }
                                             },
                                         },
                                         yAxis: {
-                                            axisLabel: {
-                                                show: true,
-                                                textStyle: {
-                                                    color: axisFontColor,
+                                            axisLabel:{
+                                                show:true,
+                                                textStyle:{
+                                                    color:axisFontColor,
                                                 }
                                             },
                                             splitLine: {show: false},
                                             scale: true,
                                             splitArea: {
                                                 show: true,
-                                                areaStyle: {
-                                                    color: [
+                                                areaStyle:{
+                                                    color:[
                                                         '#0B0B3B',
                                                         '#0B0B3B'
                                                     ],
@@ -509,143 +483,127 @@
                                                 smooth: true,
                                                 lineStyle: {
                                                     opacity: 0.5,
-
+                                                   
                                                 }
                                             },
-
+                    
                                         ]
-                                    })
-                                    window.addEventListener("resize", function () {
-                                        myChart.resize();
-                                    });
-                                },
+                                        })
+                                        window.addEventListener("resize",function(){
+                                            myChart.resize();
+                                        });
+                                    },
 
 
-                                error: function (msg) {
-                                    console.log(msg);
-                                    alert('接受信息错误')
-                                }
-                            });
-                        }
-
-                        window.addEventListener("resize", function () {
+                    
+                                    error:function(msg){
+                                        console.log(msg);
+                                        alert('接受信息错误')
+                                    }
+                                });
+                            }
+                            window.addEventListener("resize",function(){
                             myChart.resize();
-                        });
-
-                    </script>
-                </div>
-                <div class="boxall" style="height:340px">
-                    <div class="alltitle">BTC</div>
-                    <div class="navboxall" id="echart"></div>
-                </div>
-            </li>
-            <li>
-                <div class="boxall" style="height:300px">
-                    <div class="alltitle">主流币种排名</div>
-                    <div class="navboxall">
-                        <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tbody>
-                            <tr>
-                                <th scope="col">排名</th>
-                                <th scope="col">币种</th>
-                                <th scope="col">市值</th>
-                                <th scope="col">当日交易额</th>
-                            </tr>
-                            <tr id="tr_main_coin_1">
-                                <!-- tr中的你内容在js.js的onload中加载 -->
-                            </tr>
-                            <tr id="tr_main_coin_2">
-
-                            </tr>
-
-                            <tr id="tr_main_coin_3">
-
-                            </tr>
-                            <tr id="tr_main_coin_4">
-
-                            </tr>
-                            <tr id="tr_main_coin_5">
-
-                            </tr>
-
-                            </tbody>
-                        </table>
+                            });
+                           
+                        </script>
                     </div>
-                </div>
+                    <div class="boxall" style="height:340px">
+                        <div class="alltitle">BTC</div>
+                        <div class="navboxall" id="echart"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="boxall" style="height:300px">
+                        <div class="alltitle">主流币种排名</div>
+                        <div class="navboxall">
+                            <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col">排名</th>
+                                        <th scope="col">币种</th>
+                                        <th scope="col">市值</th>
+                                        <th scope="col">当日交易额</th>
+                                    </tr>
+                                    <tr id="tr_main_coin_1">
+                                        <!-- tr中的你内容在js.js的onload中加载 -->
+                                    </tr>
+                                    <tr id="tr_main_coin_2">
 
-                <div class="boxall" style="height: 300px">
-                    <div class="alltitle">山寨币种排名</div>
-                    <div class="navboxall">
-                        <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tbody>
-                            <tr>
-                                <th scope="col">排名</th>
-                                <th scope="col">币种</th>
-                                <th scope="col">市值</th>
-                                <th scope="col">当日交易额</th>
-                            </tr>
-                            <tr id="tr_not_main_coin_1">
+                                    </tr>
 
-                            </tr>
-                            <tr id="tr_not_main_coin_2">
+                                    <tr id="tr_main_coin_3">
 
-                            </tr>
+                                    </tr>
+                                    <tr id="tr_main_coin_4">
 
-                            <tr id="tr_not_main_coin_3">
+                                    </tr>
+                                    <tr id="tr_main_coin_5">
 
-                            </tr>
-                            <tr id="tr_not_main_coin_4">
+                                    </tr>
 
-                            </tr>
-                            <tr id="tr_not_main_coin_5">
-
-                            </tr>
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                </div>
+                    <div class="boxall" style="height: 300px">
+                        <div class="alltitle">山寨币种排名</div>
+                        <div class="navboxall">
+                            <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col">排名</th>
+                                        <th scope="col">币种</th>
+                                        <th scope="col">市值</th>
+                                        <th scope="col">当日交易额</th>
+                                    </tr>
+                                    <tr id="tr_not_main_coin_1">
 
-                <div class="boxall" style="height:320px">
-                    <div class="alltitle">标题样式</div>
-                    <div class="navboxall" id="echart"></div>
-                </div>
+                                    </tr>
+                                    <tr id="tr_not_main_coin_2">
+
+                                    </tr>
+
+                                    <tr id="tr_not_main_coin_3">
+
+                                    </tr>
+                                    <tr id="tr_not_main_coin_4">
+
+                                    </tr>
+                                    <tr id="tr_not_main_coin_5">
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="boxall" style="height:320px">
+                        <div class="alltitle">数字货币市值占比</div>
+                        <div class="navboxall" id=""></div>
+                    </div>
 
 
-            </li>
-        </ul>
+                </li>
+            </ul>
 
+        </div>
     </div>
-</div>
 
-<script>
-    $(function () {
-        $('.wrap,.adduser').liMarquee({
-            direction: 'up',/*身上滚动*/
-            runshort: false,/*内容不足时不滚动*/
-            scrollamount: 20/*速度*/
+    <script>
+        $(function () {
+            $('.wrap,.adduser').liMarquee({
+                direction: 'up',/*身上滚动*/
+                runshort: false,/*内容不足时不滚动*/
+                scrollamount: 20/*速度*/
+            });
         });
-    });
 
-</script>
-<script>
-    var t = null;
-    t = setTimeout(time, 1000);/*開始运行*/
-    function time() {
-        clearTimeout(t);/*清除定时器*/
-        dt = new Date();
-        var y = dt.getFullYear();
-        var mt = dt.getMonth() + 1;
-        var day = dt.getDate();
-        var h = dt.getHours();
-        var m = dt.getMinutes();
-        var s = dt.getSeconds();
-        document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
-        t = setTimeout(time, 1000);
-    }
+    </script>
 
-</script>
 
 </body>
 </html>
