@@ -35,10 +35,12 @@ length = Length
 class LoginForm(FlaskForm):
     # 密码不支持default提示，故用户名也未设提示
     username = StringField('username', validators=[DataRequired(),
-                                                   Length(2, 10, '用户名')],
+                                                   # Length(2, 10, '用户名')
+                                                   ],
                            default="")
     password = PasswordField('password', validators=[DataRequired(),
-                                                     Length(6, 14, '密码')],
+                                                     # Length(6, 14, '密码')
+                                                     ],
                              default="")
 
 
