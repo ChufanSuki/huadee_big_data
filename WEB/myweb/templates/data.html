@@ -21,8 +21,16 @@
         <div class="back"></div>
         <div class="head">
             <div class="weather"><span id="showTime"></span></div>
+            <div class="managehref">
+                <a href="">欢迎, {{ current_user.id }}</a>
+                <span style="color: rgba(255,255,255,.9);">|</span>
+                <a href="{{ url_for('logout') }}">注销</a>
+                <span style="color: rgba(255,255,255,.9);">|</span>
+                <a href="">外链</a>
+                <span style="color: rgba(255,255,255,.9);">|</span>
+                <a href="{{ url_for('admin') }}">管理</a>
+            </div>
             <h1>数字货币大数据分析平台</h1>
-
         </div>
         <script>
             var t = null;

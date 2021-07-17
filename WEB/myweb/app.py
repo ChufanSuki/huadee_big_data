@@ -61,6 +61,16 @@ def getDateTime():
     now_funmat=now.strftime("%Y-%m-%d %H:%M:%S")
     return now_funmat
 
+# 绑定默认错误页面
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
+
+# 绑定默认错误页面
+@app.errorhandler(500)
+def page_server_error(e):
+    return render_template('login.html'),500
+
 # 构造一个用户类对象,并使用用户名作为ID
 # 回调函数
 @login_manager.user_loader
@@ -331,6 +341,9 @@ def adminAdmin():
 @login_required
 def error_page():
     if request.method =="GET":
+        print("#########################")
+        print(session['_user_id'])
+        print("#########################")
         return redirect(url_for('index'))
 
 
@@ -556,7 +569,7 @@ def getChart1():
             item_data = []
             for item in data:
                 item_name.append(item[0])
-                item_data.append(item[3])
+                item_data.append(item[4])
             datalists.append(item_name)
             datalists.append(item_data)
             keys =['1','2']
