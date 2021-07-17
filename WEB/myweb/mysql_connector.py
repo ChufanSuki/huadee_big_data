@@ -22,6 +22,7 @@ def query(sql):
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
+        print(type(results))
         return results
     except Exception as e:
         raise e

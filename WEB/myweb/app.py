@@ -422,6 +422,38 @@ def rank_left():
             print("左侧排行榜sql执行出错!!")
             return render_template('data.html')
 
+@app.route('/rose_echart', methods=['POST','GET'])
+def rose_echart():
+        if request.method =="GET":
+            return render_template('data.html')
+        if request.method =="POST":  
+        
+            conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+            cur = conn.cursor()
+            sql = "SELECT symbol,percentage from marketcap_percentage limit 0,4" 
+            try:
+                cur.execute(sql)
+                u = cur.fetchall()
+                print(u)
+                xdatalist =[]
+                ydatalist =[]
+
+                i = 1
+                for data in u:
+                    xdatalist.append(data[0])
+                    ydatalist.append(data[1])
+                    i = i - data[1]
+
+                xdatalist.append('other')
+                ydatalist.append(i)
+
+                json_data = {'0':xdatalist,'1':ydatalist}
+                print(json_data)
+
+                return json_data
+            except:
+                print("ERROR")
+                return render_template('data.html')
 
 @app.route('/rank_right', methods=['POST','GET'])
 def rank_right():
@@ -459,8 +491,8 @@ def rank_right():
                 elif(key_main_i==5 and key_not_main_i==5):
                     break
 
-            print("main",main_coin_five)
-            print("not_mian",not_main_coin_five)
+            # print("main",main_coin_five)
+            # print("not_mian",not_main_coin_five)
             json_data1 = dict(zip(key_main,main_coin_five))
             json_data2 = dict(zip(key_not_main,not_main_coin_five))
 
