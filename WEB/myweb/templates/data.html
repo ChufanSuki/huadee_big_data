@@ -79,9 +79,9 @@
                                 <div class="numtxt">19382721 </div>
                             </div>
                             <div class="pulll_right zhibiao">
-                                <div class="zb1"><span>标题样式</span><div id="zb1"></div></div>
-                                <div class="zb2"><span>标题样式</span><div id="zb2"></div></div>
-                                <div class="zb3"><span>标题样式</span><div id="zb3"></div></div>
+                                <div class="zb1"><span>价格</span><div id="zb1"></div></div>
+                                <div class="zb2"><span>跌涨幅</span><div id="zb2"></div></div>
+                                <div class="zb3"><span>总币种</span><div id="zb3"></div></div>
                             </div>
                         </div>
                     </div>
@@ -238,6 +238,7 @@
                                     success:function(data){
                                         // console.log(obj);
                                         console.log(options);
+                                        // alert(data['1']);
                                         // 颜色
                                         var upColor = '#FF0000';
                                         var upBorderColor = '#8A0000';
@@ -248,7 +249,7 @@
                                         // 得到选择框的数据
                                         
                     
-                                        var data0 = splitData(data);
+                                        var data0 = splitData(data['1']);
                                         function splitData(rawData){
                                             var categoryData = [];
                                             var values =[]
@@ -277,7 +278,7 @@
                                             }
                                             return result;
                                         };
-                    data
+            
                                         myChart.setOption({
                                             title: {
                                             text: options+'币',

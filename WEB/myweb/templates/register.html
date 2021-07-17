@@ -124,8 +124,34 @@
 					<input type="email" name="email" id="email" placeholder="请输入您的邮箱">
 				</div>
 				<div class="prompt">
-					<a id="verify" class="" href="#">发送验证码</a>
+					<input type='button' id="verify" value='发送验证码' onclick="sendmail()" style="color: aliceblue;">
 				</div>
+
+				<script>
+					// 按钮的倒计时
+					var countdown=60;
+					function sendmail(){
+						var obj =$('#verify');
+						settime(obj);
+					}
+					function settime(obj){
+						if(countdown ==0){
+							obj.attr('disabled',false);
+							obj.val('重新发送验证码');
+							countdown =60;
+							return;
+						}
+						else{
+							obj.attr('disabled',true);
+							obj.val('重新发送('+countdown+'s)');
+							countdown--;
+						}
+						setTimeout(function(){
+							settime(obj)
+						},1000)
+					}
+
+				</script>
 				<div class="inpGroup">
 					<span class="loginIco3"></span>
 					<input type="text" name="valid" id="code" placeholder="请输入邮箱验证码" onchange="makeAble()">

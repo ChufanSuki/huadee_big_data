@@ -338,7 +338,10 @@ def k_line_echart():
         cur = conn.cursor()
         # sql语句
         sql = "SELECT Symbol,date,open,close,high,low from coin where symbol = '%s'" % symbol
-        print(sql)
+        # 上方两个圆形的数据sql
+        sql2 = "SELECT * from coin_rise_fall where name='EOS'" 
+        cur.execute(sql2)
+        print(sql2)
         try:
             cur.execute(sql)
             all_data = cur.fetchall()
@@ -352,12 +355,28 @@ def k_line_echart():
                 low = data[5]
                 data_list =[date,open,close,low,high]
                 data_lists.append(data_list)
-            # 将列表转化为json
             keys =[]
             for i in range(len(data_lists)):
                 keys.append(str(i))
-            json_data = dict(zip(keys,data_lists))
-       
+            json_data1 = dict(zip(keys,data_lists))
+            # print(json_data1)
+
+            cur.execute(sql2)
+            all_data2 = cur.fetchall()
+            data_list2 =[]
+            for data2 in all_data2:
+                close_taday = data2[0]
+                rise_down = data2[1]
+                data_list2.append([close_taday,rise_down])
+            keys2 = ['0']
+            json_data2 = dict(zip(keys2,data_list2))
+            print(json_data2)
+
+            json_data = {'1':json_data1,'2':json_data2}
+            
+
+            # 将列表转化为json
+
             return json_data
         except:
             print("k-line-echart的sql执行错误")
@@ -431,7 +450,7 @@ def rose_echart():
         
             conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
             cur = conn.cursor()
-            sql = "SELECT symbol,percentage from marketcap_percentage limit 0,4" 
+            sql = "SELECT symbol,percentage from marketcap_percentage limit 0,5" 
             try:
                 cur.execute(sql)
                 u = cur.fetchall()
