@@ -27,6 +27,11 @@ name（币种的名称）  symbol（币种简称）  close_today（当天收盘�
 close_one_week_ago（一周前收盘价）  one_week_%（一周内涨跌幅）  close_one_month_ago（一个月前收盘价）  one_month_%（一个月内涨跌幅）
 
 
-（5）marketcap_percentage.sql       #今日市值及其占比（按市值降序排名）。包含100种货币当天的市值和市值占比
+（5）marketcap_percentage.sql       #今日市值及其占比（按市值降序排名）。包含100种货币当天的市值和市值占比。
 属性解释：
 name（币种的名称）  symbol（币种简称）  date（时间/天）  market_cap（当天市值）  percentage（当天市值占比）
+
+（6）predict.sql              #10种热门货币未来五天的价格预测。包括开盘价、最高价、最低价、收盘价。
+属性解释：
+name（币种的名称）  symbol（币种简称）  date（所预测的时间/天）
+open（预测开盘价格）  high（预测最高价格）  low（预测最低价格）  close（预测收盘价格）
