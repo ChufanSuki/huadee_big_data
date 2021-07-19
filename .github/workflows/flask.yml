@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python  WEB/myweb/app.py
+        sudo python  WEB/myweb/app.py
