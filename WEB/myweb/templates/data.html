@@ -88,7 +88,7 @@
                             </div>
                             <div class="pulll_right zhibiao">
                                 <div class="zb1" ><span id='zb1_span'>BTC价格($)</span><div id="zb1"></div></div>
-                                <div class="zb2"><span>跌涨幅</span><div id="zb2"></div></div>
+                                <div class="zb2"><span>涨跌幅</span><div id="zb2"></div></div>
                                 <div class="zb3"><span>总币种</span><div id="zb3"></div></div>
                             </div>
                         </div>
@@ -691,7 +691,10 @@
 
                                         option = {
                                             title: {
-                                                text: options+'币'
+                                                text: options+'币',
+                                                textStyle:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                }
                                             },
                                             tooltip: {
                                                 trigger: 'axis'
@@ -712,11 +715,18 @@
                                             // },
                                             xAxis: {
                                                 type: 'category',
+                                                axisLabel:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                },
                                                 data: x_lable
                                             },
                                             yAxis: {
                                                 type: 'value',
-                                                min:(min_price*0.999).toFixed(3)
+                                                min:(min_price*0.999).toFixed(3),
+                                                axisLabel:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                },
+
                                             },
                                             series: [
                                                 {

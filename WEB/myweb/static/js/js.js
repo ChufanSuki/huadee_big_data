@@ -17,6 +17,12 @@
         var myChart = echarts.init(document.getElementById('chart1'));
         // alert(data['1']);
         myChart.setOption({
+            title:{
+                text:'周涨跌幅',
+                textStyle:{
+                    color:'rgba(255,255,255,.6)'
+                }
+            },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -571,7 +577,10 @@
         // alert(min_price);
         option = {
             title: {
-                text: 'BTC币'
+                text: 'BTC币',
+                textStyle:{
+                    color:'rgba(255,255,255,.6)'
+                }
             },
             tooltip: {
                 trigger: 'axis'
@@ -592,6 +601,9 @@
             // },
             xAxis: {
                 type: 'category',
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
                 data: x_lable
             },
             yAxis: {
