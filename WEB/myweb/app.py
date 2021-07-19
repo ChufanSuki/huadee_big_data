@@ -714,6 +714,41 @@ def getChart1():
             print("出错啦")
             return render_template('data.html')
 
+@app.route('/echart_hot',methods =['POST','GET'])
+def echart_hot():
+    if request.method =='GET':
+        return render_template('data.html')
+    if request.method =='POST':
+        conn = pymysql.connect(host='localhost', user='root', password='123456', database='encryption_currency')
+        cur = conn.cursor()
+        sql = "SELECT * from correlation"
+        try:
+            cur.execute(sql)
+            u = cur.fetchall()
+            symbol_list = []
+            result_list = []
+            for data in u:
+                symbol = data[0]
+                symbol_list.append(symbol)
+                print(data)
+            
+            i = -1
+            for data in u:
+                i = i + 1
+                for j in range(0,len(symbol_list)): 
+                     
+                    result_list.append([symbol_list[i],symbol_list[j],data[j+1]])
+        
+            print('result_list:')
+            print(result_list)
+            return {'lable':symbol_list,'data':result_list}
+            # return render_template('data.html')
+        except:
+            print('热力图出错')
+            return render_template('data.html')
+
+
+
 
 if __name__ == '__main__':
     app.run(debug="True")
