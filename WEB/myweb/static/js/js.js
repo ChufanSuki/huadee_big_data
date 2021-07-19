@@ -28,12 +28,12 @@
             },
             dataZoom: [{
                 show:true,
-                start:86,
-                end:92
+                start:0,
+                end:20
             },{
                 type: 'inside',
-                start:86,
-                end:92
+                start:0,
+                end:20
             }],
             xAxis: {
                 type: 'category',

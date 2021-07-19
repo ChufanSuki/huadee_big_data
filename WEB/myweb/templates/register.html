@@ -19,16 +19,26 @@
         // 检验用户名是否为空
         function checkUsername(){
             var username = document.getElementById("username").value;
+			// 去除空白
+			var username=username.trim();
+			// 获取信息提示框
             var usernameSpan = document.getElementById("usernameSpan");
+			// 正则表达式
+			var regExp=/^[A-Za-z0-9]+$/;
             if(!username){
 				usernameSpan.innerHTML = "<font color='red'>用户名不能为空</font>";
-				// alert("用户名不能为空！")
             }
+			else if(username.length<6 || username.length>14){
+				usernameSpan.innerHTML = "<font color='red'>用户名长度必须在[6-14]位之间</font>";
+			}
+			else if(!regExp.test(username)){
+				usernameSpan.innerHTML = "<font color='red'>用户名只能由数字和字母组成</font>";
+			}
             else{
 				usernameSpan.innerHTML = "<font color='red'></font>";
             }
         }
-        // 检验用户名是否已经被注册
+        // 检验用户名是否已经被注册,是否符合格式
 		$(document).ready(function () {
             $("#username").change(function () {
                 username = $("#username").val();
@@ -44,7 +54,7 @@
                         if(data.data == "True"){
 							usernameSpan.innerHTML = "<font color='green'>用户名可以使用</font>";
                         } else{
-							usernameSpan.innerHTML = "<font color='red'>用户名已被注册，请重新设置</font>";
+							usernameSpan.innerHTML = "<font color='red'>用户名不可使用</font>";
                         }
                     },
 					error:function(error){
@@ -59,9 +69,24 @@
             // 可以首先对该密码进行正则校验,
             var pwd1 = document.getElementById("pwd1").value;
             var pwd2 = document.getElementById("pwd2").value;
+			var pwd1_temp =pwd1.trim();
+			var pwd2_temp =pwd2.trim();
             if(!pwd1){
-				pwd2Span.innerHTML = "<font color='red'>密码不能为空</font>";
-            }else{
+				pwd2Span.innerHTML = "<font color='red'>密码不能为空或存在空格</font>";
+            }
+			else if(!pwd2){
+				pwd2Span.innerHTML = "<font color='red'>密码不能为空或存在空格</font>";
+			}
+			else if(pwd1 != pwd1_temp){
+				pwd2Span.innerHTML = "<font color='red'>密码不能为空或存在空格</font>";
+			}
+			else if(pwd2 != pwd2_temp){
+				pwd2Span.innerHTML = "<font color='red'>密码不能为空或存在空格</font>";
+			}
+			else if(pwd1.length <6 || pwd1.length > 14){
+				pwd2Span.innerHTML = "<font color='red'>密码长度为[6-14]</font>";
+			}
+			else{
                 if(pwd1 != pwd2){
 					pwd2Span.innerHTML = "<font color='red'>两次密码不一致, 请重新输入</font>";
                 }
@@ -99,7 +124,7 @@
 			<form method="POST">
 				<div class="inpGroup">
 					<span class="loginIco1"></span>
-					<input type="text" name="username" id="username" placeholder="请输入您的用户名" onblur="checkUsername()" autocomplete="off" required>
+					<input type="text" name="username" id="username" placeholder="请输入您的用户名" onkeyup="checkUsername()" autocomplete="off" required>
 				</div>
 				<div class="prompt">
 					<span id="usernameSpan"></span>
