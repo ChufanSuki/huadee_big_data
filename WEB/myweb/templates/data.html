@@ -235,9 +235,7 @@
                                 // console.log(options);
 
                                 $.ajax({
-                                    
 
-                                    
                                     // url:'/echart',
                                     url: "{{ url_for('k_line_echart')}}",
                                     data:{'symbol_opt':options},
@@ -645,8 +643,114 @@
                         </script>
                     </div>
                     <div class="boxall" style="height:340px">
-                        <div class="alltitle">BTC</div>
-                        <div class="navboxall" id="echart"></div>
+                        <div class="alltitle">未来预测
+                            <select id='predict_symbol' onclick="paint_predict_line()" style="background: 'rgba(10,9,9,0)'; float: right;">
+                                <option value = "ADA">ADA</option>
+                                <option value = "BNB">BNB</option>
+                                <option value = "BTC" selected>BTC</option>
+                                <option value = "BUSD">BUSD</option>
+                                <option value = "DOGE">DOGE</option>
+                                <option value = "ETH">ETH</option>
+                                <option value = "SOL">SOL</option>
+                                <option value = "UNI">UNI</option>
+                                <option value = "USDC">USDC</option>
+                                <option value = "USDT">USDT</option>
+                            </select>
+                        </div>
+                        <div class="navboxall" id="predict_echart"></div>
+                        <script>
+                            function paint_predict_line(){
+                                var options = $("#predict_symbol").val();
+                                console.log(options);
+                                $.ajax({
+                                    url:"{{url_for('predict_echart')}}",
+                                    data:{'symbol':options},
+                                    type:"POST",
+                                    success:function(data){
+                                        // alert(data);
+                                        var myChart = echarts.init(document.getElementById('predict_echart'));
+                                        x_lable =[]
+                                        y_open =[]
+                                        y_close=[]
+                                        y_high=[]
+                                        y_low=[]
+                                        for(val in data){
+                                            x_lable.push(data[val][0]);
+                                            y_open.push(data[val][1]);
+                                            y_close.push(data[val][2]);
+                                            y_high.push(data[val][3]);
+                                            y_low.push(data[val][4]);
+                                        }
+                                        // alert(x_lable);
+                                        // alert(y_open);
+                                        // alert(y_close);
+                                        // alert(y_high);
+                                        option = {
+                                            title: {
+                                                text: 'Step Line'
+                                            },
+                                            tooltip: {
+                                                trigger: 'axis'
+                                            },
+                                            legend: {
+                                                data: ['1','2','3','4']
+                                            },
+                                            grid: {
+                                                left: '3%',
+                                                right: '4%',
+                                                bottom: '3%',
+                                                containLabel: true
+                                            },
+                                            // toolbox: {
+                                            //     feature: {
+                                            //         saveAsImage: {}
+                                            //     }
+                                            // },
+                                            xAxis: {
+                                                type: 'category',
+                                                data: x_lable
+                                            },
+                                            yAxis: {
+                                                type: 'value',
+                                                min:y_low[0]*0.9
+                                            },
+                                            series: [
+                                                {
+                                                    name: '1',
+                                                    type: 'line',
+                                                    step: 'start',
+                                                    data: y_open
+                                                },
+                                                {
+                                                    name: '2',
+                                                    type: 'line',
+                                                    step: 'middle',
+                                                    data: y_close
+                                                },
+                                                {
+                                                    name: '3',
+                                                    type: 'line',
+                                                    step: 'end',
+                                                    data: y_high
+                                                },
+                                                {
+                                                    name: '4',
+                                                    type: 'line',
+                                                    step: 'end',
+                                                    data: y_low
+                                                }
+                                            ]
+                                        };
+                                        myChart.setOption(option);
+                                    },
+                                    error:function(msg){
+                                        alert("出错了")
+                                    }
+
+                                });
+                            }
+                            
+                        </script>
                     </div>
                 </li>
                 <li>

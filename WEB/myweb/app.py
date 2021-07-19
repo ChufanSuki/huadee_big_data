@@ -347,7 +347,7 @@ def error_page():
         return redirect(url_for('index'))
 
 
-# 关于画k线图的函数
+# 关于画k线图的函数,上方是两个圆圈
 @app.route('/k_line_echart', methods=['POST','GET'])
 def k_line_echart():
     if request.method =="GET":
@@ -365,9 +365,11 @@ def k_line_echart():
         sql = "SELECT Symbol,date,open,close,high,low from coin where symbol = '%s'" % symbol
         # 上方两个圆形的数据sql
         sql2 = "SELECT * from coin_rise_fall where symbol='%s'" % symbol 
-        cur.execute(sql2)
-        print(sql2)
+        sql3 = "SELECT date,open,high,low,close from coin_predict"
+        cur.execute(sql3)
+        # print(sql2)
         try:
+            # 处理得到第一个k线图的数据
             cur.execute(sql)
             all_data = cur.fetchall()
             data_lists =[]
@@ -385,7 +387,7 @@ def k_line_echart():
                 keys.append(str(i))
             json_data1 = dict(zip(keys,data_lists))
             # print(json_data1)
-
+            #处理得到两个圆圈的图的数据
             cur.execute(sql2)
             all_data2 = cur.fetchall()
             data_list2 =[]
@@ -397,10 +399,10 @@ def k_line_echart():
                 data_list2.append([close_taday,rise_down])
             keys2 = ['0']
             json_data2 = dict(zip(keys2,data_list2))
-            print(json_data2)
+            # print(json_data2)
 
             json_data = {'1':json_data1,'2':json_data2}
-            
+            # print(json_data1)
 
             # 将列表转化为json
 
@@ -408,6 +410,39 @@ def k_line_echart():
         except:
             print("k-line-echart的sql执行错误")
             return render_template('data.html')
+# 预测
+@app.route('/predict',methods=['POST','GET'])
+def predict_echart():
+    if request.method =="GET":
+        return render_template('data.html')
+    if request.method =="POST":  
+        conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
+        cur = conn.cursor()
+        symbol = str(request.form.get("symbol"))
+        print("haaaaaaaaaa",symbol)
+        # 默认值设置为BTC，便于一开始的页面展示
+        if(symbol == 'None'):
+            symbol = 'BTC'
+        sql = "SELECT date,open,close,high,low from coin_predict where symbol='%s'" % symbol 
+        cur.execute(sql)
+        u = cur.fetchall()
+        data_list = []
+        key_list = []
+        i = 0
+        for data in u:
+            date = data[0].strftime("%Y/%m/%d")
+            open = data[1]
+            close = data[2]
+            high = data[3]
+            low = data[4]
+            data_list.append([date,open,close,high,low])
+            i = i + 1 
+            key_list.append(str(i))
+        json_data = dict(zip(key_list,data_list))
+        print(json_data)
+
+        return json_data
+
 # 动态从数据库中 选取币种 没有写死 暂时没有用到该函数
 @app.route('/echart1', methods=['POST','GET'])        
 def select_symbol():

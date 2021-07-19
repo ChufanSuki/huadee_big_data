@@ -544,7 +544,86 @@
         
     });
 
+    $.post("/predict",function(data){
+        var myChart = echarts.init(document.getElementById('predict_echart'));
+        x_lable =[]
+        y_open =[]
+        y_close=[]
+        y_high=[]
+        y_low=[]
+        for(val in data){
+            x_lable.push(data[val][0]);
+            y_open.push(data[val][1]);
+            y_close.push(data[val][2]);
+            y_high.push(data[val][3]);
+            y_low.push(data[val][4]);
+        }
+        // alert(x_lable);
+        // alert(y_open);
+        // alert(y_close);
+        // alert(y_high);
+        option = {
+            title: {
+                text: 'Step Line'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['1','2','3','4']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            // toolbox: {
+            //     feature: {
+            //         saveAsImage: {}
+            //     }
+            // },
+            xAxis: {
+                type: 'category',
+                data: x_lable
+            },
+            yAxis: {
+                type: 'value',
+                min:y_low[0]*0.9
+            },
+            series: [
+                {
+                    name: '1',
+                    type: 'line',
+                    step: 'start',
+                    data: y_open
+                },
+                {
+                    name: '2',
+                    type: 'line',
+                    step: 'middle',
+                    data: y_close
+                },
+                {
+                    name: '3',
+                    type: 'line',
+                    step: 'end',
+                    data: y_high
+                },
+                {
+                    name: '4',
+                    type: 'line',
+                    step: 'end',
+                    data: y_low
+                }
+            ]
+        };
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+            });
 
+    });
                  
                     
     $(".loading").fadeOut()
