@@ -270,7 +270,7 @@ def validateUniqueName():
     if len(user1) != 0:
         flag = "False"
     elif check != 0:
-        flag = "False"
+        flag = "Error"
     res['data'] = flag
     return jsonify(res)
 

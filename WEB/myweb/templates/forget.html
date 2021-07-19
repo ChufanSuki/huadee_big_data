@@ -43,9 +43,13 @@
                     success: function(data){
                         if(data.data == "True"){
 							usernameSpan.innerHTML = "<font color='red'>用户名未注册</font>";
-                        } else{
-							usernameSpan.innerHTML = "<font color='green'>用户存在</font>";
+                        } 
+						else if(data.data == "Error"){
+							usernameSpan.innerHTML = "<font color='red'>用户名格式错误</font>";
                         }
+						else{
+							usernameSpan.innerHTML = "<font color='green'>用户名存在</font>";
+						}
                     },
 					error:function(error){
 						alert("error")
