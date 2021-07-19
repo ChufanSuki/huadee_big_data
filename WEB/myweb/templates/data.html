@@ -681,13 +681,17 @@
                                             y_high.push(data[val][3]);
                                             y_low.push(data[val][4]);
                                         }
-                                        // alert(x_lable);
-                                        // alert(y_open);
-                                        // alert(y_close);
-                                        // alert(y_high);
+                                        //  找到最小值的坐标
+                                        var min_price =999999999;
+                                        for(var i=0;i<y_low.length;i++){
+                                            if(y_low[i]<min_price){
+                                                min_price = y_low[i];
+                                            }
+                                        }
+
                                         option = {
                                             title: {
-                                                text: 'Step Line',
+                                                text: options+'币',
                                                 textStyle:{
                                                     color:'rgba(255,255,255,.6)'
                                                 }
@@ -696,7 +700,7 @@
                                                 trigger: 'axis'
                                             },
                                             legend: {
-                                                data: ['1','2','3','4'],
+                                                data: ['开盘价格','收盘价格','最高价格','最低价格'],
                                                 textStyle:{
                                                     color:'rgba(255,255,255,.6)'
                                                 }
@@ -721,32 +725,33 @@
                                             },
                                             yAxis: {
                                                 type: 'value',
+                                                min:(min_price*0.999).toFixed(3),
                                                 axisLabel:{
                                                     color:'rgba(255,255,255,.6)'
                                                 },
-                                                min:y_low[0]*0.9
+
                                             },
                                             series: [
                                                 {
-                                                    name: '1',
+                                                    name: '开盘价格',
                                                     type: 'line',
                                                     step: 'start',
                                                     data: y_open
                                                 },
                                                 {
-                                                    name: '2',
+                                                    name: '收盘价格',
                                                     type: 'line',
                                                     step: 'middle',
                                                     data: y_close
                                                 },
                                                 {
-                                                    name: '3',
+                                                    name: '最高价格',
                                                     type: 'line',
                                                     step: 'end',
                                                     data: y_high
                                                 },
                                                 {
-                                                    name: '4',
+                                                    name: '最低价格',
                                                     type: 'line',
                                                     step: 'end',
                                                     data: y_low
