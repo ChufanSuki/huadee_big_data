@@ -368,8 +368,9 @@
                         formatter: "{b} : {c} ({d}%)"
                     },
                     legend: {
-                        right:0,
-                        top:30,
+                        // right:0,
+                        // top:30,
+                        top:'top',
                         height:160,
                         itemWidth:10,
                         itemHeight:10,
@@ -378,7 +379,7 @@
                             color: 'rgba(255,255,255,.6)',
                             fontSize:12
                         },
-                        orient:'vertical',
+                        // orient:'vertical',
                         data: data['0']
                     },
                    calculable : true,
@@ -388,7 +389,7 @@
 							color: ['#62c98d', '#2f89cf', '#4cb9cf', '#205acf', '#c9c862', '#c98b62', '#c962b9', '#7562c9','#c96262','#c25775','#00b7be'],	
                             type:'pie',
                             radius : [30, 70],
-                            center : ['35%', '50%'],
+                            center : ['50%', '65%'],
                             roseType : 'radius',
                             label: {
                                 normal: {
