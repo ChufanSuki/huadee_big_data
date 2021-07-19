@@ -650,7 +650,67 @@
             });
 
     });
-                 
+    
+    $.post('/echart_hot',function(data){
+        // alert(data['data']);
+        // alert(data['lable']);
+        var myChart = echarts.init(document.getElementById('echart_hot'));
+
+        var xData = data['lable']
+        var yData = data['lable']
+        
+        var data = data['data']
+
+        option = {
+            tooltip: {},
+            grid: {
+                right: 140,
+                left: 40
+            },
+            xAxis: {
+                type: 'category',
+                data: xData
+            },
+            yAxis: {
+                type: 'category',
+                data: yData
+            },
+            visualMap: {
+                type: 'piecewise',
+                min: -1,
+                max: 1,
+                left: 'right',
+                top: 'center',
+                calculable: true,
+                realtime: false,
+                splitNumber: 10,
+                inRange: {
+                    color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                }
+            },
+            series: [{
+                name: '关联度',
+                type: 'heatmap',
+                data: data,
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#333',
+                        borderWidth: 1
+                    }
+                },
+                progressive: 1000,
+                animation: false
+            }]
+        };
+        
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+
+    })
                     
     $(".loading").fadeOut()
 })  
@@ -681,7 +741,7 @@ $(function () {
 	// echarts_2();
 	// echarts_3();
 	// echarts_4();
-	// echarts_5();
+	// echarts_hot();
 	// zb1();
 	// zb2();
 	zb3(); //沿用模板 设置币种
@@ -1141,96 +1201,58 @@ option = {
         });
     }
 	
-function echarts_5() {
+function echarts_hot() {
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echart5'));
-// 颜色
-var lightBlue = {
-	type: 'linear',
-	x: 0,
-	y: 0,
-	x2: 0,
-	y2: 1,
-	colorStops: [{
-		offset: 0,
-		color: 'rgba(41, 121, 255, 1)'
-	}, {
-		offset: 1,
-		color: 'rgba(0, 192, 255, 1)'
-	}],
-	globalCoord: false
-}
+        var myChart = echarts.init(document.getElementById('echart_hot'));
 
-var option = {
-	tooltip: {
-		show: false
-	},
-	grid: {
-		top: '0%',
-		left: '65',
-		right: '14%',
-		bottom: '0%',
-	},
-	xAxis: {
-		min: 0,
-		max: 100,
-		splitLine: {
-			show: false
-		},
-		axisTick: {
-			show: false
-		},
-		axisLine: {
-			show: false
-		},
-		axisLabel: {
-			show: false
-		}
-	},
-	yAxis: {
-		data: ['字段名称', '字段名称', '字段名称','字段名称','字段名称','字段名称','字段名称','字段名称','字段名称','字段名称','字段名称'],
-		//offset: 15,
-		axisTick: {
-			show: false
-		},
-		axisLine: {
-			show: false
-		},
-		axisLabel: {
-			color: 'rgba(255,255,255,.6)',
-			fontSize: 14
-		}
-	},
-	series: [{
-		type: 'bar',
-		label: {
-			show: true,
-			zlevel: 10000,
-			position: 'right',
-			padding: 10,
-			color: '#49bcf7',
-			fontSize: 14,
-			formatter: '{c}%'
-			
-		},
-		itemStyle: {
-			color:'#49bcf7'
-		},
-		barWidth: '15',
-		data: [49, 80, 67, 99, 12, 19, 39, 84, 28, 47, 57, 100],
-		z: 10
-	}, {
-		type: 'bar',
-		barGap: '-100%',
-		itemStyle: {
-			color:'#fff',
-			opacity: 0.1
-		},
-		barWidth: '15',
-		data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-		z: 5
-	}],
-};
+        var xData = ['BTC','DOGE']
+        var yData = ['BTC','DOGE']
+        
+        var data = [['BTC','DOGE',-0.3],['BTC','BTC',1],['DOGE','BTC',0.3],['DOGE','DOGE',1]]
+
+        option = {
+            tooltip: {},
+            grid: {
+                right: 140,
+                left: 40
+            },
+            xAxis: {
+                type: 'category',
+                data: xData
+            },
+            yAxis: {
+                type: 'category',
+                data: yData
+            },
+            visualMap: {
+                type: 'piecewise',
+                min: -1,
+                max: 1,
+                left: 'right',
+                top: 'center',
+                calculable: true,
+                realtime: false,
+                splitNumber: 10,
+                inRange: {
+                    color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                }
+            },
+            series: [{
+                name: '关联度',
+                type: 'heatmap',
+                data: data,
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#333',
+                        borderWidth: 1
+                    }
+                },
+                progressive: 1000,
+                animation: false
+            }]
+        };
+        
+
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
         window.addEventListener("resize",function(){
