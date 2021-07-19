@@ -450,7 +450,7 @@ def k_line_echart():
         # 默认值设置为BTC，便于一开始的页面展示
         if (symbol == 'None'):
             symbol = 'BTC'
-        # print(symbol)
+        print(symbol)
         # 连接数据库
         conn = pymysql.connect(host='localhost', user='root', password='123456', database='encryption_currency')
         cur = conn.cursor()
@@ -459,7 +459,7 @@ def k_line_echart():
         # 上方两个圆形的数据sql
         sql2 = "SELECT * from coin_rise_fall where symbol='%s'" % symbol
         cur.execute(sql2)
-        # print(sql2)
+        print(sql2)
         try:
             # 处理得到第一个k线图的数据
             cur.execute(sql)
@@ -511,6 +511,7 @@ def predict_echart():
         conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
         cur = conn.cursor()
         symbol = str(request.form.get("symbol"))
+        print("haaaaaaaaaa",symbol)
         # 默认值设置为BTC，便于一开始的页面展示
         if(symbol == 'None'):
             symbol = 'BTC'
@@ -526,12 +527,11 @@ def predict_echart():
             close = data[2]
             high = data[3]
             low = data[4]
-            # print(open,close,high,low)
             data_list.append([date,open,close,high,low])
             i = i + 1 
             key_list.append(str(i))
         json_data = dict(zip(key_list,data_list))
-        # print(json_data)
+        print(json_data)
 
         return json_data
 
@@ -561,7 +561,7 @@ def select_symbol():
         # print(keys)
         json_data = dict(zip(keys, symbol_list))
         # print(json_data)
-        # print("haha")
+        print("haha")
         return json_data
 
 
@@ -612,7 +612,7 @@ def rose_echart():
         try:
             cur.execute(sql)
             u = cur.fetchall()
-            # print(u)
+            print(u)
             xdatalist = []
             ydatalist = []
 
@@ -626,7 +626,7 @@ def rose_echart():
             ydatalist.append(i)
 
             json_data = {'0': xdatalist, '1': ydatalist}
-            # print(json_data)
+            print(json_data)
 
             return json_data
         except:
