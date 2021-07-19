@@ -270,7 +270,7 @@ def validateUniqueName():
     if len(user1) != 0:
         flag = "False"
     elif check != 0:
-        flag = "False"
+        flag = "Error"
     res['data'] = flag
     return jsonify(res)
 
@@ -353,16 +353,22 @@ def forget():
             email = request.form.get('email')
             sql = "select name from user where name=\'" + username + "\';"
             user1 = mysql_connector.query(sql)
+            checkpwd = check_pwd(pwd1,pwd2)
             if username == "":
                 flash("用户名不能为空！")
                 return render_template('forget.html')
             elif len(user1) == 0:
                 flash("用户名不存在！")
                 return render_template('forget.html')
-            elif pwd1 != pwd2:
+            elif checkpwd == 1:
                 flash('两次密码不一致！')
-                print("mima")
                 return render_template('forget.html')
+            elif checkpwd == 2:
+                flash('密码为空或存在空格！')
+                return render_template('register.html')
+            elif checkpwd == 3:
+                flash('密码长度不符合！')
+                return render_template('register.html')
             else:
                 # 加密
                 hsvar = encryption(pwd1)
