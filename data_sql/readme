@@ -4,20 +4,20 @@
 #数据库介绍：
 （1）coin.sql                 #100种货币总数据库，网络爬虫获得。
 属性解释：
-ID（主键）  name（币种的名称）  symbol（币种简称）  date（时间/天） time_high(当天最高价格时刻)   time_low(当天最低价格时刻) 
+ID（主键）  name（币种的名称）  symbol（币种简称）  date（日期/天） time_high(当天最高价格时刻)   time_low(当天最低价格时刻) 
 open（当天开盘价格）  high（当天最高价格）  low（当天最低价格）  close（当天收盘价格）  volume（当天交易额）  market_cap（当天市值）
 
 
 （2）avg_volume_marketcap.sql #交易额、市值排名（按今日市值降序排名）。包含100种货币当天、近七天、近一个月每日的平均交易额和平均市值。
 属性解释：
-name（币种的名称）  symbol（币种简称）  date（时间/天）  volume_today（当天交易额）  market_cap_today（当天市值）
+name（币种的名称）  symbol（币种简称）  date（日期/天）  volume_today（当天交易额）  market_cap_today（当天市值）
 avg_volume_week（一周内每天平均交易额）  avg_market_cap_week（一周内每天平均市值）
 avg_volume_month（一个月内每天平均交易额）  avg_market_cap_month（一个月内每天平均市值）
 
 
 （3）coin_price.sql           #货币价格排名（按今日开盘价降序排名）。包含100种货币当天开盘价、最高价、最低价、收盘价。
 属性解释：
-name（币种的名称）  symbol（币种简称）  date（时间/天）  open（当天开盘价格）  high（当天最高价格）
+name（币种的名称）  symbol（币种简称）  date（日期/天）  open（当天开盘价格）  high（当天最高价格）
 low（当天最低价格）  close（当天收盘价格）   market_cap（当天市值）
 
 
@@ -29,9 +29,17 @@ close_one_week_ago（一周前收盘价）  one_week_%（一周内涨跌幅）  
 
 （5）marketcap_percentage.sql       #今日市值及其占比（按市值降序排名）。包含100种货币当天的市值和市值占比。
 属性解释：
-name（币种的名称）  symbol（币种简称）  date（时间/天）  market_cap（当天市值）  percentage（当天市值占比）
+name（币种的名称）  symbol（币种简称）  date（日期/天）  market_cap（当天市值）  percentage（当天市值占比）
 
 （6）predict.sql              #10种热门货币未来五天的价格预测。包括开盘价、最高价、最低价、收盘价。
 属性解释：
-name（币种的名称）  symbol（币种简称）  date（所预测的时间/天）
+name（币种的名称）  symbol（币种简称）  date（所预测的日期/天）
 open（预测开盘价格）  high（预测最高价格）  low（预测最低价格）  close（预测收盘价格）
+
+（7）corr_original_data.sql        #存储10种热门货币最近两个月的闭盘价并修改格式，作为直接计算该10种相关性矩阵的原始数据。
+属性解释：
+date（日期/天）  ADA/BNB/BTC/BUSD/DOGE/ETH/SOL/UNI/USDC/USDT（对应10种货币对应日期的闭盘价）
+
+（8）correlation.sql               #存储10种热门货币的相关性计算结果。本质是一个10*10的相关性矩阵。
+属性解释：
+symbol(作为相关性矩阵的纵轴）  ADA/BNB/BTC/BUSD/DOGE/ETH/SOL/UNI/USDC/USDT（作为相关性矩阵的横轴）

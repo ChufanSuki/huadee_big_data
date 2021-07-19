@@ -84,7 +84,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 .wrap{ height:82%; overflow: hidden;}
 .wrap li{  line-height:40px; height:40px; }
 .wrap li p,.wraptit{ font-size: 0; }
-.wrap li span,.wraptit span{ display: inline-block; font-size: 18px;color: rgba(255,255,255,.6);}
+.wrap li span,.wraptit span{ display: inline-block; font-size: 16px;color: rgba(255,255,255,.6);}
 .wraptit { border-bottom: 1px solid rgba(255,255,255,.2); padding:0 0 10px 0; margin-bottom: 10px;}
 .wrap li span:nth-child(1),.wraptit span:nth-child(1){ width: 10%;text-align: center;}
 .wrap li span:nth-child(2),.wraptit span:nth-child(2){ width: 20%;text-align: center;}
