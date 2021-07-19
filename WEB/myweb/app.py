@@ -527,6 +527,7 @@ def predict_echart():
             close = data[2]
             high = data[3]
             low = data[4]
+            print(open,close,high,low)
             data_list.append([date,open,close,high,low])
             i = i + 1 
             key_list.append(str(i))

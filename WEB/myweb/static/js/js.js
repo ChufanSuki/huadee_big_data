@@ -557,20 +557,27 @@
             y_close.push(data[val][2]);
             y_high.push(data[val][3]);
             y_low.push(data[val][4]);
+            // console.log(data[val][1]);
+            // console.log(data[val][2]);
+            // console.log(data[val][3]);
+            // console.log(data[val][4]);
         }
-        // alert(x_lable);
-        // alert(y_open);
-        // alert(y_close);
-        // alert(y_high);
+        var min_price =999999999;
+        for(var i=0;i<y_low.length;i++){
+            if(y_low[i]<min_price){
+                min_price = y_low[i];
+            }
+        }
+        // alert(min_price);
         option = {
             title: {
-                text: 'Step Line'
+                text: 'BTC币'
             },
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                data: ['1','2','3','4']
+                data: ['开盘价格','收盘价格','最高价格','最低价格']
             },
             grid: {
                 left: '3%',
@@ -589,29 +596,29 @@
             },
             yAxis: {
                 type: 'value',
-                min:y_low[0]*0.9
+                min: min_price*0.999
             },
             series: [
                 {
-                    name: '1',
+                    name: '开盘价格',
                     type: 'line',
                     step: 'start',
                     data: y_open
                 },
                 {
-                    name: '2',
+                    name: '收盘价格',
                     type: 'line',
                     step: 'middle',
                     data: y_close
                 },
                 {
-                    name: '3',
+                    name: '最高价格',
                     type: 'line',
                     step: 'end',
                     data: y_high
                 },
                 {
-                    name: '4',
+                    name: '最低价格',
                     type: 'line',
                     step: 'end',
                     data: y_low
