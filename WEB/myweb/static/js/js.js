@@ -662,18 +662,32 @@
         var data = data['data']
 
         option = {
-            tooltip: {},
+            tooltip: {
+                trigger:'item',
+                axisPointer:{
+                    type:'cross',
+                },
+                formatter:'{a}:<br/>{c}'
+            },
             grid: {
-                right: 140,
-                left: 40
+                right: 100,
+                left: 45,
+                top:50,
+                bottom:50
             },
             xAxis: {
                 type: 'category',
-                data: xData
+                data: xData,
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
             },
             yAxis: {
                 type: 'category',
-                data: yData
+                data: yData,
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
             },
             visualMap: {
                 type: 'piecewise',
@@ -686,6 +700,9 @@
                 splitNumber: 10,
                 inRange: {
                     color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                },
+                textStyle:{
+                    color:'rgba(255,255,255,.6)'
                 }
             },
             series: [{
