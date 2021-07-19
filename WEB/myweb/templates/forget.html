@@ -28,7 +28,7 @@
 				usernameSpan.innerHTML = "<font color='red'></font>";
             }
         }
-        // 检验用户名是否存在
+        // 检验用户名格式
 		$(document).ready(function () {
             $("#username").change(function () {
                 username = $("#username").val();
@@ -39,7 +39,6 @@
                     url:"/validateUniqueName",
                     type:"post",
 					data:sendData,
-                    // headers: {"X-CSRFToken":$.cookie("csrftoken")},
                     success: function(data){
                         if(data.data == "True"){
 							usernameSpan.innerHTML = "<font color='red'>用户名未注册</font>";
