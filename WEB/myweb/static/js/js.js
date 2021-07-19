@@ -670,10 +670,10 @@
                 formatter:'{a}:<br/>{c}'
             },
             grid: {
-                right: 100,
+                right: 95,
                 left: 45,
-                top:50,
-                bottom:50
+                top:55,
+                bottom:55
             },
             xAxis: {
                 type: 'category',
