@@ -564,6 +564,10 @@
             y_close.push(data[val][2]);
             y_high.push(data[val][3]);
             y_low.push(data[val][4]);
+            // console.log(data[val][1]);
+            // console.log(data[val][2]);
+            // console.log(data[val][3]);
+            // console.log(data[val][4]);
         }
         var min_price =999999999;
         for(var i=0;i<y_low.length;i++){
