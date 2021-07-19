@@ -635,7 +635,29 @@
                     
     $(".loading").fadeOut()
 })  
+
+
 $(function () {
+    // 设置右侧两个排行榜定时刷新，这里设置为1分钟
+    update_right_rank();
+    function update_right_rank(){
+        setTimeout(update_right_rank,1000*60*1);//1000表示1000ms *60表示一分钟 *1表示一分钟
+        $.post('/rank_right',function(data){
+            // console.log("nihao");
+            // 右侧排行 主流币
+            $('#tr_main_coin_1').html('<td><span>1</span></td><td>'+data['1']['0']['0']+'</td><td>'+data['1']['0']['1']+'<br></td><td>'+data['1']['0']['2']+'<br></td>');
+            $('#tr_main_coin_2').html('<td><span>2</span></td><td>'+data['1']['1']['0']+'</td><td>'+data['1']['1']['1']+'<br></td><td>'+data['1']['1']['2']+'<br></td>');
+            $('#tr_main_coin_3').html('<td><span>3</span></td><td>'+data['1']['2']['0']+'</td><td>'+data['1']['2']['1']+'<br></td><td>'+data['1']['2']['2']+'<br></td>');
+            $('#tr_main_coin_4').html('<td><span>4</span></td><td>'+data['1']['3']['0']+'</td><td>'+data['1']['3']['1']+'<br></td><td>'+data['1']['3']['2']+'<br></td>');
+            $('#tr_main_coin_5').html('<td><span>5</span></td><td>'+data['1']['4']['0']+'</td><td>'+data['1']['4']['1']+'<br></td><td>'+data['1']['4']['2']+'<br></td>');
+            // 左侧排行 山寨币
+            $('#tr_not_main_coin_1').html('<td><span>1</span></td><td>'+data['2']['0']['0']+'</td><td>'+data['2']['0']['1']+'<br></td><td>'+data['2']['0']['2']+'<br></td>');
+            $('#tr_not_main_coin_2').html('<td><span>2</span></td><td>'+data['2']['1']['0']+'</td><td>'+data['2']['1']['1']+'<br></td><td>'+data['2']['1']['2']+'<br></td>');
+            $('#tr_not_main_coin_3').html('<td><span>3</span></td><td>'+data['2']['2']['0']+'</td><td>'+data['2']['2']['1']+'<br></td><td>'+data['2']['2']['2']+'<br></td>');
+            $('#tr_not_main_coin_4').html('<td><span>4</span></td><td>'+data['2']['3']['0']+'</td><td>'+data['2']['3']['1']+'<br></td><td>'+data['2']['3']['2']+'<br></td>');
+            $('#tr_not_main_coin_5').html('<td><span>5</span></td><td>'+data['2']['4']['0']+'</td><td>'+data['2']['4']['1']+'<br></td><td>'+data['2']['4']['2']+'<br></td>');
+        });
+    }
     // echarts_1();
 	// echarts_2();
 	// echarts_3();
@@ -643,7 +665,7 @@ $(function () {
 	// echarts_5();
 	// zb1();
 	// zb2();
-	zb3();
+	zb3(); //沿用模板 设置币种
     function echarts_1() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('rose_echart'));

@@ -511,7 +511,6 @@ def predict_echart():
         conn = pymysql.connect(host='localhost',user='root',password='123456',database='encryption_currency')
         cur = conn.cursor()
         symbol = str(request.form.get("symbol"))
-        print("haaaaaaaaaa",symbol)
         # 默认值设置为BTC，便于一开始的页面展示
         if(symbol == 'None'):
             symbol = 'BTC'
@@ -532,7 +531,7 @@ def predict_echart():
             i = i + 1 
             key_list.append(str(i))
         json_data = dict(zip(key_list,data_list))
-        print(json_data)
+        # print(json_data)
 
         return json_data
 
