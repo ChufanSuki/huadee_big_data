@@ -88,7 +88,7 @@
                             </div>
                             <div class="pulll_right zhibiao">
                                 <div class="zb1" ><span id='zb1_span'>BTC价格($)</span><div id="zb1"></div></div>
-                                <div class="zb2"><span>跌涨幅</span><div id="zb2"></div></div>
+                                <div class="zb2"><span>涨跌幅</span><div id="zb2"></div></div>
                                 <div class="zb3"><span>总币种</span><div id="zb3"></div></div>
                             </div>
                         </div>
@@ -687,7 +687,10 @@
                                         // alert(y_high);
                                         option = {
                                             title: {
-                                                text: 'Step Line'
+                                                text: 'Step Line',
+                                                textStyle:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                }
                                             },
                                             tooltip: {
                                                 trigger: 'axis'
@@ -708,10 +711,16 @@
                                             // },
                                             xAxis: {
                                                 type: 'category',
+                                                axisLabel:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                },
                                                 data: x_lable
                                             },
                                             yAxis: {
                                                 type: 'value',
+                                                axisLabel:{
+                                                    color:'rgba(255,255,255,.6)'
+                                                },
                                                 min:y_low[0]*0.9
                                             },
                                             series: [

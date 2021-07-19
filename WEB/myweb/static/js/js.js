@@ -17,6 +17,12 @@
         var myChart = echarts.init(document.getElementById('chart1'));
         // alert(data['1']);
         myChart.setOption({
+            title:{
+                text:'周涨跌幅',
+                textStyle:{
+                    color:'rgba(255,255,255,.6)'
+                }
+            },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -564,7 +570,10 @@
         // alert(y_high);
         option = {
             title: {
-                text: 'Step Line'
+                text: 'Step Line',
+                textStyle:{
+                    color:'rgba(255,255,255,.6)'
+                }
             },
             tooltip: {
                 trigger: 'axis'
@@ -585,10 +594,16 @@
             // },
             xAxis: {
                 type: 'category',
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
                 data: x_lable
             },
             yAxis: {
                 type: 'value',
+                axisLabel:{
+                    color:'rgba(255,255,255,.6)'
+                },
                 min:y_low[0]*0.9
             },
             series: [
