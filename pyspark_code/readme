@@ -6,3 +6,9 @@
 （1）avg_volume_marketcap.py  用pyspark处理交易额、市值排名的文件
 
 （2）price_rise_fall.py  用pyspark处理货币价格和涨跌幅的文件
+
+（3）marketcap_percentage.py  用pyspark计算各货币市值占比的文件
+
+（4）predict.py  机器学习预测货币未来价格的文件
+
+（5）correlation.py  计算各货币相关性的文件
